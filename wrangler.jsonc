@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers static-assets config. Only needed if the project was
+  // created as a "Worker" rather than classic "Pages" — Pages doesn't use this.
+  // Build command in the dashboard must be: npm run build
+  "name": "serpmentor-astro",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,52 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>Page not found | SERP Mentor</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <p class="eyebrow">404</p>
+          <h1>That page has moved or never existed</h1>
+          <p class="pillar-intro">
+            The link might be old. Try the blog, or start from one of the SEO pillars.
+          </p>
+          <div class="hero-actions">
+            <a href="/" class="button">Back to home</a>
+            <a href="/blog" class="button-secondary">Read the blog</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="category-pills">
+            <a href="/seo">SEO</a>
+            <a href="/seo/tech">Technical SEO</a>
+            <a href="/seo/backlinks">Link building</a>
+            <a href="/seo/ai-optimization">AI search</a>
+            <a href="/seo/tools">SEO tools</a>
+            <a href="/resources">Free tools</a>
+            <a href="/services">Services</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
