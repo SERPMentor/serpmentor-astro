@@ -4,6 +4,7 @@
 // image on top, then date / title / excerpt / CTA.
 import { postPath, formatDate, featuredImage, type WPPost } from "../lib/posts";
 import { cleanExcerpt } from "../lib/excerpt";
+import { localImage } from "../lib/images";
 
 interface Props {
   post: WPPost;
@@ -30,7 +31,7 @@ const image = featuredImage(post);
     image ? (
       <img
         class="card-image"
-        src={image.sourceUrl}
+        src={localImage(image.sourceUrl)}
         alt={image.altText || post.title}
         loading="lazy"
         decoding="async"

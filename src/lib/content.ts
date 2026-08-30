@@ -25,6 +25,8 @@ export function sanitizePostContent(html: string): string {
         /<div[^>]*class="[^"]*(?:glass-scroll-indicator|right-fade-indicator)[^"]*"[^>]*>[\s\S]*?<\/div>/gi,
         "",
       )
+      // responsive-image variants point at the WP server; we self-host one src
+      .replace(/\s(?:srcset|sizes|data-src|data-srcset)=("[^"]*"|'[^']*')/gi, "")
       .replace(/<!--[\s\S]*?-->/g, "")
       // other common WordPress TOC plugin wrappers, just in case
       .replace(

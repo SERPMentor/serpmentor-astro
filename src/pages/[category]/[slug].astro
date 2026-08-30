@@ -10,6 +10,7 @@ import ShareRail from "../../components/ShareRail.astro";
 import Lightbox from "../../components/Lightbox.astro";
 import { cleanExcerpt } from "../../lib/excerpt";
 import { sanitizePostContent } from "../../lib/content";
+import { localImage, localiseImages } from "../../lib/images";
 import { getAuthor, type Author } from "../../lib/authors";
 import { pillarSlugs } from "../../lib/pillars";
 import {
@@ -81,6 +82,7 @@ const modifiedISO = new Date(post.modified ?? post.date).toISOString();
 const updatedLabel = formatDate(post.modified ?? post.date, "short");
 
 const heroImage = featuredImage(listPost);
+const heroImageSrc = heroImage ? localImage(heroImage.sourceUrl) : null;
 const shareUrl = new URL(postPath(listPost), Astro.site ?? "https://serpmentor.com").href;
 
 const authorSlug = post.author?.node?.slug;
@@ -102,7 +104,7 @@ function slugify(text: string): string {
 const headings: { level: number; text: string; id: string }[] = [];
 let headingCount = 0;
 
-const contentWithAnchors = cleanContent.replace(
+const contentWithAnchors = localiseImages(cleanContent).replace(
   /<h([2-3])([^>]*)>([\s\S]*?)<\/h\1>/gi,
   (_m: string, level: string, attrs: string, inner: string) => {
     headingCount += 1;
@@ -121,7 +123,7 @@ const jsonLd = {
   "@type": "Article",
   headline: post.title,
   description: metaDescription,
-  image: heroImage?.sourceUrl,
+  image: heroImageSrc ?? undefined,
   datePublished: publishedISO,
   dateModified: modifiedISO,
   author: { "@type": "Person", name: author.name, url: new URL(`/author/${author.slug}`, Astro.site ?? "https://serpmentor.com").href },
@@ -146,7 +148,7 @@ const jsonLd = {
     <meta property="og:title" content={post.title} />
     <meta property="og:description" content={metaDescription} />
     <meta property="og:url" content={shareUrl} />
-    {heroImage && <meta property="og:image" content={heroImage.sourceUrl} />}
+    {heroImageSrc && <meta property="og:image" content={heroImageSrc} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="article:published_time" content={publishedISO} />
     <meta property="article:modified_time" content={modifiedISO} />
@@ -175,7 +177,7 @@ const jsonLd = {
             heroImage && (
               <div class="article-hero-media js-zoom">
                 <img
-                  src={heroImage.sourceUrl}
+                  src={heroImageSrc}
                   alt={heroImage.altText || post.title}
                   width="1280"
                   height="720"

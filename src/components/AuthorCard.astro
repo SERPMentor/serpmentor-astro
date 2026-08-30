@@ -1,5 +1,6 @@
 ---
 import { authorPath, authorInitials, type Author } from "../lib/authors";
+import { localImage } from "../lib/images";
 import SocialLinks from "./SocialLinks.astro";
 
 interface Props {
@@ -14,7 +15,7 @@ const { author, postCount } = Astro.props;
   <a href={authorPath(author)} class="author-card-avatar">
     {
       author.image ? (
-        <img src={author.image} alt={author.name} width="76" height="76" loading="lazy" />
+        <img src={localImage(author.image)} alt={author.name} width="76" height="76" loading="lazy" />
       ) : (
         <span>{authorInitials(author.name)}</span>
       )

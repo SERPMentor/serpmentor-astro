@@ -1,0 +1,15 @@
+# Netlify config. Cloudflare Pages and Vercel auto-detect Astro and need only
+# the same three settings entered in their dashboard:
+#   build command:     npm run build
+#   publish directory: dist
+#   NODE_VERSION:       22
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Astro already emits redirect pages for everything in astro.config.mjs, so no
+# host redirect rules are needed here.

@@ -5,9 +5,11 @@ import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Lightbox from "../components/Lightbox.astro";
 import { TEAM, TESTIMONIALS } from "../lib/team";
+import { localImage } from "../lib/images";
 
-const founderImg =
-  "https://serpmentor.com/wp-content/uploads/2025/11/SAIFUL-SERP-MENTOR-4.jpg";
+const founderImg = localImage(
+  "https://serpmentor.com/wp-content/uploads/2025/11/SAIFUL-SERP-MENTOR-4.jpg",
+);
 
 const journey = [
   { year: "2007", text: "Started freelancing SEO as a university student on oDesk (now Upwork)." },
@@ -181,7 +183,7 @@ const engagement = [
               TEAM.map((member) => (
                 <figure class="team-card">
                   <img
-                    src={member.image}
+                    src={localImage(member.image)}
                     alt={member.name}
                     width="320"
                     height="320"

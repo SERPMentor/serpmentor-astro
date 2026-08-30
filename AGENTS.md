@@ -111,6 +111,17 @@ Long-form body copy — blog posts (`.post-content.prose`) and pillar bodies
 `<ol>` markers, `<ul class="check-list">` for white-tick circles, and
 `<div class="callout">` / `<p class="prose-lede">` helpers.
 
+## Images are self-hosted
+
+`npm run build` runs `scripts/fetch-images.mjs` first (`prebuild`). It downloads
+every remote image the site references — post featured images, images inside
+post/page content, and the team/author photos — into `public/images/wp/`, and
+writes `src/lib/image-map.json`. `src/lib/images.ts` exposes `localImage(url)`
+(single URL) and `localiseImages(html)` (rewrites every `<img src>` in a string);
+both fall back to the remote URL if it isn't in the map. Every `<img>` that
+renders a WordPress URL goes through one of them. To refresh: `npm run
+fetch-images` (skips files already downloaded).
+
 ## Icons, logo, favicon
 
 - Icons: Font Awesome 6 free, `@import` at the top of `global.css` (CDN, like

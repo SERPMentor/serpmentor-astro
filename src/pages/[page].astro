@@ -8,6 +8,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import Lightbox from "../components/Lightbox.astro";
 import { getSitePages, pagePath, type SitePage } from "../lib/pages";
 import { sanitizePageContent, firstImage } from "../lib/content";
+import { localImage, localiseImages } from "../lib/images";
 
 export async function getStaticPaths() {
   const pages = getSitePages();
@@ -51,8 +52,9 @@ interface Props {
 }
 
 const { page, rawContent, modified } = Astro.props as Props;
-const content = sanitizePageContent(rawContent);
-const hero = firstImage(content);
+const content = localiseImages(sanitizePageContent(rawContent));
+const rawHero = firstImage(content);
+const hero = rawHero ? { ...rawHero, src: localImage(rawHero.src) } : null;
 // If we use the first image as a hero, drop that one occurrence from the body.
 const body = hero
   ? content.replace(/<img\b[^>]*>/i, "")
