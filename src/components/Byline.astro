@@ -1,0 +1,37 @@
+---
+import { authorPath, authorInitials, type Author } from "../lib/authors";
+import SocialLinks from "./SocialLinks.astro";
+
+interface Props {
+  author: Author;
+  updated: string; // formatted date
+  readTime?: number;
+  /** on the dark hero band */
+  invert?: boolean;
+}
+
+const { author, updated, readTime, invert = false } = Astro.props;
+---
+
+<div class:list={["byline", { "byline-invert": invert }]}>
+  <a href={authorPath(author)} class="byline-avatar" aria-hidden="true" tabindex="-1">
+    {
+      author.image ? (
+        <img src={author.image} alt="" width="44" height="44" loading="lazy" />
+      ) : (
+        <span>{authorInitials(author.name)}</span>
+      )
+    }
+  </a>
+
+  <div class="byline-text">
+    <p class="byline-by">
+      Written by <a href={authorPath(author)}>{author.name}</a>
+      <SocialLinks socials={author.socials} />
+    </p>
+    <p class="byline-sub">
+      Last updated {updated}
+      {readTime && <> · {readTime} min read</>}
+    </p>
+  </div>
+</div>

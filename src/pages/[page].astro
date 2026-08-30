@@ -1,0 +1,135 @@
+---
+// Renders a WordPress "page" (About, Services, Coaching, legal …) in the site's
+// own design. Content comes from WordPress; layout and styling are ours.
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Lightbox from "../components/Lightbox.astro";
+import { getSitePages, pagePath, type SitePage } from "../lib/pages";
+import { sanitizePageContent, firstImage } from "../lib/content";
+
+export async function getStaticPaths() {
+  const pages = getSitePages();
+
+  const query = `
+    {
+      ${pages
+        .map(
+          (p, i) => `p${i}: page(id: "${p.wpSlug}", idType: URI) { content modified }`,
+        )
+        .join("\n")}
+    }
+  `;
+
+  let data: Record<string, { content: string; modified: string } | null> = {};
+  try {
+    const res = await fetch("https://serpmentor.com/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query }),
+    });
+    data = (await res.json())?.data ?? {};
+  } catch (error) {
+    console.error("Failed to fetch WordPress pages", error);
+  }
+
+  return pages.map((page, i) => ({
+    params: { page: page.path },
+    props: {
+      page,
+      rawContent: data[`p${i}`]?.content ?? "",
+      modified: data[`p${i}`]?.modified ?? null,
+    },
+  }));
+}
+
+interface Props {
+  page: SitePage;
+  rawContent: string;
+  modified: string | null;
+}
+
+const { page, rawContent, modified } = Astro.props as Props;
+const content = sanitizePageContent(rawContent);
+const hero = firstImage(content);
+// If we use the first image as a hero, drop that one occurrence from the body.
+const body = hero
+  ? content.replace(/<img\b[^>]*>/i, "")
+  : content;
+
+const updated = modified
+  ? new Date(modified).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : null;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>{page.metaTitle} | SERP Mentor</title>
+    <meta name="description" content={page.description} />
+    <link rel="canonical" href={pagePath(page)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${page.metaTitle} | SERP Mentor`} />
+    <meta property="og:description" content={page.description} />
+    {hero && <meta property="og:image" content={hero.src} />}
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <span>{page.label}</span>
+          </div>
+          <p class="eyebrow">{page.eyebrow}</p>
+          <h1>{page.heading}</h1>
+          <p class="pillar-intro">{page.description}</p>
+          {page.legal && updated && <p class="page-updated">Last updated {updated}</p>}
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container">
+          <article
+            class:list={["prose", "page-prose", "js-zoom", { "prose-narrow": page.legal }]}
+          >
+            {
+              hero && (
+                <img
+                  class="page-hero-img"
+                  src={hero.src}
+                  alt={hero.alt || page.heading}
+                  loading="eager"
+                />
+              )
+            }
+            <div set:html={body} />
+
+            {
+              !page.legal && (
+                <div class="cta-panel">
+                  <h3>Want to talk it through?</h3>
+                  <p>Tell us where you're stuck. We'll audit your site and come back with a plan.</p>
+                  <a href="/contact" class="button">Get in touch</a>
+                </div>
+              )
+            }
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+    <Lightbox />
+  </body>
+</html>

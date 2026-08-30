@@ -1,0 +1,87 @@
+---
+import "../../styles/global.css";
+import Favicons from "../../components/Favicons.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import PostCard from "../../components/PostCard.astro";
+import SocialLinks from "../../components/SocialLinks.astro";
+import { getAllPosts } from "../../lib/posts";
+import { listAuthors, getAuthor, authorInitials } from "../../lib/authors";
+
+export function getStaticPaths() {
+  return listAuthors().map((author) => ({
+    params: { slug: author.slug },
+    props: { author },
+  }));
+}
+
+const { slug } = Astro.params;
+const { author } = Astro.props;
+
+const allPosts = await getAllPosts();
+const authored = allPosts.filter((p) => {
+  const a = getAuthor(p.author?.node?.slug, p.author?.node?.name);
+  return a.slug === slug;
+});
+const posts = (authored.length ? authored : allPosts).slice(0, 6);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>{author.name} — Author | SERP Mentor</title>
+    <meta name="description" content={author.bio} />
+    <link rel="canonical" href={`/author/${author.slug}`} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <div class="author-hero">
+            <span class="author-hero-avatar">
+              {
+                author.image ? (
+                  <img src={author.image} alt={author.name} width="96" height="96" />
+                ) : (
+                  <span>{authorInitials(author.name)}</span>
+                )
+              }
+            </span>
+            <div>
+              <p class="eyebrow">Author</p>
+              <h1>{author.name}</h1>
+              <p class="author-hero-title">{author.title}</p>
+              <p class="author-hero-bio">{author.bio}</p>
+              <SocialLinks socials={author.socials} label="Follow" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>{authored.length ? "Articles by " + author.name : "Latest articles"}</h2>
+              <p>
+                {authored.length
+                  ? `${authored.length} published`
+                  : "From across the SERP Mentor blog"}
+              </p>
+            </div>
+            <a href="/blog">View all →</a>
+          </div>
+          <div class="post-grid">
+            {posts.map((post) => <PostCard post={post} />)}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

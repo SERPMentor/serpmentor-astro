@@ -1,0 +1,75 @@
+---
+// Shared site footer. Edit the columns here once and every page updates.
+import SocialLinks from "./SocialLinks.astro";
+
+const year = new Date().getFullYear();
+
+const socials = {
+  linkedin: "https://www.linkedin.com/company/serp-mentor/",
+  facebook: "https://www.facebook.com/serpmentor/",
+  youtube: "https://www.youtube.com/@serpmentor",
+};
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-intro">
+      <a href="/" class="brand" aria-label="SERP Mentor — home">
+        <img src="/logo.png" alt="SERP Mentor" width="873" height="140" />
+      </a>
+      <p>
+        Helping brands win in search through smarter SEO, AI visibility strategies, and content
+        systems that convert.
+      </p>
+    </div>
+
+    <div class="footer-cols footer-cols-4">
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/seo">SEO overview</a></li>
+          <li><a href="/seo/tech">Technical &amp; on-page SEO</a></li>
+          <li><a href="/seo/backlinks">Link building &amp; backlinks</a></li>
+          <li><a href="/seo/ai-optimization">AI search optimization</a></li>
+          <li><a href="/seo/tools">SEO tools &amp; reviews</a></li>
+          <li><a href="/seo/news">SEO news</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/services">SEO services &amp; pricing</a></li>
+          <li><a href="/hire-seo-specialist">Hire an SEO specialist</a></li>
+          <li><a href="/local-seo-services">Local SEO</a></li>
+          <li><a href="/coaching">SEO coaching</a></li>
+          <li><a href="/reviews">Tool reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/resources">Free tools</a></li>
+          <li><a href="/careers">Careers</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="/contact">Get in touch</a></li>
+          <li><a href="/about">Meet the team</a></li>
+        </ul>
+        <SocialLinks socials={socials} label="Follow" />
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <p>
+        © {year} SERP Mentor. All rights reserved. ·
+        <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a>
+      </p>
+    </div>
+  </div>
+</footer>

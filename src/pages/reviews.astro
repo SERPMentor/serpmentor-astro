@@ -1,0 +1,80 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>Reviews & Tools | SERP Mentor</title>
+    <meta
+      name="description"
+      content="Honest reviews of SEO tools, hosting, and growth platforms that matter to digital teams."
+    />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <p class="eyebrow">Reviews & tools</p>
+          <h1>Recommendations you can actually trust.</h1>
+          <p>
+            The SEO and AI tool landscape changes fast. These reviews focus on
+            what helps teams rank, publish, and grow without wasting budget on
+            shiny software that adds little value.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container review-grid">
+          <article class="review-card">
+            <span class="meta">SEO</span>
+            <h3>Semrush</h3>
+            <p>
+              Best for teams that want deep keyword research, site audits, and
+              competitive visibility across large content programs.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <span class="meta">AI writing</span>
+            <h3>Frase</h3>
+            <p>
+              A practical content platform for briefs, SERP analysis, and
+              turning topic research into stronger briefs and finished articles.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <span class="meta">Hosting</span>
+            <h3>Hostinger</h3>
+            <p>
+              An attractive option for lean teams that want affordable hosting
+              without sacrificing speed or reliability for new sites.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container page-panel" style="text-align: center;">
+          <h2>Why trust our reviews?</h2>
+          <p>
+            We evaluate tools based on ROI, implementation complexity, and whether they actually
+            move the needle for rankings and team velocity. We avoid hype and focus on the
+            real trade-offs that matter when you're spending serious budget on SEO infrastructure.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,61 @@
+---
+interface Props {
+  url: string; // absolute
+  title: string;
+}
+const { url, title } = Astro.props;
+const enc = (s: string) => encodeURIComponent(s);
+
+const links = [
+  {
+    label: "Share on X",
+    icon: "fa-brands fa-x-twitter",
+    href: `https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(title)}`,
+  },
+  {
+    label: "Share on Facebook",
+    icon: "fa-brands fa-facebook-f",
+    href: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`,
+  },
+  {
+    label: "Share on LinkedIn",
+    icon: "fa-brands fa-linkedin-in",
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`,
+  },
+];
+---
+
+<div class="share-rail">
+  <span class="share-rail-label">Share</span>
+  {
+    links.map((l) => (
+      <a
+        class="share-rail-btn"
+        href={l.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={l.label}
+      >
+        <i class={l.icon} aria-hidden="true" />
+      </a>
+    ))
+  }
+  <button class="share-rail-btn" type="button" data-copy-link={url} aria-label="Copy link">
+    <i class="fa-solid fa-link" aria-hidden="true"></i>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll("[data-copy-link]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const url = btn.getAttribute("data-copy-link") || location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.classList.add("is-copied");
+        setTimeout(() => btn.classList.remove("is-copied"), 1600);
+      } catch {
+        /* clipboard blocked — no-op */
+      }
+    });
+  });
+</script>

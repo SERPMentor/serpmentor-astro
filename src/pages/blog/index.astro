@@ -1,0 +1,117 @@
+---
+import "../../styles/global.css";
+import Favicons from "../../components/Favicons.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getAllPosts, getCategories, categoryPath } from "../../lib/posts";
+
+const posts = await getAllPosts();
+const categories = await getCategories();
+
+const featured = posts[0] ?? null;
+const archive = posts.slice(1);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>SEO Blog | SERP Mentor</title>
+    <meta
+      name="description"
+      content="Learn practical SEO, content strategy, AI search visibility, and growth systems from SERP Mentor."
+    />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header">
+        <div class="container narrow">
+          <p class="eyebrow">Research and strategy</p>
+          <h1>SEO, AI visibility, and content strategy that actually works.</h1>
+          <p>
+            Case studies, framework deep-dives, tool reviews, and research on how search and discovery 
+            are evolving. Built for founders, marketing leaders, and in-house SEO teams serious about growth.
+          </p>
+          <div class="category-pills" style="margin-top:1rem;">
+            {categories.map((category) => (
+              <a href={categoryPath(category.slug)}>{category.name} ({category.count})</a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container blog-layout">
+          <div class="blog-list">
+            {featured && (
+              <PostCard post={featured} featured kicker="Featured" cta="Read the full article →" />
+            )}
+            {archive.map((post) => <PostCard post={post} />)}
+          </div>
+
+          <aside class="blog-sidebar">
+            <div class="sidebar-panel">
+              <h4>Browse by topic</h4>
+              <ul>
+                {categories.map((category) => (
+                  <li>
+                    <a href={categoryPath(category.slug)}>
+                      {category.name} ({category.count})
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="sidebar-panel">
+              <h4>Free resources</h4>
+              <ul>
+                <li><a href="/resources">SEO starter checklist</a></li>
+                <li><a href="/resources">Content planning framework</a></li>
+                <li><a href="/resources">Tool comparison guides</a></li>
+              </ul>
+            </div>
+
+            <div class="sidebar-panel">
+              <h4>Newsletter</h4>
+              <p>Get practical SEO ideas every week.</p>
+              <form class="newsletter-form" data-newsletter-form style="display: grid; gap: 0.75rem;">
+                <input type="email" placeholder="Email address" aria-label="Email address" required />
+                <button type="submit" class="button">Join now</button>
+              </form>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+
+    <script>
+      const forms = document.querySelectorAll('[data-newsletter-form]');
+      forms.forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const emailInput = form.querySelector('input[type="email"]');
+          const email = emailInput?.value?.trim();
+
+          if (!email) {
+            return;
+          }
+
+          const existing = JSON.parse(localStorage.getItem('serpmentor-subscribers') || '[]');
+          if (!existing.includes(email)) {
+            existing.push(email);
+            localStorage.setItem('serpmentor-subscribers', JSON.stringify(existing));
+          }
+
+          window.location.href = '/newsletter-success';
+        });
+      });
+    </script>
+  </body>
+</html>

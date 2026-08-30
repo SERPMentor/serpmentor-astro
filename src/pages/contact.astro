@@ -1,0 +1,69 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>Contact | SERP Mentor</title>
+    <meta
+      name="description"
+      content="Contact SERP Mentor for SEO strategy, content growth, and AI visibility support."
+    />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header">
+        <div class="container narrow">
+          <p class="eyebrow">Get in touch</p>
+          <h1>Let’s build your next growth chapter.</h1>
+          <p>
+            Whether you need a technical SEO audit, a content roadmap, or a smarter strategy for
+            AI-discovery visibility, we can help you clarify the next steps.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container contact-wrap">
+          <div class="feature-panel large">
+            <h3>Book a conversation</h3>
+            <p>Tell us a little about your site, traffic, or business goals and we’ll map out the fit.</p>
+            <ul class="check-list">
+              <li>SEO strategy and audits</li>
+              <li>Content system planning</li>
+              <li>AI search readiness</li>
+            </ul>
+          </div>
+
+          <div class="feature-panel form-panel">
+            <form class="contact-form">
+              <label>
+                Name
+                <input type="text" placeholder="Your name" />
+              </label>
+              <label>
+                Email
+                <input type="email" placeholder="you@example.com" />
+              </label>
+              <label>
+                Project goals
+                <textarea rows="5" placeholder="Tell us what you need help with"></textarea>
+              </label>
+              <button type="submit" class="button">Send inquiry</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

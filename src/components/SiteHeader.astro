@@ -1,0 +1,43 @@
+---
+// Shared site header. Edit the nav here once and every page updates.
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
+const links = [
+  { label: "Blog", href: "/blog" },
+  { label: "SEO", href: "/seo" },
+  { label: "Technical SEO", href: "/seo/tech" },
+  { label: "Link Building", href: "/seo/backlinks" },
+  { label: "AI Search", href: "/seo/ai-optimization" },
+  { label: "Tools", href: "/seo/tools" },
+  { label: "About", href: "/about" },
+];
+
+// Only the most specific matching link is marked current.
+const norm = (href: string) => href.replace(/\/+$/, "") || "/";
+const matches = links
+  .map((l) => norm(l.href))
+  .filter((h) => h !== "/" && (path === h || path.startsWith(h + "/")));
+const activeHref = matches.sort((a, b) => b.length - a.length)[0];
+---
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand" aria-label="SERP Mentor — home">
+      <img src="/logo.png" alt="SERP Mentor" width="873" height="140" />
+    </a>
+
+    <nav class="site-nav" aria-label="Main navigation">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            aria-current={norm(link.href) === activeHref ? "page" : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a href="/services" class="button nav-cta">Work with us</a>
+    </nav>
+  </div>
+</header>

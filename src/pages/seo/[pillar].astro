@@ -1,0 +1,247 @@
+---
+// SEO pillar pages: /seo/tech, /seo/backlinks, /seo/news, /seo/tools,
+// /seo/ai-optimization. Long-form topic hubs, Backlinko-hub style.
+import "../../styles/global.css";
+import Favicons from "../../components/Favicons.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPillars, getPillar, pillarPath } from "../../lib/pillars";
+import {
+  getAllPosts,
+  getPostsInCategory,
+  categoryPath,
+  type WPPost,
+} from "../../lib/posts";
+
+export async function getStaticPaths() {
+  return getPillars("seo").map((pillar) => ({
+    params: { pillar: pillar.slug },
+    props: { pillarSlug: pillar.slug },
+  }));
+}
+
+const { pillar: pillarSlug } = Astro.params;
+const pillar = getPillar("seo", pillarSlug!)!;
+
+const allPosts = await getAllPosts();
+const bySlug = new Map(allPosts.map((p) => [p.slug, p]));
+
+let guides: WPPost[] = pillar.guideSlugs
+  .map((slug) => bySlug.get(slug))
+  .filter((p): p is WPPost => Boolean(p));
+
+if (guides.length === 0) {
+  guides = (await getPostsInCategory("seo")).slice(0, 6);
+}
+
+const guideSet = new Set(guides.map((p) => p.slug));
+const moreFromSeo = (await getPostsInCategory("seo"))
+  .filter((p) => !guideSet.has(p.slug))
+  .slice(0, 3);
+
+const otherPillars = getPillars("seo").filter((p) => p.slug !== pillar.slug);
+
+// Build the in-page table of contents from the body <h2>s and inject
+// matching ids so the anchor links land in the right place.
+function slugify(text: string): string {
+  return (
+    text
+      .toLowerCase()
+      .replace(/<[^>]+>/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-") || "section"
+  );
+}
+
+const bodyToc: { text: string; id: string }[] = [];
+let h2Count = 0;
+const bodyHtml = pillar.bodyHtml.replace(
+  /<h2([^>]*)>([\s\S]*?)<\/h2>/gi,
+  (_m: string, attrs: string, inner: string) => {
+    h2Count += 1;
+    const text = inner.replace(/<[^>]+>/g, "").trim();
+    const id = `${slugify(text)}-${h2Count}`;
+    bodyToc.push({ text, id });
+    return `<h2${attrs} id="${id}">${inner}</h2>`;
+  },
+);
+
+const toc = [
+  ...bodyToc,
+  { text: pillar.guidesHeading, id: "guides" },
+  ...(pillar.tools ? [{ text: pillar.toolsHeading!, id: "tools" }] : []),
+  ...(moreFromSeo.length ? [{ text: "More SEO guides", id: "more" }] : []),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>{pillar.title} | SERP Mentor</title>
+    <meta name="description" content={pillar.intro} />
+    <link rel="canonical" href={pillarPath(pillar)} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style={`--topic: ${pillar.colorSoft}; --topic-fg: ${pillar.color};`}
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href={categoryPath("seo")}>SEO</a>
+            <span>›</span>
+            <span>{pillar.name}</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class={pillar.icon} aria-hidden="true" /></span>
+          <p class="eyebrow">{pillar.eyebrow}</p>
+          <h1>{pillar.title}</h1>
+          <p class="pillar-intro">{pillar.intro}</p>
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body" set:html={bodyHtml} />
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="guides">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>{pillar.guidesHeading}</h2>
+              <p>Hand-picked, kept current</p>
+            </div>
+            <a href={categoryPath("seo")}>All SEO articles →</a>
+          </div>
+
+          <div class="post-grid">
+            {guides.map((post) => <PostCard post={post} />)}
+          </div>
+        </div>
+      </section>
+
+      {
+        pillar.tools && (
+          <section class="section" id="tools">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>{pillar.toolsHeading}</h2>
+                  <p>Run a check in seconds, no signup</p>
+                </div>
+                <a href="/resources" class="button-secondary">
+                  View all tools
+                </a>
+              </div>
+
+              <div class="feature-grid">
+                {pillar.tools.map((tool) => (
+                  <a href={tool.href} class="feature-panel card-link card-center">
+                    <span
+                      class="card-icon"
+                      style={`--topic: ${pillar.colorSoft}; --topic-fg: ${pillar.color};`}
+                    >
+                      <i class={tool.icon} aria-hidden="true" />
+                    </span>
+                    <h3>{tool.title}</h3>
+                    <p>{tool.description}</p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      {
+        moreFromSeo.length > 0 && (
+          <section class="section section-alt" id="more">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>More SEO guides</h2>
+                  <p>Fresh from the blog</p>
+                </div>
+                <a href="/blog" class="button-secondary">
+                  View blog
+                </a>
+              </div>
+              <div class="post-grid">
+                {moreFromSeo.map((post) => (
+                  <PostCard post={post} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Other SEO pillars</h2>
+              <p>Work through the whole topic</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              otherPillars.map((other) => (
+                <a
+                  href={pillarPath(other)}
+                  class="feature-panel card-link"
+                  style={`--topic: ${other.colorSoft}; --topic-fg: ${other.color};`}
+                >
+                  <span class="card-icon">
+                    <i class={other.icon} aria-hidden="true" />
+                  </span>
+                  <h3>{other.name}</h3>
+                  <p>{other.cardText}</p>
+                  <span class="card-cta">Open pillar →</span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want this done for your site?</h2>
+            <p>
+              We turn these frameworks into an execution plan — technical fixes, content
+              roadmap, and AI-search visibility, prioritized by business impact.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href="/contact" class="button-secondary">Schedule a call</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

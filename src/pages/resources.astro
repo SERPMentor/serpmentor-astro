@@ -1,0 +1,208 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+const checkers = [
+  {
+    icon: "fa-solid fa-magnifying-glass-chart",
+    color: "#00a988",
+    soft: "rgba(0, 188, 152, 0.14)",
+    title: "SEO Audit Checker",
+    text: "Scan any URL for the on-page and technical signals that decide whether it can rank — titles, headings, canonicals, indexability, Core Web Vitals.",
+  },
+  {
+    icon: "fa-solid fa-robot",
+    color: "#8256c5",
+    soft: "rgba(130, 86, 197, 0.14)",
+    title: "AI Visibility Checker",
+    text: "See whether ChatGPT, Gemini and Perplexity mention your brand for the questions your buyers actually ask.",
+  },
+  {
+    icon: "fa-solid fa-chart-column",
+    color: "#1799ad",
+    soft: "rgba(46, 196, 216, 0.16)",
+    title: "Keyword Research Tool",
+    text: "Volume, difficulty and search intent for any term, plus the related questions worth building a page around.",
+  },
+  {
+    icon: "fa-solid fa-link",
+    color: "#d8412c",
+    soft: "rgba(241, 94, 74, 0.14)",
+    title: "Backlink Checker",
+    text: "Pull a domain's referring links and spot the gap between your profile and your competitors'.",
+  },
+  {
+    icon: "fa-solid fa-star",
+    color: "#b97d02",
+    soft: "rgba(247, 170, 4, 0.16)",
+    title: "Authority Score Checker",
+    text: "A quick read on a domain's strength and link quality — useful before you pitch a guest post or evaluate a prospect.",
+  },
+  {
+    icon: "fa-solid fa-arrow-trend-up",
+    color: "#009a7c",
+    soft: "rgba(0, 187, 113, 0.14)",
+    title: "Rank Tracker",
+    text: "Watch a set of keywords move over time in classic results — and increasingly in AI answers.",
+  },
+];
+
+const frameworks = [
+  {
+    icon: "fa-solid fa-list-check",
+    title: "SEO starter checklist",
+    text: "The technical and content foundations to fix before you scale — one pass, an afternoon of work.",
+  },
+  {
+    icon: "fa-solid fa-diagram-project",
+    title: "Content cluster planner",
+    text: "Map keywords, buyer intent and topics into a pillar-and-cluster structure that compounds.",
+  },
+  {
+    icon: "fa-solid fa-robot",
+    title: "AI search visibility guide",
+    text: "How answer engines pick their sources, and the on-page changes that get you cited.",
+  },
+  {
+    icon: "fa-solid fa-scale-balanced",
+    title: "Tool comparison matrix",
+    text: "Score SEO platforms on real workflow value — keyword research, crawling, content, tracking — not feature counts.",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>Free SEO Tools, Checkers & Frameworks | SERP Mentor</title>
+    <meta
+      name="description"
+      content="Free SEO and AI-visibility checkers, plus the checklists and planning frameworks SERP Mentor uses on real client work."
+    />
+    <link rel="canonical" href="/resources" />
+    <meta property="og:title" content="Free SEO Tools, Checkers & Frameworks | SERP Mentor" />
+    <meta
+      property="og:description"
+      content="Free SEO and AI-visibility checkers, plus the checklists and planning frameworks we use on real client work."
+    />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header" style="--topic: rgba(0,188,152,0.14); --topic-fg: #00a988;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <span>Free tools</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-toolbox" aria-hidden="true"></i></span>
+          <p class="eyebrow">Free resources</p>
+          <h1>Free SEO tools & frameworks</h1>
+          <p class="pillar-intro">
+            The checkers, checklists and planning frameworks we actually use on client work —
+            free, no signup, no drip campaign.
+          </p>
+          <div class="hero-stats">
+            <span class="hero-stat"><strong>{checkers.length}</strong> free checkers</span>
+            <span class="hero-stat"><strong>{frameworks.length}</strong> frameworks</span>
+            <span class="hero-stat">Updated for 2026</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Free checkers</h2>
+              <p>Run one on any URL in a few seconds</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              checkers.map((tool) => (
+                <div
+                  class="feature-panel card-center"
+                  style={`--topic: ${tool.soft}; --topic-fg: ${tool.color};`}
+                >
+                  <span class="card-icon">
+                    <i class={tool.icon} aria-hidden="true" />
+                  </span>
+                  <h3>{tool.title}</h3>
+                  <p>{tool.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Frameworks & checklists</h2>
+              <p>The templates behind the guides</p>
+            </div>
+            <a href="/blog">Read the guides →</a>
+          </div>
+          <div class="feature-grid">
+            {
+              frameworks.map((item) => (
+                <div class="feature-panel">
+                  <span class="card-icon">
+                    <i class={item.icon} aria-hidden="true" />
+                  </span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="newsletter">
+            <div>
+              <p class="eyebrow">Weekly research &amp; insights</p>
+              <h2>Get new tools and frameworks first.</h2>
+              <p>One email each Friday — what changed in search, and what to do about it.</p>
+            </div>
+            <form class="newsletter-form" data-newsletter-form>
+              <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+              <button type="submit" class="button">Subscribe free</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.querySelectorAll('[data-newsletter-form]').forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const input = form.querySelector('input[type="email"]');
+          const email = input && 'value' in input ? String(input.value).trim() : '';
+          if (!email) return;
+          try {
+            const key = 'serpmentor-subscribers';
+            const list = JSON.parse(localStorage.getItem(key) || '[]');
+            if (!list.includes(email)) list.push(email);
+            localStorage.setItem(key, JSON.stringify(list));
+          } catch {}
+          window.location.href = '/newsletter-success';
+        });
+      });
+    </script>
+
+    <SiteFooter />
+  </body>
+</html>

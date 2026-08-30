@@ -1,0 +1,171 @@
+---
+import "../../styles/global.css";
+import Favicons from "../../components/Favicons.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPillars, pillarPath } from "../../lib/pillars";
+import {
+  getAllPosts,
+  getCategories,
+  primaryCategory,
+  categoryPath,
+  categoryMeta,
+  type WPPost,
+} from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  const groups = new Map<string, { name: string; posts: WPPost[] }>();
+
+  for (const post of posts) {
+    const category = primaryCategory(post);
+    const group = groups.get(category.slug);
+    if (group) {
+      group.posts.push(post);
+    } else {
+      groups.set(category.slug, { name: category.name, posts: [post] });
+    }
+  }
+
+  return [...groups.entries()].map(([slug, group]) => ({
+    params: { category: slug },
+    props: { categoryName: group.name, posts: group.posts },
+  }));
+}
+
+interface Props {
+  categoryName: string;
+  posts: WPPost[];
+}
+
+const { category } = Astro.params;
+const { categoryName, posts } = Astro.props as Props;
+const allCategories = await getCategories();
+const pillars = getPillars(category);
+const meta = categoryMeta(category!, categoryName);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>{meta.title} | SERP Mentor</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={categoryPath(category)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${meta.title} | SERP Mentor`} />
+    <meta property="og:description" content={meta.description} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header category-hero"
+        style={`--topic: ${meta.colorSoft}; --topic-fg: ${meta.color};`}
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <span>{categoryName}</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class={meta.icon} aria-hidden="true" /></span>
+          <h1>{meta.heading}</h1>
+          <p class="pillar-intro">{meta.description}</p>
+
+          <div class="hero-stats">
+            <span class="hero-stat">
+              <strong>{posts.length}</strong> {posts.length === 1 ? "guide" : "guides"}
+            </span>
+            {pillars.length > 0 && (
+              <span class="hero-stat">
+                <strong>{pillars.length}</strong> learning paths
+              </span>
+            )}
+            {meta.highlights.length > 0 && (
+              <span class="hero-stat hero-stat-tags">
+                {meta.highlights.map((tag) => (
+                  <span class="hero-tag">{tag}</span>
+                ))}
+              </span>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {
+        pillars.length > 0 && (
+          <section class="section">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>Start with a learning path</h2>
+                  <p>Curated routes through the big {categoryName} sub-topics</p>
+                </div>
+              </div>
+              <div class="pillar-strip">
+                {pillars.map((pillar) => (
+                  <a
+                    href={pillarPath(pillar)}
+                    style={`--topic: ${pillar.colorSoft}; --topic-fg: ${pillar.color};`}
+                  >
+                    <span class="card-icon">
+                      <i class={pillar.icon} aria-hidden="true" />
+                    </span>
+                    {pillar.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>All {categoryName} guides</h2>
+              <p>{posts.length} in total, newest first</p>
+            </div>
+          </div>
+          <div class="post-grid">
+            {posts.map((post) => <PostCard post={post} />)}
+          </div>
+        </div>
+      </section>
+
+      {
+        allCategories.length > 1 && (
+          <section class="section section-alt">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>Browse other topics</h2>
+                  <p>Every topic we cover</p>
+                </div>
+                <a href="/blog">All articles →</a>
+              </div>
+              <div class="category-pills">
+                {allCategories.map((item) => (
+                  <a
+                    href={categoryPath(item.slug)}
+                    aria-current={item.slug === category ? "page" : undefined}
+                  >
+                    {item.name} ({item.count})
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

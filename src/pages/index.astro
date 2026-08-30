@@ -1,17 +1,235 @@
 ---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import PostCard from "../components/PostCard.astro";
+import { getAllPosts, getCategories, categoryPath } from "../lib/posts";
+import { getPillars, pillarPath } from "../lib/pillars";
 
+const allPosts = await getAllPosts();
+const posts = allPosts.slice(0, 6);
+const categories = (await getCategories()).slice(0, 6);
+const pillars = getPillars("seo");
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>SERP Mentor | SEO, AI Search & Growth</title>
+    <meta
+      name="description"
+      content="SERP Mentor helps brands grow with smarter SEO, AI search visibility, and content systems that convert."
+    />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">SEO • AI • Growth Systems</span>
+            <h1>Learn how to win in the future of AI search</h1>
+            <p>
+              Master SEO, AI visibility, and growth strategies through our comprehensive guides, tools, and frameworks.
+              From technical foundations to AI-first tactics.
+            </p>
+            <div class="hero-actions">
+              <a href="/blog" class="button">Start with the guides</a>
+              <a href="/resources" class="button-secondary">Try the free tools</a>
+            </div>
+          </div>
+
+          {
+            posts[0] && (
+              <div class="hero-feature">
+                <span class="hero-feature-label">Latest guide</span>
+                <PostCard post={posts[0]} cta="Read the guide →" />
+              </div>
+            )
+          }
+        </div>
+      </section>
+
+      <!-- Editor's Picks -->
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Editor's Picks</h2>
+              <p>Our best articles, hand-picked</p>
+            </div>
+            <a href="/blog">See all articles →</a>
+          </div>
+
+          <div class="post-grid">
+            {posts.slice(1, 4).map((post) => <PostCard post={post} />)}
+          </div>
+        </div>
+      </section>
+
+      <!-- Free Tools -->
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Free SEO &amp; AI Tools</h2>
+              <p>Audit, check, and research for free</p>
+            </div>
+            <a href="/resources" class="button-secondary">View all tools</a>
+          </div>
+
+          <div class="feature-grid">
+            <a href="/resources" class="feature-panel card-link card-center">
+              <span class="card-icon" style="--topic: rgba(0, 188, 152, 0.14); --topic-fg: #00a988;"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
+              <h3>SEO Audit Checker</h3>
+              <p>Check your on-page signals and ranking factors</p>
+            </a>
+            <a href="/resources" class="feature-panel card-link card-center">
+              <span class="card-icon" style="--topic: rgba(130, 86, 197, 0.14); --topic-fg: #8256c5;"><i class="fa-solid fa-robot"></i></span>
+              <h3>AI Visibility Checker</h3>
+              <p>See if ChatGPT and Gemini recommend you</p>
+            </a>
+            <a href="/resources" class="feature-panel card-link card-center">
+              <span class="card-icon" style="--topic: rgba(46, 196, 216, 0.16); --topic-fg: #1799ad;"><i class="fa-solid fa-chart-column"></i></span>
+              <h3>Keyword Research Tool</h3>
+              <p>Find keywords with volume, difficulty, and intent</p>
+            </a>
+            <a href="/resources" class="feature-panel card-link card-center">
+              <span class="card-icon" style="--topic: rgba(241, 94, 74, 0.14); --topic-fg: #d8412c;"><i class="fa-solid fa-link"></i></span>
+              <h3>Backlink Checker</h3>
+              <p>Analyze backlinks and competitor link profiles</p>
+            </a>
+            <a href="/resources" class="feature-panel card-link card-center">
+              <span class="card-icon" style="--topic: rgba(247, 170, 4, 0.16); --topic-fg: #b97d02;"><i class="fa-solid fa-star"></i></span>
+              <h3>Authority Score Checker</h3>
+              <p>Check domain authority and link quality</p>
+            </a>
+            <a href="/resources" class="feature-panel card-link card-center">
+              <span class="card-icon" style="--topic: rgba(0, 187, 113, 0.14); --topic-fg: #009a7c;"><i class="fa-solid fa-arrow-trend-up"></i></span>
+              <h3>Rank Tracker</h3>
+              <p>Monitor keyword rankings across search engines</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latest Guides -->
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Latest How-To Guides</h2>
+              <p>Step-by-step SEO and AI search strategies</p>
+            </div>
+            <a href="/blog" class="button-secondary">View blog</a>
+          </div>
+
+          <div class="post-grid">
+            {posts.map((post) => <PostCard post={post} />)}
+          </div>
+        </div>
+      </section>
+
+      <!-- SEO Pillars -->
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>SEO pillars</h2>
+              <p>Complete learning paths, one topic at a time</p>
+            </div>
+            <a href="/seo">SEO overview →</a>
+          </div>
+
+          <div class="feature-grid">
+            {
+              pillars.map((pillar) => (
+                <a
+                  href={pillarPath(pillar)}
+                  class="feature-panel card-link"
+                  style={`--topic: ${pillar.colorSoft}; --topic-fg: ${pillar.color};`}
+                >
+                  <span class="card-icon">
+                    <i class={pillar.icon} aria-hidden="true" />
+                  </span>
+                  <h3>{pillar.name}</h3>
+                  <p>{pillar.cardText}</p>
+                  <span class="card-cta">Open pillar →</span>
+                </a>
+              ))
+            }
+          </div>
+
+          <div class="category-pills" style="margin-top: 2rem;">
+            {categories.map((category) => (
+              <a href={categoryPath(category.slug)}>{category.name}</a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Services CTA -->
+      <section class="section">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Ready to win search visibility?</h2>
+            <p>
+              Get a personalized SEO and AI visibility strategy. Our team analyzes your competitive landscape and builds a roadmap to sustainable growth.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href="/contact" class="button-secondary">Schedule a call</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Newsletter -->
+      <section class="section">
+        <div class="container">
+          <div class="newsletter">
+            <div>
+              <p class="eyebrow">Weekly research &amp; insights</p>
+              <h2>Get the SERP Mentor weekly brief.</h2>
+              <p>Algorithm changes, AI trends, ranking patterns, and practical SEO tactics. Delivered each Friday.</p>
+            </div>
+            <form class="newsletter-form" data-newsletter-form>
+              <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+              <button type="submit" class="button">Subscribe free</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const forms = document.querySelectorAll('[data-newsletter-form]');
+      forms.forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const emailInput = form.querySelector('input[type="email"]');
+          const email = emailInput?.value?.trim();
+
+          if (!email) {
+            return;
+          }
+
+          const existing = JSON.parse(localStorage.getItem('serpmentor-subscribers') || '[]');
+          if (!existing.includes(email)) {
+            existing.push(email);
+            localStorage.setItem('serpmentor-subscribers', JSON.stringify(existing));
+          }
+
+          window.location.href = '/newsletter-success';
+        });
+      });
+    </script>
+
+    <SiteFooter />
+  </body>
 </html>

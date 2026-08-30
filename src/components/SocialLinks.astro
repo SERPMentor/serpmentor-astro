@@ -1,0 +1,30 @@
+---
+import { socialItems, type AuthorSocials } from "../lib/authors";
+
+interface Props {
+  socials?: AuthorSocials;
+  label?: string; // small caption before the icons
+}
+
+const { socials, label } = Astro.props;
+const items = socialItems(socials);
+---
+
+{
+  items.length > 0 && (
+    <span class="social-links">
+      {label && <span class="social-links-label">{label}</span>}
+      {items.map((item) => (
+        <a
+          class="social-links-btn"
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          aria-label={item.label}
+        >
+          <i class={item.icon} aria-hidden="true" />
+        </a>
+      ))}
+    </span>
+  )
+}

@@ -1,0 +1,37 @@
+---
+import { authorPath, authorInitials, type Author } from "../lib/authors";
+import SocialLinks from "./SocialLinks.astro";
+
+interface Props {
+  author: Author;
+  postCount?: number;
+}
+
+const { author, postCount } = Astro.props;
+---
+
+<div class="author-card">
+  <a href={authorPath(author)} class="author-card-avatar">
+    {
+      author.image ? (
+        <img src={author.image} alt={author.name} width="76" height="76" loading="lazy" />
+      ) : (
+        <span>{authorInitials(author.name)}</span>
+      )
+    }
+  </a>
+
+  <div class="author-card-body">
+    <p class="author-card-eyebrow">Written by</p>
+    <h3><a href={authorPath(author)}>{author.name}</a></h3>
+    <p class="author-card-title">{author.title}</p>
+    <p class="author-card-bio">{author.bio}</p>
+
+    <div class="author-card-foot">
+      <a href={authorPath(author)} class="author-card-link">
+        {postCount ? `See all ${postCount} articles` : "More from this author"} →
+      </a>
+      <SocialLinks socials={author.socials} />
+    </div>
+  </div>
+</div>

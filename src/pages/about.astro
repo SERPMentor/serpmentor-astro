@@ -1,0 +1,257 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Lightbox from "../components/Lightbox.astro";
+import { TEAM, TESTIMONIALS } from "../lib/team";
+
+const founderImg =
+  "https://serpmentor.com/wp-content/uploads/2025/11/SAIFUL-SERP-MENTOR-4.jpg";
+
+const journey = [
+  { year: "2007", text: "Started freelancing SEO as a university student on oDesk (now Upwork)." },
+  { year: "2015", text: "Moved to Fiverr and hit six figures in SEO and consulting work." },
+  { year: "2017", text: "Shifted into blogging and affiliate — six figures again, still running." },
+  { year: "Now", text: "Building SERP Mentor into a global brand for SEO and digital-marketing services, and leading SEO at a competitive finance publisher." },
+];
+
+const values = [
+  {
+    icon: "fa-solid fa-handshake",
+    title: "Trust first",
+    text: "Integrity and honesty run through everything. We tell you what we'd do, then do it — and say so when something isn't working.",
+  },
+  {
+    icon: "fa-solid fa-bullseye",
+    title: "Real impact",
+    text: "Rankings are a means, not the goal. Every recommendation ties back to traffic, leads, or revenue you can see.",
+  },
+  {
+    icon: "fa-solid fa-seedling",
+    title: "Built to last",
+    text: "No shortcuts, no rented tactics. We build search visibility that keeps paying off after the engagement ends.",
+  },
+];
+
+const engagement = [
+  {
+    icon: "fa-solid fa-magnifying-glass-chart",
+    title: "Full website audit",
+    text: "We audit the whole site for technical health, on-page signals, and AI-search readiness, then hand you a prioritized plan.",
+  },
+  {
+    icon: "fa-solid fa-chalkboard-user",
+    title: "Findings walkthrough",
+    text: "A live session on exactly why the site isn't performing and what the fastest path to rankings looks like.",
+  },
+  {
+    icon: "fa-solid fa-diagram-project",
+    title: "Scoped delivery",
+    text: "We agree on timeline, budget, and scope up front — quality, resources, the lot — so there are no surprises later.",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Favicons />
+    <title>About SERP Mentor — 15 Years of SEO, Built on Practice | SERP Mentor</title>
+    <meta
+      name="description"
+      content="SERP Mentor is Saiful and a small team of search strategists — 15 years in SEO, from freelancing to leading search at a competitive finance publisher. Here's the story and how we work."
+    />
+    <link rel="canonical" href="/about" />
+    <meta property="og:title" content="About SERP Mentor" />
+    <meta property="og:image" content={founderImg} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="article-hero" style="--topic: rgba(0,188,152,0.16); --topic-fg: #00a988;">
+        <div class="container article-hero-grid">
+          <div>
+            <nav class="breadcrumbs breadcrumbs-invert" aria-label="Breadcrumb">
+              <a href="/">Home</a>
+              <span>›</span>
+              <span>About</span>
+            </nav>
+            <a href="/services" class="article-hero-tag">About SERP Mentor</a>
+            <h1>SEO built on 15 years of doing the work</h1>
+            <p class="pillar-intro" style="color: rgba(255,255,255,0.85);">
+              SERP Mentor is Saiful and a small team of search strategists, developers and
+              writers. We've been in SEO since 2007 — through freelancing, niche sites, and now
+              leading search for a competitive finance publisher.
+            </p>
+          </div>
+          <div class="article-hero-media js-zoom">
+            <img src={founderImg} alt="Saiful — founder of SERP Mentor" width="900" height="1005" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container split-layout">
+          <div class="story-copy">
+            <h2>How SERP Mentor started</h2>
+            <p>
+              The last 15 years haven't been smooth — countless sleepless nights, hard work, and
+              plenty of personal challenges. But the mixed memories have turned into something
+              worth building on.
+            </p>
+            <p>
+              Saiful now spends most of his time on LinkedIn building a personal brand and
+              growing SERP Mentor globally as a trusted source for SEO and brand-building work.
+              The short version:
+            </p>
+          </div>
+          <ol class="journey">
+            {
+              journey.map((step) => (
+                <li>
+                  <span class="journey-year">{step.year}</span>
+                  <p>{step.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What drives us</h2>
+              <p>Three principles behind every engagement</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              values.map((v) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={v.icon} aria-hidden="true" /></span>
+                  <h3>{v.title}</h3>
+                  <p>{v.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>How working with us goes</h2>
+              <p>Every project starts the same way</p>
+            </div>
+            <a href="/services">See services &amp; pricing →</a>
+          </div>
+          <div class="feature-grid">
+            {
+              engagement.map((step, i) => (
+                <div class="feature-panel">
+                  <span class="step-number">{String(i + 1).padStart(2, "0")}</span>
+                  <h3>
+                    <i class={step.icon} aria-hidden="true" /> {step.title}
+                  </h3>
+                  <p>{step.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>The team</h2>
+              <p>SEO experts, strategists, developers and writers — {TEAM.length} of us</p>
+            </div>
+          </div>
+          <div class="team-grid">
+            {
+              TEAM.map((member) => (
+                <figure class="team-card">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    width="320"
+                    height="320"
+                    loading="lazy"
+                  />
+                  <figcaption>
+                    <strong>{member.name}</strong>
+                    <span>{member.role}</span>
+                    {member.linkedin && (
+                      <a
+                        href={member.linkedin}
+                        class="team-linkedin"
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        aria-label={`${member.name} on LinkedIn`}
+                      >
+                        <i class="fa-brands fa-linkedin-in" aria-hidden="true" />
+                      </a>
+                    )}
+                  </figcaption>
+                </figure>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What clients say</h2>
+              <p>A track record of measurable results across industries</p>
+            </div>
+          </div>
+          <div class="review-grid">
+            {
+              TESTIMONIALS.map((t) => (
+                <blockquote class="review-card">
+                  <span class="review-stars" aria-label="5 out of 5">★★★★★</span>
+                  <p>{t.quote}</p>
+                  <footer>
+                    <strong>{t.name}</strong>
+                    <span>{t.title}</span>
+                  </footer>
+                </blockquote>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align:center; max-width:720px; margin:0 auto;">
+            <h2>Get a free audit</h2>
+            <p>
+              Tell us where you're stuck. We'll audit your site and come back with the fastest
+              route to rankings — no obligation.
+            </p>
+            <div class="hero-actions" style="justify-content:center; margin-top:0;">
+              <a href="/contact" class="button">Request your audit</a>
+              <a href="/services" class="button-secondary">View services</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+    <Lightbox />
+  </body>
+</html>

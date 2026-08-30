@@ -1,0 +1,32 @@
+---
+// Posts used to live at /blog/{slug}. They now live at /{category}/{slug}.
+// This keeps the old paths working by bouncing visitors (and crawlers, via
+// the canonical link) to the new address.
+import { getAllPosts, postPath } from "../../lib/posts";
+import Favicons from "../../components/Favicons.astro";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { destination: postPath(post) },
+  }));
+}
+
+const { destination } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <Favicons />
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${destination}`} />
+    <link rel="canonical" href={destination} />
+    <meta name="robots" content="noindex, follow" />
+    <title>Redirecting…</title>
+  </head>
+  <body>
+    <p>This article has moved to <a href={destination}>{destination}</a>.</p>
+    <script is:inline set:html={`window.location.replace(${JSON.stringify(destination)});`} />
+  </body>
+</html>

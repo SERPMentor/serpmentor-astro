@@ -1,0 +1,56 @@
+---
+// One post card, used on the homepage, category archives, the blog index,
+// author pages, hub pages and "related posts". Shows the WordPress featured
+// image on top, then date / title / excerpt / CTA.
+import { postPath, formatDate, featuredImage, type WPPost } from "../lib/posts";
+import { cleanExcerpt } from "../lib/excerpt";
+
+interface Props {
+  post: WPPost;
+  /** "long" (default) → "April 10, 2026", "short" → "Apr 10, 2026" */
+  dateStyle?: "long" | "short";
+  /** extra label shown before the date, e.g. "Featured" */
+  kicker?: string;
+  /** larger card for the top of a list */
+  featured?: boolean;
+  cta?: string;
+}
+
+const { post, dateStyle = "long", kicker, featured = false, cta = "Read article →" } =
+  Astro.props;
+
+const image = featuredImage(post);
+---
+
+<a
+  href={postPath(post)}
+  class:list={["post-card", "card-link", { "post-card-featured": featured }]}
+>
+  {
+    image ? (
+      <img
+        class="card-image"
+        src={image.sourceUrl}
+        alt={image.altText || post.title}
+        loading="lazy"
+        decoding="async"
+        width="1280"
+        height="720"
+      />
+    ) : (
+      <span class="card-image card-image-fallback" aria-hidden="true">
+        <i class="fa-solid fa-feather-pointed" />
+      </span>
+    )
+  }
+
+  <span class="card-body">
+    <span class="meta">
+      {kicker && <strong>{kicker} · </strong>}
+      {formatDate(post.date, dateStyle)}
+    </span>
+    <h3>{post.title}</h3>
+    <p class="excerpt">{cleanExcerpt(post.excerpt)}</p>
+    <span class="card-cta">{cta}</span>
+  </span>
+</a>
