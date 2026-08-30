@@ -13,7 +13,8 @@ import { Readable } from "node:stream";
 import path from "node:path";
 import crypto from "node:crypto";
 
-const ENDPOINT = "https://serpmentor.com/graphql";
+const WP_URL = "https://cms.serpmentor.com";
+const ENDPOINT = `${WP_URL}/graphql`;
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_DIR = path.join(ROOT, "public", "images", "wp");
 const MAP_FILE = path.join(ROOT, "src", "lib", "image-map.json");

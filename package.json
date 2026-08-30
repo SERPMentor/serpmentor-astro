@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "astro dev",
     "fetch-images": "node scripts/fetch-images.mjs",
-    "prebuild": "node scripts/fetch-images.mjs",
+    "gen-redirects": "node scripts/gen-redirects.mjs",
+    "prebuild": "node scripts/fetch-images.mjs && node scripts/gen-redirects.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

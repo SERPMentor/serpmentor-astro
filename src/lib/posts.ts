@@ -10,7 +10,9 @@
  * post lives at exactly one address.
  */
 
-const ENDPOINT = "https://serpmentor.com/graphql";
+// WordPress lives on a subdomain; the public site is serpmentor.com.
+export const WP_URL = "https://cms.serpmentor.com";
+const ENDPOINT = `${WP_URL}/graphql`;
 
 export interface WPCategory {
   name: string;
@@ -81,7 +83,10 @@ export function getAllPosts(): Promise<WPPost[]> {
       }
     `).then((data) => {
       const nodes = data?.posts?.nodes ?? [];
-      return [...nodes].sort((a, b) => +new Date(b.date) - +new Date(a.date));
+      const HIDE = new Set(["sample-post-test", "hello-world", "auto-draft"]);
+      return nodes
+        .filter((n) => !HIDE.has(n.slug))
+        .sort((a, b) => +new Date(b.date) - +new Date(a.date));
     });
   }
   return postsPromise;

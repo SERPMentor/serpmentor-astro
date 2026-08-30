@@ -62,7 +62,7 @@ export const AUTHORS: Record<string, Author> = {
     title: "Founder & editor, SERP Mentor",
     bio: "Saiful runs SERP Mentor and writes most of what you read here. The focus is practical SEO and AI-search guidance, based on what actually moves rankings rather than what makes a good headline.",
     image:
-      "https://serpmentor.com/wp-content/uploads/2026/04/SAIFUL-AI-SEO-EXPERT.webp",
+      "https://cms.serpmentor.com/wp-content/uploads/2026/04/SAIFUL-AI-SEO-EXPERT.webp",
     socials: {
       x: "https://x.com/saifulseomentor",
       linkedin: "https://www.linkedin.com/in/serpmentor/",
