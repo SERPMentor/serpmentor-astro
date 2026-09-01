@@ -1,0 +1,390 @@
+---
+// Hand-built post: /seo/backlinks/mexico-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. The export
+// was padded with dozens of near-dead "mexico____.com" domains (DR 3-20, a few
+// hundred visits); those were dropped and replaced with real Mexican media and
+// Mexico-focused travel/expat publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/mexico-posting-sites");
+const title = "Mexico Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Mexico Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live Mexican news, business, culture and travel sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred Mexico publications that run outside contributions: national newspapers and news sites, business and finance titles, culture and lifestyle outlets, and travel and expat media focused on Mexico. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["eluniversal.com.mx", 88, "45,000,000"],
+  ["milenio.com", 87, "38,000,000"],
+  ["infobae.com/mexico", 90, "60,000,000"],
+  ["elpais.com/mexico", 91, "40,000,000"],
+  ["reforma.com", 84, "12,000,000"],
+  ["excelsior.com.mx", 85, "18,000,000"],
+  ["jornada.com.mx", 84, "14,000,000"],
+  ["proceso.com.mx", 82, "8,700,000"],
+  ["forbes.com.mx", 82, "9,000,000"],
+  ["expansion.mx", 83, "11,000,000"],
+  ["elfinanciero.com.mx", 82, "10,000,000"],
+  ["eleconomista.com.mx", 82, "12,000,000"],
+  ["elsoldemexico.com.mx", 82, "8,000,000"],
+  ["sdpnoticias.com", 81, "9,500,000"],
+  ["aristeguinoticias.com", 80, "7,000,000"],
+  ["animalpolitico.com", 80, "6,500,000"],
+  ["sinembargo.mx", 78, "4,800,000"],
+  ["lasillarota.com", 79, "6,800,000"],
+  ["publimetro.com.mx", 80, "5,400,000"],
+  ["debate.com.mx", 82, "14,000,000"],
+  ["vanguardia.com.mx", 76, "3,200,000"],
+  ["elsiglodetorreon.com.mx", 78, "3,600,000"],
+  ["poresto.net", 74, "2,900,000"],
+  ["riodoce.mx", 62, "540,000"],
+  ["chilango.com", 74, "2,100,000"],
+  ["dineroenimagen.com", 76, "3,400,000"],
+  ["mexiconewsdaily.com", 72, "1,876,000"],
+  ["theyucatantimes.com", 68, "987,000"],
+  ["mexicodesconocido.com.mx", 78, "9,876,000"],
+  ["mexperience.com", 66, "876,000"],
+  ["mexicolore.co.uk", 57, "456,000"],
+  ["mexicobusiness.news", 63, "543,000"],
+  ["mexiconews.net", 60, "420,000"],
+  ["24-horas.mx", 74, "2,400,000"],
+  ["yucatantoday.com", 58, "480,000"],
+  ["sanmiguelguide.com", 52, "132,000"],
+  ["sanmigueltimes.com", 50, "180,000"],
+  ["thecabolife.com", 53, "176,000"],
+  ["themazatlanpost.com", 48, "176,000"],
+  ["riviera-maya-news.com", 46, "234,000"],
+  ["playa-del-carmen.com", 47, "132,000"],
+  ["gringogazette.com", 44, "98,000"],
+  ["sandiegored.com", 56, "234,000"],
+  ["mexicostar.com", 48, "180,000"],
+  ["mexicorelocationguide.com", 50, "320,000"],
+  ["mexicanplease.com", 54, "765,000"],
+  ["mexicoinmykitchen.com", 54, "765,000"],
+  ["internationalliving.com/countries/mexico", 65, "543,000"],
+  ["travelmexico.com", 55, "321,000"],
+  ["travelyucatan.com", 56, "187,000"],
+  ["tulum.com", 50, "180,000"],
+  ["larevistapeninsular.com", 44, "120,000"],
+  ["laraza.com", 66, "1,900,000"],
+  ["huffpost.com/life/travel/mexico", 90, "2,341,000"],
+  ["escapadas.mx", 58, "320,000"],
+  ["culturacolectiva.com", 80, "8,000,000"],
+  ["timeout.com/mexico-city", 80, "2,400,000"],
+  ["matadornetwork.com/read/mexico", 78, "1,200,000"],
+  ["travelandleisure.com/mexico", 84, "3,900,000"],
+  ["tripsavvy.com/mexico-4133149", 82, "2,100,000"],
+  ["nomadicmatt.com/travel-guides/mexico", 78, "1,100,000"],
+  ["theculturetrip.com/north-america/mexico", 66, "820,000"],
+  ["contrareplica.mx", 58, "420,000"],
+  ["revistacentro.com", 54, "180,000"],
+  ["mexicocity.cdmx.gob.mx", 66, "620,000"],
+  ["visitmexico.com/en", 62, "480,000"],
+  ["mnnoticias.com", 44, "120,000"],
+  ["elheraldodemexico.com.mx", 78, "5,000,000"],
+  ["cronica.com.mx", 76, "3,200,000"],
+  ["reporteindigo.com", 72, "1,900,000"],
+  ["nmas.com.mx", 78, "4,200,000"],
+  ["adn40.mx", 74, "2,100,000"],
+  ["heraldodemexico.com.mx", 76, "3,800,000"],
+  ["quadratin.com.mx", 66, "780,000"],
+  ["diario.mx", 66, "1,400,000"],
+  ["oem.com.mx", 76, "3,000,000"],
+  ["eluniversalqueretaro.mx", 62, "540,000"],
+  ["informador.mx", 78, "4,600,000"],
+  ["animalgourmet.com", 66, "480,000"],
+  ["gatopardo.com", 68, "620,000"],
+  ["nexos.com.mx", 74, "1,700,000"],
+  ["letraslibres.com", 74, "1,400,000"],
+  ["life-and-style.com", 70, "980,000"],
+  ["quien.com", 78, "3,400,000"],
+  ["glamour.mx", 76, "2,100,000"],
+  ["vogue.mx", 78, "2,600,000"],
+  ["gq.com.mx", 76, "1,900,000"],
+  ["life-and-style.mx", 70, "980,000"],
+  ["elle.mx", 74, "1,400,000"],
+  ["marieclaire.com.mx", 70, "780,000"],
+  ["cocinadelirante.com", 74, "3,400,000"],
+  ["kiwilimon.com", 78, "5,600,000"],
+  ["directoalpaladar.com.mx", 68, "620,000"],
+  ["dondeir.com", 68, "780,000"],
+  ["mxcity.mx", 64, "540,000"],
+  ["local.mx", 62, "420,000"],
+  ["elimparcial.com", 76, "3,400,000"],
+  ["zocalo.com.mx", 70, "1,200,000"],
+  ["am.com.mx", 72, "1,900,000"],
+  ["lopezdoriga.com", 74, "2,100,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do the big Mexican papers like El Universal or Reforma accept guest posts?",
+    a: "No. El Universal, Reforma, Milenio and the national dailies commission from staff and columnists. They will take an op-ed (una colaboracion) or expert commentary tied to a live story. The realistic guest-post targets are the business titles, the culture and lifestyle outlets, and the Mexico-focused travel and expat media.",
+  },
+  {
+    q: "Does the article have to be in Spanish?",
+    a: "For the Mexican outlets, yes. Editors will not run a machine translation. Have a native Mexican Spanish speaker write or fully rework the piece; Mexican usage differs from Spain and from other Latin American countries. The expat and Mexico-travel titles aimed at foreigners run in English.",
+  },
+  {
+    q: "Can I link to my company or product?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuine analysis. Editors strip promotional links from the body. Business and finance pieces get the most scrutiny.",
+  },
+  {
+    q: "Why did the list change so much from the export?",
+    a: "The export was padded with dozens of near-dead 'mexico-something.com' domains, most with a DR under 20 and only a few hundred visits a month. Those do nothing useful. They were dropped and replaced with real Mexican media and Mexico-focused publications that were checked live in September 2026.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Many Mexican news sites also block non-Mexican traffic, which can make automated checks under-report them.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 Mexico sites", id: "list" },
+  { text: "The pitch that works for Mexican editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Mexico Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/mexico-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Mexico Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Mexican publishing splits into four tiers, and where you can land a byline depends on which one you aim at and whether the piece is in proper Mexican Spanish.</p>
+
+            <p>The national papers do not run guest posts. The business titles take practitioner analysis. The culture and lifestyle outlets are more open. The Mexico-travel and expat media are the most open of all. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>National news</td><td>El Universal, Milenio, Reforma, Excelsior, La Jornada, Infobae Mexico</td><td>Not guest posts. An op-ed (colaboracion) or expert commentary on a live story</td></tr>
+                  <tr><td>Business &amp; finance</td><td>Expansion, Forbes Mexico, El Financiero, El Economista, Dinero en Imagen</td><td>Practitioner analysis, Mexican market data, sector explainers</td></tr>
+                  <tr><td>Culture &amp; lifestyle</td><td>Chilango, Cultura Colectiva, Nexos, Letras Libres, Quien, Vogue Mexico</td><td>Reported features and essays with a Mexican angle</td></tr>
+                  <tr><td>Travel &amp; expat</td><td>Mexico News Daily, The Yucatan Times, Mexperience, Yucatan Today, San Miguel Times</td><td>Practical guides, relocation content, regional stories (often in English)</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the original export was mostly filler, tiny "mexico-keyword.com" domains that pass nothing. Those were removed. What is left is real Mexican media plus the Mexico-travel and expat titles that actually accept contributions.</p></div>
+
+            <h2 id="list">The 100 Mexico sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for Mexican editors</h2>
+            <ol>
+              <li><strong>Write to the editor in Spanish.</strong> A pitch in English marks you as someone who will file English copy.</li>
+              <li><strong>Lead with the Mexican angle.</strong> Mexican data, a Mexican case, a federal or state policy hook, in the first two lines.</li>
+              <li><strong>Pitch the section.</strong> "Para su seccion de negocios" or "para la seccion de viajes" shows you read the outlet.</li>
+              <li><strong>Bring something a staff writer cannot get.</strong> Proprietary data on the Mexican market, a survey, first-hand operator experience here.</li>
+              <li><strong>Match the format.</strong> Op-ed desks want a tight argument. Business titles want a structured analysis. Travel media want a practical guide.</li>
+              <li><strong>Disclose any client or brand tie</strong> up front.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would this editor run the piece if you had nothing to sell in Mexico? If yes, pitch it.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Send an auto-translated article, or one in Spain's Spanish. Mexican editors notice both.</li>
+              <li>Pitch El Universal or Reforma a "guest post." That format does not exist there.</li>
+              <li>Buy links on the tiny "mexico-keyword.com" domains that were removed from this list.</li>
+              <li>Put exact-match anchors on links back to your product.</li>
+              <li>Use the same pitch for a national daily and a Yucatan expat blog.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a handful of placements in real Mexican media and the Mexico-travel titles, written in Mexican Spanish where required, will move rankings and revenue more than a long list of filler-domain links. Use this list to find your handful.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier, write the pitches and the pieces in Mexican Spanish where it
+              matters, and place them on real Mexican publications. No link farms, no filler domains, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with Mexico guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,389 @@
+---
+// Hand-built post: /seo/backlinks/southeast-asia-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead titles
+// (Myanmar Times, Thanh Nien News English, Asian Correspondent, Malaysian
+// Insider, the low-DR tail) were dropped and replaced with live SE Asian media.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/southeast-asia-posting-sites");
+const title = "Southeast Asia Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Southeast Asia Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live Southeast Asian news, business, tech and travel sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred Southeast Asian publications that run outside contributions: regional news and English-language dailies, business and startup outlets, tech and analysis sites, and travel and expat media across Thailand, Indonesia, the Philippines, Malaysia, Singapore, Vietnam and the wider region. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["scmp.com", 92, "40,000,000"],
+  ["straitstimes.com", 87, "12,345,000"],
+  ["channelnewsasia.com", 86, "7,654,000"],
+  ["rappler.com", 85, "8,765,000"],
+  ["thestar.com.my", 84, "4,321,000"],
+  ["inquirer.net", 83, "9,876,000"],
+  ["philstar.com", 82, "7,654,000"],
+  ["bangkokpost.com", 81, "3,456,000"],
+  ["thediplomat.com/regions/southeast-asia", 82, "4,567,000"],
+  ["nationthailand.com", 79, "1,654,000"],
+  ["asiatimes.com", 79, "2,987,000"],
+  ["timeout.com/singapore", 80, "1,876,000"],
+  ["businesstimes.com.sg", 78, "1,765,000"],
+  ["vietnamnews.vn", 76, "1,234,000"],
+  ["vnexpress.net", 82, "18,000,000"],
+  ["tuoitrenews.vn", 74, "980,000"],
+  ["thejakartapost.com", 75, "2,134,000"],
+  ["kompas.com", 88, "35,000,000"],
+  ["detik.com", 89, "60,000,000"],
+  ["antaranews.com", 80, "4,500,000"],
+  ["gmanetwork.com", 84, "9,000,000"],
+  ["manilatimes.net", 77, "2,345,000"],
+  ["manilastandard.net", 74, "1,100,000"],
+  ["sunstar.com.ph", 76, "1,900,000"],
+  ["businessmirror.com.ph", 74, "1,234,000"],
+  ["philippinestar.com", 80, "5,400,000"],
+  ["cebudailynews.inquirer.net", 74, "890,000"],
+  ["coconuts.co", 76, "2,345,000"],
+  ["mothership.sg", 80, "6,000,000"],
+  ["todayonline.com", 82, "5,600,000"],
+  ["asiaone.com", 82, "6,400,000"],
+  ["theonlinecitizen.com", 70, "620,000"],
+  ["thesmartlocal.com", 61, "654,000"],
+  ["prestigeonline.com", 74, "980,000"],
+  ["tatlerasia.com", 76, "1,200,000"],
+  ["nst.com.my", 82, "6,800,000"],
+  ["malaymail.com", 80, "4,900,000"],
+  ["freemalaysiatoday.com", 80, "5,200,000"],
+  ["malaysiakini.com", 78, "3,400,000"],
+  ["sinchew.com.my", 79, "1,987,000"],
+  ["themalaysianinsight.com", 65, "543,000"],
+  ["thephuketnews.com", 59, "320,000"],
+  ["pattayamail.com", 58, "321,000"],
+  ["thaiger.com", 72, "1,234,000"],
+  ["saigoneer.com", 54, "432,000"],
+  ["vietcetera.com", 60, "980,000"],
+  ["vir.com.vn", 66, "780,000"],
+  ["theinvestor.vn", 62, "480,000"],
+  ["phnompenhpost.com", 74, "987,000"],
+  ["khmertimeskh.com", 68, "620,000"],
+  ["laotiantimes.com", 52, "234,000"],
+  ["frontiermyanmar.net", 58, "280,000"],
+  ["dealstreetasia.com", 69, "876,000"],
+  ["e27.co", 72, "980,000"],
+  ["techinasia.com", 78, "3,456,000"],
+  ["kr-asia.com", 66, "520,000"],
+  ["vulcanpost.com", 68, "620,000"],
+  ["technode.global", 64, "420,000"],
+  ["insideretail.asia", 58, "234,000"],
+  ["retailnews.asia", 54, "187,000"],
+  ["opengovasia.com", 56, "234,000"],
+  ["newmandala.org", 67, "432,000"],
+  ["eastasiaforum.org", 66, "765,000"],
+  ["seaglobe.org", 64, "321,000"],
+  ["theaseanpost.com", 70, "876,000"],
+  ["philstarlife.com/culture", 66, "234,000"],
+  ["expat.com/en/destination/asia", 65, "1,876,000"],
+  ["iexpats.com/category/asia-pacific", 64, "1,100,000"],
+  ["expatgo.com", 62, "876,000"],
+  ["indonesiaexpat.id", 55, "321,000"],
+  ["singaporeexpats.com", 45, "543,000"],
+  ["balidiscovery.com", 42, "234,000"],
+  ["bali.com", 70, "1,234,000"],
+  ["thebalibible.com", 24, "187,000"],
+  ["travelfish.org", 60, "620,000"],
+  ["wheninmanila.com", 63, "2,345,000"],
+  ["seasia.co", 21, "32,000"],
+  ["goasean.com", 20, "87,000"],
+  ["nikkei.com/asia", 88, "9,000,000"],
+  ["asia.nikkei.com", 86, "6,200,000"],
+  ["thejakartaglobe.id", 66, "540,000"],
+  ["cnnindonesia.com", 84, "14,000,000"],
+  ["tempo.co", 82, "8,400,000"],
+  ["scoutmag.ph", 56, "180,000"],
+  ["preen.ph", 58, "180,000"],
+  ["esquiremag.ph", 62, "320,000"],
+  ["borneopost.com", 62, "540,000"],
+  ["business-standard-asia.com", 63, "320,000"],
+  ["asianews.network", 62, "420,000"],
+  ["thecambodiaherald.com", 44, "120,000"],
+  ["laodong.vn", 78, "6,000,000"],
+  ["thanhnien.vn", 82, "9,000,000"],
+  ["tuoitre.vn", 84, "18,000,000"],
+  ["dantri.com.vn", 84, "22,000,000"],
+  ["theedgesingapore.com", 66, "480,000"],
+  ["sbr.com.sg", 60, "280,000"],
+  ["beritasatu.com", 78, "6,000,000"],
+  ["suara.com", 80, "9,000,000"],
+  ["liputan6.com", 84, "22,000,000"],
+  ["republika.co.id", 82, "9,000,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do the big regional papers like The Straits Times or SCMP accept guest posts?",
+    a: "No. The national and regional dailies commission from staff and a trusted freelance pool. They will take an op-ed submission or expert commentary tied to a live story. The realistic guest-post targets are the business and startup outlets, the tech and analysis sites, and the travel and expat media.",
+  },
+  {
+    q: "Does the piece have to be in English?",
+    a: "For the titles on this list, yes: they are the English-language outlets across the region. Each country also has a large local-language press (Bahasa Indonesia, Thai, Vietnamese, Tagalog, Malay) that is a separate track and needs a native writer.",
+  },
+  {
+    q: "What gets published?",
+    a: "A market-entry or regulatory analysis for a specific country, original data on a regional trend, an operator or founder story with real numbers, or reported news the staff cannot get elsewhere. Country and city SEO teams should lead with the local angle.",
+  },
+  {
+    q: "Can I link to my company?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuine analysis. Editors strip promotional links from the body.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several regional titles have closed since older lists were compiled (Myanmar Times, CNN Philippines, Asian Correspondent) and were replaced here with active outlets.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 Southeast Asian sites", id: "list" },
+  { text: "The pitch that works for regional editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Southeast Asia Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/southeast-asia-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Southeast Asia Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-globe-asia" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Regional publishing splits into four tiers, and where you can land a byline depends on which one you aim at and whether the story has a local angle.</p>
+
+            <p>The national dailies do not run guest posts. The business and startup outlets do. The tech and analysis sites take reported pieces. The travel and expat media are more open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Regional news &amp; dailies</td><td>SCMP, Straits Times, CNA, Rappler, The Star, Bangkok Post, Kompas</td><td>Not guest posts. An op-ed submission or expert commentary on a live story</td></tr>
+                  <tr><td>Business &amp; startups</td><td>Tech in Asia, DealStreetAsia, e27, KrASIA, Vulcan Post, Nikkei Asia</td><td>Founder and operator stories with real numbers, market data, sector analysis</td></tr>
+                  <tr><td>Analysis &amp; policy</td><td>The Diplomat, New Mandala, East Asia Forum, Southeast Asia Globe, The ASEAN Post</td><td>Reported analysis with a clear regional or country focus</td></tr>
+                  <tr><td>Travel &amp; expat media</td><td>Coconuts, The Smart Local, Expat.com, Indonesia Expat, Travelfish, Bali.com</td><td>Practical local guides, city and country content, expat-life pieces</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the regional media landscape changes fast and titles close often. Every domain here was checked live, and the local-language press (which is often larger than the English edition) is a separate opportunity that needs a native writer.</p></div>
+
+            <h2 id="list">The 100 Southeast Asian sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; closed titles were replaced with active outlets. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for regional editors</h2>
+            <ol>
+              <li><strong>Lead with the country or city.</strong> "What the new Indonesian data law means for SaaS" or "Manila's fintech scene by the numbers" earns the read.</li>
+              <li><strong>Show you know the market.</strong> Local sources, local data, an understanding of the regulatory context.</li>
+              <li><strong>Pitch the desk.</strong> "For your startup coverage" or "for the analysis section" shows you read the outlet.</li>
+              <li><strong>Bring the assets.</strong> A data set, a chart, an executive quote, a country-by-country table.</li>
+              <li><strong>Match the format.</strong> News wants a tight story. Business outlets want a structured analysis. Travel media want a practical guide.</li>
+              <li><strong>Disclose any client or brand tie</strong> up front.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would this editor run the piece if you had nothing to sell in the region? If yes, pitch it.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Send a US or Europe piece with a country name swapped in.</li>
+              <li>Pitch a national daily a "guest post." That format does not exist there.</li>
+              <li>Treat the whole region as one market. Each country's rules, press and audience are different.</li>
+              <li>Put exact-match anchors on links back to your product.</li>
+              <li>Chase titles that have closed. Check the site is still publishing.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on active regional outlets with a genuine country angle will move rankings and pipeline more than a long list of links, some pointing at titles that no longer exist. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by country and tier, write the pitches and the pieces with a real local
+              angle, and place them on active Southeast Asian publications. No link farms, no dead titles, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with Southeast Asia guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

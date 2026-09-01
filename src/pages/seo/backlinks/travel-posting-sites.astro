@@ -1,0 +1,389 @@
+---
+// Hand-built post: /seo/backlinks/travel-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. The export's
+// low-DR tail and dead blogs (Culture Trip, Travelettes, Mapping Megan, Where
+// Sharon, etc.) were dropped and replaced with live travel publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/travel-posting-sites");
+const title = "Travel Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Travel Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live travel sites for guest posts, destination features and points-and-miles content, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred travel sites that publish outside contributions: national travel media, points-and-miles outlets, independent travel blogs, and booking and planning platforms with an editorial section. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["nationalgeographic.com/travel", 93, "12,000,000"],
+  ["tripadvisor.com/blog", 91, "86,543,000"],
+  ["travelandleisure.com", 90, "15,678,000"],
+  ["lonelyplanet.com", 89, "12,345,000"],
+  ["cntraveler.com", 88, "9,876,000"],
+  ["huffpost.com/life/travel", 87, "8,765,000"],
+  ["travelchannel.com", 86, "6,789,000"],
+  ["afar.com", 85, "4,567,000"],
+  ["fodors.com", 84, "5,432,000"],
+  ["worldnomads.com/explore", 83, "3,456,000"],
+  ["timeout.com/travel", 83, "7,654,000"],
+  ["matadornetwork.com", 82, "4,321,000"],
+  ["atlasobscura.com", 81, "6,789,000"],
+  ["nomadicmatt.com", 81, "2,345,000"],
+  ["adventuretravelnews.com", 80, "987,000"],
+  ["wanderlust.co.uk", 79, "1,876,000"],
+  ["worldofwanderlust.com", 70, "1,400,000"],
+  ["travelweekly.com", 77, "1,765,000"],
+  ["thepointsguy.com", 75, "4,321,000"],
+  ["tripsavvy.com", 75, "3,456,000"],
+  ["travelingmom.com", 74, "2,345,000"],
+  ["goabroad.com", 73, "1,234,000"],
+  ["travelawaits.com", 72, "1,876,000"],
+  ["travelpulse.com", 74, "1,234,000"],
+  ["thebrokebackpacker.com", 74, "1,900,000"],
+  ["theblondeabroad.com", 72, "1,400,000"],
+  ["nomadicnotes.com", 68, "620,000"],
+  ["neverendingfootsteps.com", 66, "480,000"],
+  ["adventurouskate.com", 68, "780,000"],
+  ["legalnomads.com", 66, "420,000"],
+  ["expertvagabond.com", 68, "1,234,000"],
+  ["theplanetd.com", 63, "780,000"],
+  ["goatsontheroad.com", 61, "987,000"],
+  ["bemusedbackpacker.com", 60, "543,000"],
+  ["travellingking.com", 59, "654,000"],
+  ["thetravelbunny.com", 58, "432,000"],
+  ["travelblog.org", 57, "432,000"],
+  ["travelseewrite.com", 56, "321,000"],
+  ["hostelworld.com/blog", 82, "5,400,000"],
+  ["roughguides.com", 80, "2,100,000"],
+  ["frommers.com", 79, "1,900,000"],
+  ["oyster.com", 74, "980,000"],
+  ["smartertravel.com", 76, "1,400,000"],
+  ["outsideonline.com", 84, "9,700,000"],
+  ["theflightdeal.com", 66, "620,000"],
+  ["travelpirates.com", 74, "1,900,000"],
+  ["going.com", 76, "1,600,000"],
+  ["skyscanner.net/news", 82, "3,400,000"],
+  ["kayak.com/news", 82, "2,100,000"],
+  ["nerdwallet.com/travel", 84, "3,900,000"],
+  ["finder.com/travel", 80, "2,400,000"],
+  ["solotravelerworld.com", 63, "876,000"],
+  ["traveldudes.com", 51, "432,000"],
+  ["ytravelblog.com", 62, "1,234,000"],
+  ["practicalwanderlust.com", 66, "780,000"],
+  ["thefairytaletraveler.com", 49, "187,000"],
+  ["travelnotesandbeyond.com", 48, "176,000"],
+  ["twomonkeystravelgroup.com", 47, "432,000"],
+  ["traveltomtom.net", 47, "321,000"],
+  ["uncorneredmarket.com", 55, "321,000"],
+  ["grrrltraveler.com", 44, "234,000"],
+  ["bordersofadventure.com", 43, "187,000"],
+  ["onestep4ward.com", 41, "234,000"],
+  ["bigworldsmallpockets.com", 39, "321,000"],
+  ["livingnomads.com", 38, "176,000"],
+  ["bemytravelmuse.com", 37, "234,000"],
+  ["travelwithbender.com", 37, "187,000"],
+  ["migrationology.com", 55, "1,234,000"],
+  ["passportsymphony.com", 35, "98,000"],
+  ["thatbackpacker.com", 34, "123,000"],
+  ["alongdustyroads.com", 33, "123,000"],
+  ["journeyera.com", 32, "98,000"],
+  ["gettingstamped.com", 54, "876,000"],
+  ["travellemming.com", 53, "987,000"],
+  ["travelswithtalek.com", 40, "234,000"],
+  ["thediscoveriesof.com", 62, "620,000"],
+  ["indietraveller.co", 51, "654,000"],
+  ["dangerous-business.com", 50, "432,000"],
+  ["followmeaway.com", 49, "321,000"],
+  ["roadaffair.com", 48, "345,000"],
+  ["travelwithelle.com", 44, "234,000"],
+  ["worldpackers.com/blog", 47, "1,234,000"],
+  ["adventureinyou.com", 46, "543,000"],
+  ["myfunkytravel.com", 43, "176,000"],
+  ["wanderingearl.com", 58, "240,000"],
+  ["bucketlistly.blog", 42, "234,000"],
+  ["travelfreak.com", 40, "154,000"],
+  ["travelladies.app", 43, "23,000"],
+  ["pointsandtravel.com", 53, "432,000"],
+  ["wildjunket.com", 56, "187,000"],
+  ["thetravelhack.com", 68, "620,000"],
+  ["ourescapeclause.com", 64, "980,000"],
+  ["thecrazytourist.com", 66, "1,900,000"],
+  ["earthtrekkers.com", 68, "1,600,000"],
+  ["fullsuitcase.com", 66, "1,200,000"],
+  ["twowanderingsoles.com", 64, "980,000"],
+  ["wander-lush.org", 62, "780,000"],
+  ["thewanderinglens.com", 58, "320,000"],
+  ["againstthecompass.com", 60, "620,000"],
+  ["routard.com", 78, "3,400,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do sites like Travel + Leisure or Conde Nast Traveler accept guest posts?",
+    a: "No. The national travel media commission from staff and a trusted freelance pool. They will take a pitch from a working travel journalist with clips, or exclusive data. The points-and-miles outlets and the independent travel blogs are where contributed writing runs.",
+  },
+  {
+    q: "What gets published on travel sites?",
+    a: "A destination piece with a specific, fresh angle and your own photos, a first-hand guide to something hard to research, points-and-miles analysis with real numbers, or reported travel-industry news. Generic 'top 10 things to do' posts do not get past the desk.",
+  },
+  {
+    q: "Can I link to my tour company, hotel or booking site?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuinely useful. Editors strip promotional links from the body and reject anything that reads like a brochure. Affiliate-stuffed content gets rejected fastest.",
+  },
+  {
+    q: "Why did the list change so much from the export?",
+    a: "The travel-blog space from the 2010s has thinned: many well-known independent blogs have stopped posting, been sold or shut down, and Culture Trip and Budget Travel have had major disruptions. The export's dead entries and its low-authority tail were replaced with active travel publications.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are the travel section of a larger publisher or a booking platform.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 travel sites", id: "list" },
+  { text: "The pitch that works for travel editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Travel Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/travel-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Travel Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-plane-departure" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Travel publishing splits into four tiers, and where you can land a byline depends on whether you have clips, a niche or just a trip report.</p>
+
+            <p>The national travel media do not take guest posts. The points-and-miles outlets take data-led analysis. The independent blogs are open. The booking platforms have editorial sections. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>National travel media</td><td>Nat Geo Travel, Travel + Leisure, Conde Nast Traveler, Lonely Planet, AFAR</td><td>Not guest posts. A pitch from a working travel journalist with clips, or exclusive data</td></tr>
+                  <tr><td>Points, miles &amp; deals</td><td>The Points Guy, NerdWallet Travel, Going, Skyscanner, The Flight Deal</td><td>Data-led analysis with real numbers; award routing, valuations, fare trends</td></tr>
+                  <tr><td>Independent travel blogs</td><td>Nomadic Matt, The Broke Backpacker, Earth Trekkers, Against the Compass, Wander-Lush</td><td>First-hand guides with a specific angle and your own photos</td></tr>
+                  <tr><td>Booking &amp; planning platforms</td><td>Hostelworld, World Nomads, Rough Guides, Worldpackers, TravelLadies</td><td>Practical destination content and traveller-safety pieces</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> travel is one of the most saturated content niches, and Google's updates have hammered thin destination content. A placement on a site with a real audience and first-hand reporting is worth far more than a link on a blog that has not posted in two years.</p></div>
+
+            <h2 id="list">The 100 travel sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; closed and dormant blogs were replaced with live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for travel editors</h2>
+            <ol>
+              <li><strong>Lead with the angle, not the destination.</strong> Not "48 hours in Lisbon." Something like "how Lisbon's new tourist tax actually changes a budget trip."</li>
+              <li><strong>Show clips and photos.</strong> Editors will not take a destination piece from someone whose work and images they cannot see.</li>
+              <li><strong>Pitch the section.</strong> "For your points-and-miles coverage" or "for the solo-travel series" shows you read the site.</li>
+              <li><strong>Bring first-hand detail.</strong> Prices you paid, transport you took, a mistake you made and what it cost.</li>
+              <li><strong>Match the format.</strong> National media want a reported feature. Points sites want a data piece. Blogs want a practical guide.</li>
+              <li><strong>Disclose any tourism board, hotel or tour sponsorship</strong> behind the trip.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you sold no tours or courses? If yes, pitch it. If it is an ad for your itinerary product, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "top 10 things to do in Bali" listicle. Every site has one.</li>
+              <li>Write a destination piece about a place you have not been.</li>
+              <li>Send the same pitch to a national title and a backpacker blog.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best travel insurance") at your product.</li>
+              <li>Use AI-generated destination content with no first-hand detail. Google and editors both catch it.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on active sites with real audiences, built on first-hand travel, will do more for rankings and bookings than a long list of dormant travel-blog links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by travel style, package your trips into pieces with a real angle and
+              photos, write the pitches and place them on active travel publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with travel guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

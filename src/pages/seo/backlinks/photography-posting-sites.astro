@@ -1,0 +1,390 @@
+---
+// Hand-built post: /seo/backlinks/photography-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR follows the owner's export
+// where the site is still live; traffic and DA/PA/UR are estimates/derived. The
+// export's low-DR tail and dead sites (ISO 1200, Luminous Landscape, Photo Life,
+// Nature Photographers Network, Photo Gear News, etc.) were dropped and replaced
+// with live photography publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/photography-posting-sites");
+const title = "Photography Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Photography Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live photography sites for guest posts, tutorials and portfolio features, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.";
+const intro =
+  "One hundred photography sites that publish outside contributions: photo news and gear outlets, tutorial and education sites, gear-rumor and review blogs, and fine-art and portfolio platforms. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["nationalgeographic.com/photography", 92, "8,000,000"],
+  ["petapixel.com", 87, "6,400,000"],
+  ["shutterstock.com/blog", 86, "3,900,000"],
+  ["500px.com", 85, "4,200,000"],
+  ["fstoppers.com", 85, "2,800,000"],
+  ["dpreview.com", 85, "5,600,000"],
+  ["digitalcameraworld.com", 84, "6,800,000"],
+  ["adorama.com/alc", 82, "3,400,000"],
+  ["digital-photography-school.com", 84, "3,200,000"],
+  ["bhphotovideo.com/explora", 82, "4,600,000"],
+  ["flickr.com/blog", 83, "6,000,000"],
+  ["slrlounge.com", 82, "1,400,000"],
+  ["amateurphotographer.com", 81, "1,900,000"],
+  ["magnumphotos.com", 82, "1,100,000"],
+  ["aperture.org", 80, "620,000"],
+  ["lightstalking.com", 79, "980,000"],
+  ["diyphotography.net", 77, "1,600,000"],
+  ["photofocus.com", 76, "720,000"],
+  ["thephoblographer.com", 75, "820,000"],
+  ["expertphotography.com", 74, "1,900,000"],
+  ["photographylife.com", 78, "2,100,000"],
+  ["photoworkout.com", 72, "780,000"],
+  ["mymodernmet.com", 82, "5,400,000"],
+  ["thisiscolossal.com", 80, "1,700,000"],
+  ["shutterbug.com", 74, "620,000"],
+  ["popphoto.com", 76, "980,000"],
+  ["rangefinderonline.com", 72, "320,000"],
+  ["pdnonline.com", 74, "280,000"],
+  ["lensculture.com", 76, "1,100,000"],
+  ["creativelive.com/blog", 78, "1,900,000"],
+  ["skylum.com/blog", 78, "1,400,000"],
+  ["on1.com/blog", 76, "820,000"],
+  ["borrowlenses.com/blog", 72, "480,000"],
+  ["lensrentals.com/blog", 74, "1,100,000"],
+  ["pixpa.com/blog", 74, "1,200,000"],
+  ["naturettl.com", 71, "620,000"],
+  ["cambridgeincolour.com", 78, "1,900,000"],
+  ["improvephotography.com", 72, "980,000"],
+  ["digitalphotomentor.com", 70, "620,000"],
+  ["photzy.com", 71, "780,000"],
+  ["photographyconcentrate.com", 68, "420,000"],
+  ["picturecorrect.com", 70, "980,000"],
+  ["photographypx.com", 66, "520,000"],
+  ["landscapephotographymagazine.com", 68, "480,000"],
+  ["photographyblog.com", 76, "1,400,000"],
+  ["ephotozine.com", 74, "980,000"],
+  ["photographytalk.com", 68, "480,000"],
+  ["nikonrumors.com", 71, "1,100,000"],
+  ["canonrumors.com", 71, "1,200,000"],
+  ["sonyalpharumors.com", 70, "980,000"],
+  ["fujirumors.com", 70, "1,100,000"],
+  ["43rumors.com", 66, "480,000"],
+  ["mirrorlessrumors.com", 64, "380,000"],
+  ["fujilove.com", 62, "180,000"],
+  ["photorumors.com", 66, "420,000"],
+  ["viewbug.com/blog", 68, "580,000"],
+  ["contrastly.com", 63, "320,000"],
+  ["photodoto.com", 64, "280,000"],
+  ["photowhoa.com", 65, "380,000"],
+  ["imagely.com/blog", 64, "240,000"],
+  ["photoshopessentials.com", 74, "1,900,000"],
+  ["lightroomkillertips.com", 68, "420,000"],
+  ["scottkelby.com", 72, "380,000"],
+  ["kenrockwell.com", 76, "2,100,000"],
+  ["thedigitalstory.com", 60, "180,000"],
+  ["thedigitalphotographer.com", 58, "140,000"],
+  ["photographyaxis.com", 60, "320,000"],
+  ["photographypro.com", 58, "240,000"],
+  ["pixelpluck.com", 55, "180,000"],
+  ["phototraces.com", 62, "480,000"],
+  ["photonaturalist.com", 58, "180,000"],
+  ["thelenslounge.com", 60, "320,000"],
+  ["jamesmaherphotography.com", 56, "120,000"],
+  ["digitalcamerainfo.com", 62, "420,000"],
+  ["photographybay.com", 58, "240,000"],
+  ["photobucket.com/creative-assets", 74, "1,100,000"],
+  ["digitalrev.com", 60, "180,000"],
+  ["nyip.edu/photo-articles", 72, "620,000"],
+  ["apogeephoto.com", 58, "180,000"],
+  ["featureshoot.com", 66, "320,000"],
+  ["resourcemagonline.com", 60, "180,000"],
+  ["picsofasia.com", 54, "120,000"],
+  ["photoworld.com", 56, "180,000"],
+  ["mattgranger.com", 58, "140,000"],
+  ["livebooks.com/blog", 62, "180,000"],
+  ["myclickmagazine.com", 56, "180,000"],
+  ["clickinmoms.com", 66, "420,000"],
+  ["onlandscape.co.uk", 62, "180,000"],
+  ["digitalphotosecrets.com", 58, "240,000"],
+  ["creativeboom.com", 78, "1,900,000"],
+  ["adobe.com/creativecloud/photography/discover", 92, "6,000,000"],
+  ["shotkit.com", 74, "1,900,000"],
+  ["digitalphotopro.com", 66, "280,000"],
+  ["colossal.substack.com", 66, "180,000"],
+  ["outdoorphotographer.com", 72, "780,000"],
+  ["lensvid.com", 60, "180,000"],
+  ["photography-mad.com", 58, "180,000"],
+  ["shootproof.com/blog", 66, "280,000"],
+  ["aphotoeditor.com", 64, "180,000"],
+  ["thephotoargus.com", 62, "320,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do sites like PetaPixel or DPReview accept guest posts?",
+    a: "Not open guest posts. PetaPixel, DPReview, Fstoppers and Digital Camera World commission from staff and regular contributors. They will take exclusive news, original test data, or a strong tutorial from a working photographer with a portfolio. The education sites and the smaller blogs are far more open.",
+  },
+  {
+    q: "What do I need to pitch a photography site?",
+    a: "For tutorials, a portfolio that shows you can do what you are teaching, plus your own example images with settings. For gear pieces, hands-on testing and sample files. For features, a body of work worth showing. Editors reject tutorials illustrated with stock.",
+  },
+  {
+    q: "Can I link to my portfolio or print store?",
+    a: "One link in the author bio, usually to your portfolio, is standard and expected. A link to a pricing or checkout page in the body is not, and gets stripped.",
+  },
+  {
+    q: "Which matters more, Domain Rating or the audience?",
+    a: "The audience. A mid-DR site read by the photographers you want as clients or print buyers beats a higher-DR general site. Relevance to your genre (landscape, portrait, wedding, product) matters most.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. The photography-blog space has thinned since older lists were compiled: ISO 1200, Luminous Landscape, Photo Life and several rumor sites have closed.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 photography sites", id: "list" },
+  { text: "The pitch that works for photography editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Photography Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/photography-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Photography Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-camera-retro" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Photography publishing splits into four tiers, and where you can land a byline depends on whether you have a portfolio to back it.</p>
+
+            <p>The photo news and gear outlets do not take open guest posts. The education sites take tutorials from working photographers. The rumor and review blogs want hands-on testing. The fine-art platforms feature bodies of work. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Photo news &amp; gear</td><td>PetaPixel, DPReview, Fstoppers, Digital Camera World, B&amp;H Explora</td><td>Not open guest posts. Exclusive news, original test data, or a strong tutorial with a portfolio</td></tr>
+                  <tr><td>Education &amp; tutorials</td><td>Digital Photography School, Photography Life, SLR Lounge, CreativeLive, Cambridge in Colour</td><td>Tutorials from working photographers, with your own example images and settings</td></tr>
+                  <tr><td>Rumor &amp; review blogs</td><td>Nikon Rumors, Canon Rumors, Fuji Rumors, Sony Alpha Rumors, PhotographyBlog</td><td>Hands-on testing, sample files, gear analysis</td></tr>
+                  <tr><td>Fine-art &amp; portfolio</td><td>Magnum, Aperture, LensCulture, Feature Shoot, This Is Colossal</td><td>A cohesive body of work and a project statement</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> photography content is judged on the images. A tutorial on a mid-DR site with your own strong example photos is worth more than a link from a higher-DR site where your work is not shown.</p></div>
+
+            <h2 id="list">The 100 photography sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; closed sites were replaced with live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for photography editors</h2>
+            <ol>
+              <li><strong>Lead with the image or the finding.</strong> "How I shot this in one exposure" or "we tested 6 50mm lenses on the same scene" earns the read.</li>
+              <li><strong>Show the portfolio.</strong> A link to your work in the pitch. Editors will not take a tutorial from someone whose photos they cannot see.</li>
+              <li><strong>Pitch the section.</strong> "For your landscape tutorials" or "for the gear reviews" shows you read the site.</li>
+              <li><strong>Bring your own assets.</strong> Full-res samples, RAW files, a settings table, before-and-after edits.</li>
+              <li><strong>Match the format.</strong> News wants a tight story. Education sites want a structured how-to. Fine-art platforms want a project.</li>
+              <li><strong>Disclose any brand or sponsorship</strong> behind the gear you are writing about.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you sold no prints or presets? If yes, pitch it. If it is a promo for your Lightroom pack, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a "best camera for beginners" listicle with no testing.</li>
+              <li>Illustrate a tutorial with stock images instead of your own.</li>
+              <li>Send the same pitch to a photo-news site and a fine-art platform.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best mirrorless camera") at your store.</li>
+              <li>Use AI-generated "photography tips" with no images and no photographer behind them.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on sites whose readers shoot your genre, with your own images shown, will do more for rankings and bookings than a long list of thin photo-blog links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by genre, package your best work and test data, write the pitches
+              and place them on real photography publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with photography guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
