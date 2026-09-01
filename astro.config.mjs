@@ -6,9 +6,13 @@ export default defineConfig({
   site: 'https://serpmentor.com',
 
   // Clean URLs, no trailing slash: /seo, /seo/tech, /seo/best-ai-seo-tools.
-  // (Output stays as dir/index.html so hosts still resolve a stray trailing
-  // slash; every link Astro emits is slash-free.)
+  // Every link Astro emits is slash-free, and `build.format: 'file'` writes
+  // each page as `path.html` (not `path/index.html`) so Cloudflare Pages
+  // serves it at `/path` and 301-redirects any stray `/path/` back to it.
+  // With the default 'directory' format Cloudflare canonicalises the other
+  // way (adds the trailing slash), which is the bug this fixes.
   trailingSlash: 'never',
+  build: { format: 'file' },
 
   redirects: {
     // old blog category URLs → real category archives

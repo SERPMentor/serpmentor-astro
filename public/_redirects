@@ -22,29 +22,9 @@
 /terms-and-conditions    /terms    301
 /terms-and-conditions/   /terms    301
 
-# trailing slash -> no trailing slash (known routes)
-/about/   /about   301
-/services/   /services   301
-/coaching/   /coaching   301
-/hire-seo-specialist/   /hire-seo-specialist   301
-/local-seo-services/   /local-seo-services   301
-/careers/   /careers   301
-/privacy/   /privacy   301
-/terms/   /terms   301
-/blog/   /blog   301
-/resources/   /resources   301
-/reviews/   /reviews   301
-/contact/   /contact   301
-/newsletter-success/   /newsletter-success   301
-/website-design/   /website-design   301
-/seo/tech/   /seo/tech   301
-/seo/backlinks/   /seo/backlinks   301
-/seo/news/   /seo/news   301
-/seo/tools/   /seo/tools   301
-/seo/ai-optimization/   /seo/ai-optimization   301
-/case-study/   /case-study   301
-/linkedin/   /linkedin   301
-/seo/   /seo   301
+# NOTE: trailing-slash canonicalisation (/path/ -> /path) is handled
+# natively by Cloudflare Pages because astro.config build.format is 'file'
+# (every page is emitted as path.html, not path/index.html).
 
 # NOTE: per-post flat URLs (/{slug}, /blog/{slug}) are handled by
 # src/pages/[...oldpost].astro + src/pages/blog/[slug].astro redirect
