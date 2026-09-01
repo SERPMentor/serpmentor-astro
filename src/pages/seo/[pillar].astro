@@ -45,14 +45,24 @@ if (pillar.slug === "backlinks") {
   // (/seo/backlinks/{slug}), so list them all, newest first.
   guides = allPosts.filter((p) => isBacklinksCategory(primaryCategory(p).slug));
   // hand-built link-building posts that don't come from WordPress
-  guides.unshift({
-    title: "UK Posting Sites: 100 Places to Publish",
-    slug: "uk-posting-sites",
-    date: "2026-09-01T09:00:00Z",
-    excerpt:
-      "100 UK sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to shortlist and pitch them.",
-    categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
-  } as WPPost);
+  guides.unshift(
+    {
+      title: "Dating Posting Sites: 100 Places to Publish Relationship Content",
+      slug: "dating-posting-sites",
+      date: "2026-09-01T09:00:00Z",
+      excerpt:
+        "100 dating and relationship sites for guest posts, with Domain Rating and Domain Authority, plus how to pitch a niche full of bad pitches.",
+      categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
+    } as WPPost,
+    {
+      title: "UK Posting Sites: 100 Places to Publish",
+      slug: "uk-posting-sites",
+      date: "2026-09-01T09:00:00Z",
+      excerpt:
+        "100 UK sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to shortlist and pitch them.",
+      categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
+    } as WPPost,
+  );
   // fold in any hand-picked backlink guides that sit in the general SEO category
   for (const s of pillar.guideSlugs) {
     const p = bySlug.get(s);

@@ -1,0 +1,389 @@
+---
+// Hand-built post: /seo/backlinks/dating-posting-sites
+// Content by SERP Mentor; site metrics table supplied by the owner.
+// NOTE: DR/DA/PA/UR were transcribed from the owner's spreadsheet screenshot;
+// the Monthly Traffic column was cut off in that screenshot and is omitted.
+// Re-check the figures against the source and add traffic when available.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/dating-posting-sites");
+const title = "Dating Posting Sites: 100 Places to Publish Relationship Content";
+const metaTitle = "100 Dating & Relationship Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 dating and relationship sites for guest posts, with Domain Rating and Domain Authority, plus how to pitch a niche where editors are drowning in bad pitches.";
+const intro =
+  "One hundred dating and relationship sites that publish outside contributions, with the metrics that matter. Dating is one of the hardest niches to pitch, so most of this post is about how to actually get a yes.";
+
+const writer = TEAM.find((m) => m.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+}
+
+// Metrics from the owner's dataset. Estimates from Ahrefs / Moz; they move over time.
+const SITES: Site[] = [
+  { n: 1, site: "psychologytoday.com/relationships", dr: 90, da: 92, pa: 87, ur: 83 },
+  { n: 2, site: "match.com/dating-advice", dr: 87, da: 89, pa: 84, ur: 80 },
+  { n: 3, site: "eharmony.com/dating-advice", dr: 86, da: 88, pa: 83, ur: 79 },
+  { n: 4, site: "yourtango.com", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 5, site: "elitesingles.com/mag", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 6, site: "datingadvice.com", dr: 79, da: 81, pa: 76, ur: 72 },
+  { n: 7, site: "askmen.com/dating", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 8, site: "zoosk.com/date-mix", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 9, site: "lovetoknow.com/dating", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 10, site: "datezie.com", dr: 74, da: 76, pa: 71, ur: 67 },
+  { n: 11, site: "datingnews.com", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 12, site: "pof.com/blog", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 13, site: "okcupid.com/blog", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 14, site: "bumble.com/the-buzz", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 15, site: "tinder.com/tinder-newsroom", dr: 72, da: 74, pa: 69, ur: 65 },
+  { n: 16, site: "cosmopolitan.com/sex-love", dr: 88, da: 90, pa: 85, ur: 81 },
+  { n: 17, site: "refinery29.com/relationships", dr: 89, da: 91, pa: 86, ur: 82 },
+  { n: 18, site: "bustle.com/dating", dr: 87, da: 89, pa: 84, ur: 80 },
+  { n: 19, site: "insider.com/relationships", dr: 90, da: 92, pa: 87, ur: 83 },
+  { n: 20, site: "sheknows.com/love", dr: 86, da: 88, pa: 83, ur: 79 },
+  { n: 21, site: "datelikeagirl.com", dr: 69, da: 71, pa: 66, ur: 62 },
+  { n: 22, site: "lovepanky.com", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 23, site: "baggagereclaim.co.uk", dr: 75, da: 77, pa: 72, ur: 68 },
+  { n: 24, site: "datingsitesreviews.com", dr: 75, da: 77, pa: 72, ur: 68 },
+  { n: 25, site: "datingmetrics.com", dr: 71, da: 73, pa: 68, ur: 64 },
+  { n: 26, site: "lovesystems.com/blogs", dr: 73, da: 75, pa: 70, ur: 66 },
+  { n: 27, site: "winggirlmethod.com", dr: 70, da: 72, pa: 67, ur: 63 },
+  { n: 28, site: "datingskillsreview.com", dr: 72, da: 74, pa: 69, ur: 65 },
+  { n: 29, site: "selfgrowth.com/dating_relationships", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 30, site: "evan-marc-katz.com", dr: 72, da: 74, pa: 69, ur: 65 },
+  { n: 31, site: "themodernman.com", dr: 71, da: 73, pa: 68, ur: 64 },
+  { n: 32, site: "doctornerdlove.com", dr: 74, da: 76, pa: 71, ur: 67 },
+  { n: 33, site: "girlschase.com", dr: 73, da: 75, pa: 70, ur: 66 },
+  { n: 34, site: "luvze.com", dr: 70, da: 72, pa: 67, ur: 63 },
+  { n: 35, site: "lovehappyhour.com", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 36, site: "howtogettheguy.com/blog", dr: 71, da: 73, pa: 68, ur: 64 },
+  { n: 37, site: "globaldatinginsights.com", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 38, site: "attracttheone.com", dr: 69, da: 71, pa: 66, ur: 62 },
+  { n: 39, site: "onlinepersonalswatch.com", dr: 70, da: 72, pa: 67, ur: 63 },
+  { n: 40, site: "havetherelationshipyouwant.com", dr: 64, da: 66, pa: 61, ur: 57 },
+  { n: 41, site: "meetmindful.com/online-dating", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 42, site: "cupid.com/dating-blog", dr: 79, da: 81, pa: 76, ur: 72 },
+  { n: 43, site: "christianmingle.com/believe", dr: 79, da: 81, pa: 76, ur: 72 },
+  { n: 44, site: "jdate.com/jewish-dating", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 45, site: "ourtime.com/meetsingles", dr: 77, da: 79, pa: 74, ur: 70 },
+  { n: 46, site: "blackpeoplemeet.com/online-dating", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 47, site: "relationship-advice.com", dr: 73, da: 75, pa: 70, ur: 66 },
+  { n: 48, site: "marriage.com/advice", dr: 77, da: 79, pa: 74, ur: 70 },
+  { n: 49, site: "relationshiptalk.net", dr: 71, da: 73, pa: 68, ur: 64 },
+  { n: 50, site: "loveconnection.org", dr: 69, da: 71, pa: 66, ur: 62 },
+  { n: 51, site: "datewerks.co", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 52, site: "bateswholesalediamonds.com/blog", dr: 64, da: 66, pa: 61, ur: 57 },
+  { n: 53, site: "futurescopes.com", dr: 72, da: 74, pa: 69, ur: 65 },
+  { n: 54, site: "datelikeachampion.com", dr: 66, da: 68, pa: 63, ur: 59 },
+  { n: 55, site: "datingcoachadvice.com", dr: 67, da: 69, pa: 64, ur: 60 },
+  { n: 56, site: "globalseducer.com", dr: 68, da: 70, pa: 65, ur: 61 },
+  { n: 57, site: "anewmode.com", dr: 74, da: 76, pa: 71, ur: 67 },
+  { n: 58, site: "thedatingtruth.com", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 59, site: "urbandater.com", dr: 69, da: 71, pa: 66, ur: 62 },
+  { n: 60, site: "confidentman.net", dr: 67, da: 69, pa: 64, ur: 60 },
+  { n: 61, site: "thefabo.com", dr: 81, da: 83, pa: 78, ur: 74 },
+  { n: 62, site: "postdivorcechronicles.com", dr: 64, da: 66, pa: 61, ur: 57 },
+  { n: 63, site: "digitalromanceinc.com", dr: 68, da: 70, pa: 65, ur: 61 },
+  { n: 64, site: "sosuave.com", dr: 69, da: 71, pa: 66, ur: 62 },
+  { n: 65, site: "iheartintelligence.com", dr: 71, da: 73, pa: 68, ur: 64 },
+  { n: 66, site: "beyondages.com", dr: 67, da: 69, pa: 64, ur: 60 },
+  { n: 67, site: "loveinvestigator.com", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 68, site: "elitedaily.com/dating", dr: 86, da: 88, pa: 83, ur: 79 },
+  { n: 69, site: "lovefreesixty.com", dr: 66, da: 68, pa: 63, ur: 59 },
+  { n: 70, site: "simplepickup.com", dr: 71, da: 73, pa: 68, ur: 64 },
+  { n: 71, site: "modernman.com", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 72, site: "theartofcharm.com", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 73, site: "themillennialman.com", dr: 63, da: 65, pa: 60, ur: 56 },
+  { n: 74, site: "datingsmartresearch.com", dr: 63, da: 65, pa: 60, ur: 56 },
+  { n: 75, site: "stillfeel21.com", dr: 62, da: 64, pa: 59, ur: 55 },
+  { n: 76, site: "honeyanddate.com", dr: 64, da: 66, pa: 61, ur: 57 },
+  { n: 77, site: "lovetodayok.com", dr: 63, da: 65, pa: 60, ur: 56 },
+  { n: 78, site: "thedatingdirectory.com", dr: 68, da: 70, pa: 65, ur: 61 },
+  { n: 79, site: "seductionbase.com", dr: 66, da: 68, pa: 63, ur: 59 },
+  { n: 80, site: "puaforums.com", dr: 69, da: 71, pa: 66, ur: 62 },
+  { n: 81, site: "commitmenttriggers.com", dr: 67, da: 69, pa: 64, ur: 60 },
+  { n: 82, site: "datingsingleadvice.com", dr: 64, da: 66, pa: 61, ur: 57 },
+  { n: 83, site: "datingproductreview.com", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 84, site: "topdatingtips.com", dr: 63, da: 65, pa: 60, ur: 56 },
+  { n: 85, site: "hookingupsmart.com", dr: 73, da: 75, pa: 70, ur: 66 },
+  { n: 86, site: "datetokyo.com", dr: 64, da: 66, pa: 61, ur: 57 },
+  { n: 87, site: "thejuiceresisted.com", dr: 68, da: 70, pa: 65, ur: 61 },
+  { n: 88, site: "bestdatingweb.com", dr: 63, da: 65, pa: 60, ur: 56 },
+  { n: 89, site: "thedatingring.com", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 90, site: "datepocketdad.com", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 91, site: "theadventurous.com", dr: 64, da: 66, pa: 61, ur: 57 },
+  { n: 92, site: "digitalromance.com", dr: 70, da: 72, pa: 67, ur: 63 },
+  { n: 93, site: "thedatingadvicegirl.com", dr: 72, da: 74, pa: 69, ur: 65 },
+  { n: 94, site: "thedatingadvicegirl.com/blog", dr: 66, da: 68, pa: 63, ur: 59 },
+  { n: 95, site: "datingdev.co", dr: 62, da: 64, pa: 59, ur: 55 },
+  { n: 96, site: "nevertoolate.biz", dr: 62, da: 64, pa: 59, ur: 55 },
+  { n: 97, site: "dateising.com", dr: 62, da: 64, pa: 59, ur: 55 },
+  { n: 98, site: "thegoldmanproject.com", dr: 77, da: 79, pa: 74, ur: 70 },
+  { n: 99, site: "datingpurique.com", dr: 63, da: 65, pa: 60, ur: 56 },
+  { n: 100, site: "loveawake.com", dr: 74, da: 76, pa: 71, ur: 67 },
+];
+
+const faqs = [
+  {
+    q: "Do dating sites really accept guest posts?",
+    a: "The advice and magazine sites do (YourTango, DatingAdvice.com, the app blogs, the lifestyle titles). Pure dating apps and the big lifestyle brands are selective and usually want a name, real credentials, or a data-backed story.",
+  },
+  {
+    q: "Do I need to be a relationship expert to get published?",
+    a: "For advice pieces on the credible sites, some form of authority helps a lot: a qualification, a coaching practice, published research, or a specific lived experience you can write about honestly. For news, product and data angles, you do not.",
+  },
+  {
+    q: "Can I link to my dating app or product from a guest post?",
+    a: "Usually once, in the author bio or a single contextual mention, and only if it is disclosed and genuinely relevant. Editors will strip promotional links from the body, and a post that reads like an ad gets rejected.",
+  },
+  {
+    q: "How many of these placements do I need to move rankings?",
+    a: "Five to ten relevant, editorial links over a few months will do more than fifty low-quality ones. In dating, relevance and the credibility of the site matter more than raw Domain Rating.",
+  },
+  {
+    q: "The metrics do not match my tools. Why?",
+    a: "Domain Rating and Domain Authority are recalculated constantly and differ between tools. Use the numbers here to sort the list, then re-check the two or three sites you plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Why dating is a hard niche to pitch", id: "why-hard" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "How to shortlist for your angle", id: "shortlist" },
+  { text: "The 100 dating & relationship sites", id: "list" },
+  { text: "The pitch that gets a reply", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Dating Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/dating-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/seo">SEO</a>
+            <span>›</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>›</span>
+            <span>Dating Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-heart" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Dating editors get pitched all day, and most of what lands is the same recycled "10 dating tips" post with an affiliate link buried in it.</p>
+
+            <p>That is good news for you. The bar to stand out is low, as long as you bring a real angle instead of a rewrite of every other dating article.</p>
+
+            <p>The list of 100 sites is below. First, the part that actually matters: how to pick the right few and pitch them.</p>
+
+            <h2 id="why-hard">Why dating is a hard niche to pitch</h2>
+            <ul>
+              <li><strong>Trust sensitivity.</strong> Advice about people's relationships is close to "Your Money or Your Life" territory. The credible sites want authority behind the words.</li>
+              <li><strong>Pitch fatigue.</strong> Editors have seen every generic angle. "How to write a great dating profile" will not get opened.</li>
+              <li><strong>Promo suspicion.</strong> Half the pitches they get are apps and products in disguise. If yours reads that way, it is deleted.</li>
+            </ul>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <p>Every site in the table has four numbers. Here is how to read them.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR; if the two disagree, trust neither blindly</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>In dating, relevance beats the numbers by a wide margin.</strong> A DR 65 relationship blog your target reader actually follows is worth more than a DR 85 general lifestyle site that will bury your post in a "sex and love" tag page nobody visits.</p></div>
+
+            <h2 id="shortlist">How to shortlist for your angle</h2>
+            <p>What you can pitch depends on who you are. Pick your lane, then pick the sites that fit it.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>You are a</th><th>Best fit on this list</th><th>Your angle</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Dating coach or therapist</td><td>Advice sites: YourTango, DatingAdvice.com, evan-marc-katz, Psychology Today</td><td>A counter-intuitive take backed by client patterns or research</td></tr>
+                  <tr><td>Dating app or platform</td><td>App blogs and news sites: DatingNews.com, Global Dating Insights</td><td>Original data from your user base, trend commentary</td></tr>
+                  <tr><td>Relationship product or service</td><td>Niche blogs and review sites in your sub-topic</td><td>A genuinely useful how-to, product mentioned once and disclosed</td></tr>
+                  <tr><td>Writer with a personal story</td><td>Lifestyle and magazine titles: Bustle, Refinery29, SheKnows</td><td>A specific, honest first-person narrative with a takeaway</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="list">The 100 dating &amp; relationship sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority and URL Rating. These are third-party estimates and shift over time, so re-check the two or three you plan to pitch.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that gets a reply</h2>
+            <ol>
+              <li><strong>Read five of their recent relationship pieces.</strong> Note which angles they run and which they clearly avoid.</li>
+              <li><strong>Bring the angle they are missing.</strong> Not "communication tips". Something like "the three things couples fight about that are never the real problem", with substance behind it.</li>
+              <li><strong>Lead with your credibility in one line.</strong> "I'm a couples therapist" or "I run the data team at a dating app" earns the read.</li>
+              <li><strong>Pitch the piece, not yourself.</strong> Headline, two-line summary, why their readers would care.</li>
+              <li><strong>One writing sample.</strong> Your best relationship-adjacent piece.</li>
+              <li><strong>Be upfront about any product.</strong> Editors respect disclosure and punish hidden agendas.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this piece if you had no product and no link to gain? If yes, pitch it. If the article only exists to point at your app, they will see it and so will their readers.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "dating tips" or "profile tips" listicle. It has been done to death.</li>
+              <li>Invent a personal story. Dating editors have a good radar for fake first-person, and getting caught ends the relationship.</li>
+              <li>Stuff the post with affiliate links or point exact-match anchors at your app's signup page.</li>
+              <li>Send the identical pitch to all 100 sites. It shows, and editors in this niche talk.</li>
+              <li>Give unqualified advice on sensitive topics (abuse, mental health, safety) without the credentials or sourcing to back it.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> in dating, a few placements on sites that genuinely trust you are worth more than a big list of low-quality links, and they will not put your brand at risk. Use this list to find those few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist, write the pitches and the posts, and place them on relevant
+              dating and lifestyle sites with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I'd like help with guest posting for a dating or relationship brand.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

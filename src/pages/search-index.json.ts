@@ -96,6 +96,15 @@ export const GET: APIRoute = async () => {
       "uk posting sites uk guest posting sites uk guest post opportunities backlink sites domain rating domain authority link building outreach guest blogging",
     ts: Date.parse("2026-09-01"),
   });
+  items.push({
+    type: "guide",
+    title: "Dating Posting Sites: 100 Places to Publish Relationship Content",
+    url: "/seo/backlinks/dating-posting-sites",
+    desc: "100 dating and relationship sites for guest posts, with Domain Rating and Domain Authority, plus how to pitch a niche where editors are drowning in bad pitches.",
+    keywords:
+      "dating posting sites dating guest post sites relationship guest posting dating blogs that accept guest posts dating niche link building relationship advice sites backlink",
+    ts: Date.parse("2026-09-01"),
+  });
 
   // --- category archives ---------------------------------------
   for (const c of await getCategories()) {

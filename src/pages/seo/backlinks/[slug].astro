@@ -6,7 +6,7 @@ import { getAllPosts, primaryCategory, isBacklinksCategory } from "../../../lib/
 
 export async function getStaticPaths() {
   // slugs under /seo/backlinks/ that have a dedicated hand-built .astro page
-  const staticSlugs = new Set(["uk-posting-sites"]);
+  const staticSlugs = new Set(["uk-posting-sites", "dating-posting-sites"]);
   const posts = await getAllPosts();
   return posts
     .filter(
