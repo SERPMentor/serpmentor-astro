@@ -134,6 +134,15 @@ export const GET: APIRoute = async () => {
   });
   items.push({
     type: "guide",
+    title: "Italy Posting Sites: 100 Places to Publish for Italian Readers",
+    url: "/seo/backlinks/italy-posting-sites",
+    desc: "100 live Italian news, business and lifestyle sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.",
+    keywords:
+      "italy posting sites italian guest post sites siti dove pubblicare articoli guest posting italia italian publications that accept guest posts repubblica corriere wired.it link building",
+    ts: Date.parse("2026-09-01"),
+  });
+  items.push({
+    type: "guide",
     title: "Cybersecurity Posting Sites: 100 Places to Publish",
     url: "/seo/backlinks/cybersecurity-posting-sites",
     desc: "100 live cybersecurity and infosec sites for guest posts, contributed research and expert commentary, with Domain Rating, Domain Authority, traffic and Spam Score.",

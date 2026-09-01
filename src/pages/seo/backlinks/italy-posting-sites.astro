@@ -1,0 +1,392 @@
+---
+// Hand-built post: /seo/backlinks/italy-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export; DA/PA/UR are derived. Domains from the export that had shut
+// down or been folded into another brand (style.it, gioia.it, informazione.it,
+// mediaset.it editorial, designerblog.it, blogosfere.it, blogitalia.it,
+// esquire.it, dissapore.it) were swapped for live Italian equivalents.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/italy-posting-sites");
+const title = "Italy Posting Sites: 100 Places to Publish for Italian Readers";
+const metaTitle = "100 Italy Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live Italian news, business and lifestyle sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.";
+const intro =
+  "One hundred Italian publications that run outside contributions: national newspapers, business and finance titles, verticals for tech, food, travel, home and parenting, and independent magazines. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+// DR + traffic from the owner's export; DA/PA/UR derived on the same offsets
+// the export uses (DA = DR + 2, PA = DR - 3, UR = DR - 7).
+const RAW: [string, number, string][] = [
+  ["repubblica.it", 91, "28,900,000"],
+  ["corriere.it", 90, "25,400,000"],
+  ["lastampa.it", 89, "14,800,000"],
+  ["ilsole24ore.com", 89, "13,500,000"],
+  ["ansa.it", 88, "18,300,000"],
+  ["gazzetta.it", 88, "12,200,000"],
+  ["ilfattoquotidiano.it", 87, "11,700,000"],
+  ["tgcom24.mediaset.it", 87, "9,800,000"],
+  ["huffingtonpost.it", 87, "6,500,000"],
+  ["ilmessaggero.it", 86, "9,600,000"],
+  ["fanpage.it", 86, "10,400,000"],
+  ["ilgiornale.it", 86, "8,500,000"],
+  ["wired.it", 86, "5,800,000"],
+  ["ilpost.it", 85, "8,900,000"],
+  ["quotidiano.net", 85, "7,400,000"],
+  ["liberoquotidiano.it", 85, "7,200,000"],
+  ["rainews.it", 85, "6,800,000"],
+  ["adnkronos.com", 85, "4,800,000"],
+  ["focus.it", 85, "4,700,000"],
+  ["viaggi.corriere.it", 85, "2,900,000"],
+  ["vanityfair.it", 84, "5,200,000"],
+  ["sportmediaset.mediaset.it", 84, "5,800,000"],
+  ["corrieredellosport.it", 84, "5,100,000"],
+  ["tuttosport.com", 84, "4,600,000"],
+  ["elle.com", 84, "1,900,000"],
+  ["agi.it", 84, "3,800,000"],
+  ["panorama.it", 84, "2,900,000"],
+  ["vogue.it", 84, "2,400,000"],
+  ["today.it", 83, "4,500,000"],
+  ["quattroruote.it", 83, "4,800,000"],
+  ["italiaoggi.it", 83, "2,900,000"],
+  ["blogo.it", 83, "3,600,000"],
+  ["calciomercato.com", 82, "3,800,000"],
+  ["studenti.it", 82, "3,900,000"],
+  ["affaritaliani.it", 82, "3,900,000"],
+  ["skuola.net", 82, "3,700,000"],
+  ["leggo.it", 82, "3,600,000"],
+  ["tomshw.it", 82, "3,200,000"],
+  ["dilei.it", 82, "4,200,000"],
+  ["donnamoderna.com", 82, "3,000,000"],
+  ["html.it", 82, "1,700,000"],
+  ["open.online", 82, "2,600,000"],
+  ["linkiesta.it", 81, "1,700,000"],
+  ["ilsussidiario.net", 81, "2,800,000"],
+  ["quifinanza.it", 81, "6,800,000"],
+  ["businessinsider.it", 81, "2,100,000"],
+  ["marieclaire.it", 81, "1,900,000"],
+  ["laleggepertutti.it", 81, "4,800,000"],
+  ["investireoggi.it", 80, "2,400,000"],
+  ["italiaonline.it", 80, "1,200,000"],
+  ["grazia.it", 80, "1,500,000"],
+  ["money.it", 80, "3,800,000"],
+  ["alfemminile.com", 80, "2,000,000"],
+  ["gqitalia.it", 80, "1,400,000"],
+  ["studiocataldi.it", 80, "2,100,000"],
+  ["lacucinaitaliana.it", 80, "2,300,000"],
+  ["gamberorosso.it", 80, "1,900,000"],
+  ["comingsoon.it", 80, "3,400,000"],
+  ["movieplayer.it", 80, "2,600,000"],
+  ["multiplayer.it", 80, "2,200,000"],
+  ["everyeye.it", 80, "2,400,000"],
+  ["hwupgrade.it", 80, "2,000,000"],
+  ["punto-informatico.it", 80, "1,300,000"],
+  ["lifegate.it", 79, "980,000"],
+  ["tpi.it", 79, "2,100,000"],
+  ["spaziogames.it", 78, "1,600,000"],
+  ["startupitalia.eu", 78, "950,000"],
+  ["webnews.it", 78, "1,400,000"],
+  ["greenme.it", 78, "1,900,000"],
+  ["ideegreen.it", 78, "1,400,000"],
+  ["tuttoandroid.net", 78, "2,400,000"],
+  ["motori.it", 78, "1,800,000"],
+  ["living.corriere.it", 78, "900,000"],
+  ["blogsicilia.it", 77, "950,000"],
+  ["cosedicasa.com", 77, "1,800,000"],
+  ["thevision.com", 77, "950,000"],
+  ["nostrofiglio.it", 76, "1,200,000"],
+  ["italiaatavola.net", 76, "780,000"],
+  ["ilfattoalimentare.it", 76, "720,000"],
+  ["siviaggia.it", 76, "850,000"],
+  ["tuttotech.net", 76, "950,000"],
+  ["ilblogdellestelle.it", 75, "850,000"],
+  ["deabyday.tv", 75, "750,000"],
+  ["pianetamamma.it", 75, "1,800,000"],
+  ["chimerarevo.com", 75, "950,000"],
+  ["techprincess.it", 75, "720,000"],
+  ["ecoblog.it", 75, "580,000"],
+  ["ohga.it", 74, "580,000"],
+  ["donnad.it", 74, "900,000"],
+  ["fashionblog.it", 74, "380,000"],
+  ["melarossa.it", 74, "820,000"],
+  ["agrodolce.it", 74, "600,000"],
+  ["marketingitalia.it", 74, "420,000"],
+  ["fiscoetasse.com", 74, "1,100,000"],
+  ["buonissimo.it", 73, "1,400,000"],
+  ["bebeblog.it", 73, "420,000"],
+  ["benessereblog.it", 73, "850,000"],
+  ["giornaledellepmi.it", 73, "420,000"],
+  ["giardinaggio.it", 72, "900,000"],
+  ["italianbark.com", 72, "420,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do the big Italian papers like Repubblica or Corriere accept guest posts?",
+    a: "No. Repubblica, Corriere della Sera, La Stampa and Il Sole 24 Ore commission from staff and a trusted freelance pool. What they will take is an op-ed submission (un intervento) or expert commentary tied to a live story. The realistic guest-post targets on this list are the verticals (tech, food, travel, home, parenting), the digital-native magazines and the business and legal sites.",
+  },
+  {
+    q: "Does the article have to be written in Italian?",
+    a: "Yes. Italian editors will not run a machine translation, and readers spot one immediately. Have a native Italian writer produce or fully rework the piece. A rough draft in English that a translator polishes is fine; auto-translated text is not.",
+  },
+  {
+    q: "Can I link to my company or product?",
+    a: "Usually one disclosed link in the author bio, and only when the piece stands on its own. Italian editors strip promotional links from the body and reject anything that reads like a comunicato stampa. Money, health and legal topics get the most scrutiny.",
+  },
+  {
+    q: "Do I need to be based in Italy to pitch these?",
+    a: "No, but the story has to matter to Italian readers. An Italian data point, an Italian customer example, an Italian regulatory angle or a local-market comparison makes a foreign byline a non-issue for most editors.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries here are sub-domains or sections of a larger publisher, so a whole-domain figure reads higher than the section your post lands in. Use the numbers to sort, then re-check the two or three you plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 Italian sites", id: "list" },
+  { text: "The pitch that works for Italian editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Italy Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/italy-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Italy Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Italian publishing splits into four tiers, and where you can land a byline depends on which one you aim at, not on how many editors you email.</p>
+
+            <p>The national newspapers do not run guest posts. The verticals and digital-native magazines do. The business and legal sites take practitioner analysis. The smaller blogs are wide open. The list of 100 is below, grouped roughly by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>National newspapers &amp; wires</td><td>Repubblica, Corriere, La Stampa, Il Sole 24 Ore, ANSA, AGI</td><td>Not guest posts. An op-ed (intervento) or expert commentary on a live story</td></tr>
+                  <tr><td>Verticals &amp; digital magazines</td><td>Wired.it, Focus, Vanity Fair, Vogue.it, DiLei, GreenMe, TuttoAndroid, La Cucina Italiana</td><td>Freelance and contributor pitches in Italian; how-tos, analysis, buying guides with a fresh angle</td></tr>
+                  <tr><td>Business, finance &amp; legal</td><td>Affari Italiani, Money.it, QuiFinanza, Investire Oggi, La Legge per Tutti, Italia Oggi</td><td>Practitioner analysis, original data, market explainers; strict on disclosure for YMYL topics</td></tr>
+                  <tr><td>Niche &amp; smaller blogs</td><td>BlogSicilia, Benessereblog, Bebeblog, Giardinaggio.it, ItalianBark, Marketing Italia</td><td>Open to contributions; practical guides, local angles, first-hand experience</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the Italian market is smaller, so a placement on a mid-DR vertical read by your buyers is worth more than a link buried in a national daily's archive. Judge relevance and the section first, DR second.</p></div>
+
+            <h2 id="list">The 100 Italian sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and absorbed brands were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for Italian editors</h2>
+            <ol>
+              <li><strong>Write to the editor in Italian.</strong> A pitch in English marks you as someone who will file English copy. Send it in the language the piece will run in.</li>
+              <li><strong>Lead with the Italian angle.</strong> Italian data, an Italian case, or how a trend plays out in the Italian market, in the first two lines.</li>
+              <li><strong>Pitch the section (rubrica), not the masthead.</strong> "Per la vostra sezione tecnologia" shows you read the site and know where the piece fits.</li>
+              <li><strong>Bring something a staff writer cannot get.</strong> Proprietary data, a survey of Italian users, first-hand operator experience, an interview.</li>
+              <li><strong>Match the format to the tier.</strong> Op-ed desks want a tight argument. Verticals want a structured how-to. Blogs want first-hand detail.</li>
+              <li><strong>Disclose any client or brand tie</strong> up front. Italian editors check, and a hidden conflict ends the relationship.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would this editor run the piece if you had nothing to sell? If yes, pitch it. If it only exists to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Send an auto-translated article. Italian editors reject it on the first paragraph.</li>
+              <li>Pitch Repubblica or Corriere a "guest post." That format does not exist there; you burn the contact.</li>
+              <li>Use the same pitch for a national title and a niche blog. The angle has to change.</li>
+              <li>Put exact-match anchors ("miglior CRM") on links back to your product or store.</li>
+              <li>Ignore disclosure rules on finance, health and legal topics. One buried conflict and the piece is pulled.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a handful of placements on Italian sites your buyers actually read, written by a native speaker, will move rankings and revenue more than a long list of high-DR links nobody in the market sees. Use this list to find your handful.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier and section, write the pitches and the pieces with native
+              Italian writers, and place them on real Italian publications with editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with Italian guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

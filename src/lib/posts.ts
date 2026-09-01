@@ -133,6 +133,7 @@ export const BACKLINKS_STATIC_SLUGS = new Set([
   "gadget-posting-sites",
   "usa-posting-sites",
   "cybersecurity-posting-sites",
+  "italy-posting-sites",
 ]);
 
 /** Canonical path for a single post, e.g. "/seo/best-ai-seo-tools". */
