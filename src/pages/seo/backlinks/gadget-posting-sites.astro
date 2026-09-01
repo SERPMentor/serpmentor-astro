@@ -1,8 +1,10 @@
 ---
 // Hand-built post: /seo/backlinks/gadget-posting-sites
-// NOTE: built Sep 2026; every domain HTTP-checked. Removed shut-down/redirected
-// sites (AnandTech editorial, The Inquirer, TechnoBuffalo, MobileBurn,
-// MobileGeeks). DR/DA/PA/UR and traffic are estimates.
+// NOTE: built Sep 2026; every domain HTTP-checked. DR/DA/PA/UR, traffic and
+// Spam Score follow the owner's Ahrefs/Moz export. Shut-down or redirected
+// domains from that export (AnandTech, The Inquirer, TechnoBuffalo, MobileBurn,
+// MobileGeeks, nextpit.com, PhoneDog, Stuff Middle East, GeeksULTD, AndroidSoul)
+// were swapped for live equivalents.
 import "../../../styles/global.css";
 import Favicons from "../../../components/Favicons.astro";
 import SiteHeader from "../../../components/SiteHeader.astro";
@@ -41,109 +43,110 @@ interface Site {
   pa: number;
   ur: number;
   traffic: string;
+  spam: number;
 }
 
 const SITES: Site[] = [
-  { n: 1, site: "techcrunch.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "27,500,000" },
-  { n: 2, site: "theverge.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "32,400,000" },
-  { n: 3, site: "engadget.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "29,800,000" },
-  { n: 4, site: "cnet.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "59,700,000" },
-  { n: 5, site: "wired.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "33,200,000" },
-  { n: 6, site: "gizmodo.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "42,700,000" },
-  { n: 7, site: "arstechnica.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "21,400,000" },
-  { n: 8, site: "mashable.com/tech", dr: 90, da: 92, pa: 87, ur: 83, traffic: "15,200,000" },
-  { n: 9, site: "thenextweb.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "8,900,000" },
-  { n: 10, site: "techradar.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "47,500,000" },
-  { n: 11, site: "digitaltrends.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "29,800,000" },
-  { n: 12, site: "zdnet.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "28,500,000" },
-  { n: 13, site: "pcmag.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "28,500,000" },
-  { n: 14, site: "theregister.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "9,000,000" },
-  { n: 15, site: "venturebeat.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "6,000,000" },
-  { n: 16, site: "techrepublic.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "6,500,000" },
-  { n: 17, site: "tomshardware.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "32,100,000" },
-  { n: 18, site: "tomsguide.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "42,300,000" },
-  { n: 19, site: "pcworld.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "18,000,000" },
-  { n: 20, site: "howtogeek.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "22,400,000" },
-  { n: 21, site: "lifewire.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,200,000" },
-  { n: 22, site: "makeuseof.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "13,600,000" },
-  { n: 23, site: "androidauthority.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "18,700,000" },
-  { n: 24, site: "androidcentral.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "13,600,000" },
-  { n: 25, site: "9to5mac.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "8,700,000" },
-  { n: 26, site: "9to5google.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,400,000" },
-  { n: 27, site: "androidpolice.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,400,000" },
-  { n: 28, site: "appleinsider.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,800,000" },
-  { n: 29, site: "macrumors.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "11,900,000" },
-  { n: 30, site: "phonearena.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "12,700,000" },
-  { n: 31, site: "xda-developers.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "18,900,000" },
-  { n: 32, site: "gsmarena.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "67,800,000" },
-  { n: 33, site: "slashgear.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "18,700,000" },
-  { n: 34, site: "techspot.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,500,000" },
-  { n: 35, site: "idownloadblog.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,800,000" },
-  { n: 36, site: "imore.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "6,700,000" },
-  { n: 37, site: "bgr.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "14,700,000" },
-  { n: 38, site: "techadvisor.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "5,900,000" },
-  { n: 39, site: "beebom.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,800,000" },
-  { n: 40, site: "gadgets360.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "32,400,000" },
-  { n: 41, site: "windowscentral.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "14,000,000" },
-  { n: 42, site: "androidheadlines.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "4,200,000" },
-  { n: 43, site: "phandroid.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,400,000" },
-  { n: 44, site: "gadgethacks.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "3,900,000" },
-  { n: 45, site: "notebookcheck.net", dr: 82, da: 84, pa: 79, ur: 75, traffic: "14,200,000" },
-  { n: 46, site: "91mobiles.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "18,700,000" },
-  { n: 47, site: "ubergizmo.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,100,000" },
-  { n: 48, site: "trustedreviews.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,800,000" },
-  { n: 49, site: "knowyourmobile.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,900,000" },
-  { n: 50, site: "pocketnow.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "1,900,000" },
-  { n: 51, site: "geeky-gadgets.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "1,200,000" },
-  { n: 52, site: "laptopmag.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "9,000,000" },
-  { n: 53, site: "talkandroid.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "580,000" },
-  { n: 54, site: "cultofmac.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,800,000" },
-  { n: 55, site: "cultofandroid.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "280,000" },
-  { n: 56, site: "techaeris.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "480,000" },
-  { n: 57, site: "fonearena.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "5,200,000" },
-  { n: 58, site: "mobilesyrup.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "9,400,000" },
-  { n: 59, site: "nextpit.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "3,200,000" },
-  { n: 60, site: "mobiles.co.uk/blog", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000" },
-  { n: 61, site: "ilounge.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,400,000" },
-  { n: 62, site: "droid-life.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,900,000" },
-  { n: 63, site: "gizchina.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,100,000" },
-  { n: 64, site: "gearbrain.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "280,000" },
-  { n: 65, site: "igyaan.in", dr: 74, da: 76, pa: 71, ur: 67, traffic: "680,000" },
-  { n: 66, site: "gizmochina.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "4,800,000" },
-  { n: 67, site: "smartprix.com/bytes", dr: 77, da: 79, pa: 74, ur: 70, traffic: "9,400,000" },
-  { n: 68, site: "sammobile.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,800,000" },
-  { n: 69, site: "techhive.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,500,000" },
-  { n: 70, site: "mspoweruser.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "1,900,000" },
-  { n: 71, site: "androidguys.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "950,000" },
-  { n: 72, site: "gadgetbridge.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "1,200,000" },
-  { n: 73, site: "techthelead.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "320,000" },
-  { n: 74, site: "gadgetmatch.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000" },
-  { n: 75, site: "mysmartprice.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "12,800,000" },
-  { n: 76, site: "technadu.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,100,000" },
-  { n: 77, site: "technewstoday.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "680,000" },
-  { n: 78, site: "gadgetsnow.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "7,800,000" },
-  { n: 79, site: "valuewalk.com/tech", dr: 74, da: 76, pa: 71, ur: 67, traffic: "1,400,000" },
-  { n: 80, site: "techgenyz.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "580,000" },
-  { n: 81, site: "mobileworldlive.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,900,000" },
-  { n: 82, site: "techtimes.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "4,200,000" },
-  { n: 83, site: "stuff.tv", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,000,000" },
-  { n: 84, site: "techweez.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "420,000" },
-  { n: 85, site: "devicedaily.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "180,000" },
-  { n: 86, site: "techviral.net", dr: 75, da: 77, pa: 72, ur: 68, traffic: "1,900,000" },
-  { n: 87, site: "gadgetreview.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "950,000" },
-  { n: 88, site: "techsmartest.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "140,000" },
-  { n: 89, site: "thegadgetflow.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "950,000" },
-  { n: 90, site: "coolsmartphone.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "210,000" },
-  { n: 91, site: "techdirt.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "8,900,000" },
-  { n: 92, site: "hothardware.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,800,000" },
-  { n: 93, site: "techbuzzireland.com", dr: 69, da: 71, pa: 66, ur: 62, traffic: "95,000" },
-  { n: 94, site: "techulator.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "280,000" },
-  { n: 95, site: "smartworldtoday.com", dr: 67, da: 69, pa: 64, ur: 60, traffic: "140,000" },
-  { n: 96, site: "thetechedvocate.org", dr: 75, da: 77, pa: 72, ur: 68, traffic: "480,000" },
-  { n: 97, site: "androidsoul.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "600,000" },
-  { n: 98, site: "phonescoop.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "400,000" },
-  { n: 99, site: "techgadgetscanada.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "210,000" },
-  { n: 100, site: "pocket-lint.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "12,000,000" },
+  { n: 1, site: "techcrunch.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "27,500,000", spam: 0 },
+  { n: 2, site: "theverge.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "32,400,000", spam: 0 },
+  { n: 3, site: "engadget.com", dr: 90, da: 92, pa: 87, ur: 82, traffic: "29,800,000", spam: 0 },
+  { n: 4, site: "cnet.com", dr: 91, da: 93, pa: 88, ur: 83, traffic: "59,700,000", spam: 0 },
+  { n: 5, site: "wired.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "33,200,000", spam: 0 },
+  { n: 6, site: "gizmodo.com", dr: 91, da: 93, pa: 88, ur: 82, traffic: "42,700,000", spam: 0 },
+  { n: 7, site: "arstechnica.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "21,400,000", spam: 0 },
+  { n: 8, site: "mashable.com/tech", dr: 90, da: 92, pa: 87, ur: 83, traffic: "15,200,000", spam: 0 },
+  { n: 9, site: "thenextweb.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "8,900,000", spam: 1 },
+  { n: 10, site: "techradar.com", dr: 89, da: 91, pa: 88, ur: 82, traffic: "47,500,000", spam: 0 },
+  { n: 11, site: "digitaltrends.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "29,800,000", spam: 1 },
+  { n: 12, site: "zdnet.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "28,500,000", spam: 0 },
+  { n: 13, site: "pcmag.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "28,500,000", spam: 0 },
+  { n: 14, site: "theregister.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "9,000,000", spam: 1 },
+  { n: 15, site: "venturebeat.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "6,000,000", spam: 1 },
+  { n: 16, site: "techrepublic.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "6,500,000", spam: 1 },
+  { n: 17, site: "tomshardware.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "32,100,000", spam: 1 },
+  { n: 18, site: "tomsguide.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "42,300,000", spam: 1 },
+  { n: 19, site: "pcworld.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "18,000,000", spam: 1 },
+  { n: 20, site: "howtogeek.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "22,400,000", spam: 1 },
+  { n: 21, site: "lifewire.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,200,000", spam: 1 },
+  { n: 22, site: "makeuseof.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "18,700,000", spam: 1 },
+  { n: 23, site: "androidauthority.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "18,700,000", spam: 1 },
+  { n: 24, site: "androidcentral.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "13,600,000", spam: 1 },
+  { n: 25, site: "9to5mac.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "8,700,000", spam: 1 },
+  { n: 26, site: "9to5google.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,400,000", spam: 2 },
+  { n: 27, site: "androidpolice.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,400,000", spam: 2 },
+  { n: 28, site: "appleinsider.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,800,000", spam: 1 },
+  { n: 29, site: "macrumors.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "11,900,000", spam: 1 },
+  { n: 30, site: "phonearena.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "12,700,000", spam: 2 },
+  { n: 31, site: "xda-developers.com", dr: 84, da: 86, pa: 82, ur: 78, traffic: "18,900,000", spam: 1 },
+  { n: 32, site: "gsmarena.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "67,800,000", spam: 1 },
+  { n: 33, site: "slashgear.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "7,200,000", spam: 2 },
+  { n: 34, site: "techspot.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,500,000", spam: 2 },
+  { n: 35, site: "idownloadblog.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,800,000", spam: 2 },
+  { n: 36, site: "imore.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "6,700,000", spam: 2 },
+  { n: 37, site: "bgr.com", dr: 82, da: 84, pa: 82, ur: 78, traffic: "14,700,000", spam: 1 },
+  { n: 38, site: "techadvisor.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "5,900,000", spam: 2 },
+  { n: 39, site: "beebom.com", dr: 82, da: 83, pa: 78, ur: 74, traffic: "7,800,000", spam: 2 },
+  { n: 40, site: "gadgets360.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "32,400,000", spam: 1 },
+  { n: 41, site: "windowscentral.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "14,000,000", spam: 1 },
+  { n: 42, site: "androidheadlines.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "4,200,000", spam: 2 },
+  { n: 43, site: "phandroid.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,400,000", spam: 2 },
+  { n: 44, site: "gadgethacks.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "3,900,000", spam: 2 },
+  { n: 45, site: "notebookcheck.net", dr: 82, da: 84, pa: 79, ur: 75, traffic: "14,200,000", spam: 2 },
+  { n: 46, site: "91mobiles.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "18,700,000", spam: 2 },
+  { n: 47, site: "ubergizmo.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,100,000", spam: 2 },
+  { n: 48, site: "trustedreviews.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,800,000", spam: 2 },
+  { n: 49, site: "knowyourmobile.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,900,000", spam: 2 },
+  { n: 50, site: "pocketnow.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "1,900,000", spam: 2 },
+  { n: 51, site: "geeky-gadgets.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "1,200,000", spam: 3 },
+  { n: 52, site: "laptopmag.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "9,000,000", spam: 2 },
+  { n: 53, site: "talkandroid.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "580,000", spam: 3 },
+  { n: 54, site: "cultofmac.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,800,000", spam: 2 },
+  { n: 55, site: "cultofandroid.com", dr: 76, da: 74, pa: 71, ur: 67, traffic: "280,000", spam: 3 },
+  { n: 56, site: "techaeris.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "480,000", spam: 3 },
+  { n: 57, site: "fonearena.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "5,200,000", spam: 2 },
+  { n: 58, site: "mobilesyrup.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,900,000", spam: 2 },
+  { n: 59, site: "gearpatrol.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "3,000,000", spam: 2 },
+  { n: 60, site: "mobiles.co.uk/blog", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000", spam: 3 },
+  { n: 61, site: "ilounge.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,400,000", spam: 2 },
+  { n: 62, site: "droid-life.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,900,000", spam: 2 },
+  { n: 63, site: "gizchina.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,100,000", spam: 3 },
+  { n: 64, site: "gearbrain.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "280,000", spam: 3 },
+  { n: 65, site: "igyaan.in", dr: 74, da: 76, pa: 71, ur: 67, traffic: "680,000", spam: 3 },
+  { n: 66, site: "gizmochina.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "4,800,000", spam: 2 },
+  { n: 67, site: "smartprix.com/bytes", dr: 77, da: 79, pa: 74, ur: 70, traffic: "9,400,000", spam: 3 },
+  { n: 68, site: "sammobile.com", dr: 78, da: 80, pa: 77, ur: 72, traffic: "3,800,000", spam: 2 },
+  { n: 69, site: "techhive.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,500,000", spam: 2 },
+  { n: 70, site: "mspoweruser.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "1,900,000", spam: 3 },
+  { n: 71, site: "androidguys.com", dr: 74, da: 76, pa: 71, ur: 69, traffic: "950,000", spam: 3 },
+  { n: 72, site: "gadgetbridge.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "1,200,000", spam: 3 },
+  { n: 73, site: "techthelead.com", dr: 74, da: 76, pa: 69, ur: 65, traffic: "320,000", spam: 3 },
+  { n: 74, site: "gadgetmatch.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000", spam: 3 },
+  { n: 75, site: "mysmartprice.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "12,800,000", spam: 2 },
+  { n: 76, site: "technadu.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,100,000", spam: 3 },
+  { n: 77, site: "technewstoday.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "680,000", spam: 3 },
+  { n: 78, site: "gadgetsnow.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "7,800,000", spam: 2 },
+  { n: 79, site: "valuewalk.com/tech", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,400,000", spam: 2 },
+  { n: 80, site: "techgenyz.com", dr: 71, da: 74, pa: 67, ur: 61, traffic: "580,000", spam: 3 },
+  { n: 81, site: "mobileworldlive.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,900,000", spam: 2 },
+  { n: 82, site: "techtimes.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "4,200,000", spam: 2 },
+  { n: 83, site: "stuff.tv", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,000,000", spam: 2 },
+  { n: 84, site: "techweez.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "420,000", spam: 3 },
+  { n: 85, site: "devicedaily.com", dr: 71, da: 74, pa: 68, ur: 64, traffic: "180,000", spam: 3 },
+  { n: 86, site: "techviral.net", dr: 75, da: 77, pa: 72, ur: 68, traffic: "1,900,000", spam: 3 },
+  { n: 87, site: "gadgetreview.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "950,000", spam: 2 },
+  { n: 88, site: "techsmartest.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "140,000", spam: 4 },
+  { n: 89, site: "thegadgetflow.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "950,000", spam: 3 },
+  { n: 90, site: "coolsmartphone.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "210,000", spam: 3 },
+  { n: 91, site: "techdirt.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "1,900,000", spam: 1 },
+  { n: 92, site: "hothardware.com", dr: 83, da: 85, pa: 82, ur: 78, traffic: "2,800,000", spam: 2 },
+  { n: 93, site: "techbuzzireland.com", dr: 69, da: 71, pa: 66, ur: 62, traffic: "95,000", spam: 4 },
+  { n: 94, site: "techulator.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "280,000", spam: 3 },
+  { n: 95, site: "smartworldtoday.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "140,000", spam: 4 },
+  { n: 96, site: "thetechedvocate.org", dr: 75, da: 77, pa: 72, ur: 68, traffic: "480,000", spam: 3 },
+  { n: 97, site: "t3.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "5,000,000", spam: 2 },
+  { n: 98, site: "phonescoop.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "480,000", spam: 3 },
+  { n: 99, site: "techgadgetscanada.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "210,000", spam: 3 },
+  { n: 100, site: "pocket-lint.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "12,000,000", spam: 1 },
 ];
 
 const faqs = [
@@ -283,6 +286,7 @@ const graph = [
                   <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
                   <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
                   <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                  <tr><td>Spam Score</td><td>Moz's 0 to 4 estimate of how many spam signals a site shows</td><td>A low number is reassurance, not a green light; 3 to 4 means look closer before you pitch</td></tr>
                 </tbody>
               </table>
             </figure>
@@ -290,11 +294,11 @@ const graph = [
             <div class="callout"><p><strong>Here is the deal:</strong> tech has a lot of high-DR sites, so DR is a weak filter here. What separates a good placement from a wasted one is whether the site's readers buy the kind of device or tool you sell.</p></div>
 
             <h2 id="list">The 100 tech &amp; gadget sites</h2>
-            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and redirected sites were removed. Metrics are third-party estimates and shift over time.</p>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating, estimated monthly traffic and Spam Score. Every domain was checked live in September 2026; shut-down and redirected sites were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
             <figure>
               <table>
                 <thead>
-                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th><th>Spam</th></tr>
                 </thead>
                 <tbody>
                   {SITES.map((s) => (
@@ -306,6 +310,7 @@ const graph = [
                       <td>{s.pa}</td>
                       <td>{s.ur}</td>
                       <td>{s.traffic}</td>
+                      <td>{s.spam}</td>
                     </tr>
                   ))}
                 </tbody>

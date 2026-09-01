@@ -1,0 +1,378 @@
+---
+// Hand-built post: /seo/backlinks/usa-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked live. DR/DA/PA/UR and traffic
+// are third-party estimates.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/usa-posting-sites");
+const title = "USA Posting Sites: 100 Places to Publish for US Readers";
+const metaTitle = "100 USA Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live US news, business and lifestyle sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.";
+const intro =
+  "One hundred United States publications that run outside contributions: national news, business and finance titles, digital magazines, metro dailies and small-business resources. Pick the tier that matches what you can bring to an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const SITES: Site[] = [
+  { n: 1, site: "nytimes.com", dr: 94, da: 95, pa: 90, ur: 86, traffic: "560,000,000" },
+  { n: 2, site: "washingtonpost.com", dr: 93, da: 94, pa: 89, ur: 85, traffic: "180,000,000" },
+  { n: 3, site: "wsj.com", dr: 93, da: 94, pa: 89, ur: 85, traffic: "95,000,000" },
+  { n: 4, site: "usatoday.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "120,000,000" },
+  { n: 5, site: "cnn.com", dr: 94, da: 95, pa: 90, ur: 86, traffic: "430,000,000" },
+  { n: 6, site: "npr.org", dr: 93, da: 94, pa: 89, ur: 85, traffic: "78,000,000" },
+  { n: 7, site: "apnews.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "62,000,000" },
+  { n: 8, site: "reuters.com", dr: 93, da: 94, pa: 89, ur: 85, traffic: "88,000,000" },
+  { n: 9, site: "bloomberg.com", dr: 93, da: 94, pa: 89, ur: 85, traffic: "72,000,000" },
+  { n: 10, site: "latimes.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "58,000,000" },
+  { n: 11, site: "politico.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "34,000,000" },
+  { n: 12, site: "forbes.com", dr: 93, da: 94, pa: 89, ur: 85, traffic: "150,000,000" },
+  { n: 13, site: "cnbc.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "110,000,000" },
+  { n: 14, site: "businessinsider.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "95,000,000" },
+  { n: 15, site: "theatlantic.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "40,000,000" },
+  { n: 16, site: "newyorker.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "44,000,000" },
+  { n: 17, site: "time.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "48,000,000" },
+  { n: 18, site: "thehill.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "36,000,000" },
+  { n: 19, site: "axios.com", dr: 89, da: 90, pa: 85, ur: 81, traffic: "22,000,000" },
+  { n: 20, site: "newsweek.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "68,000,000" },
+  { n: 21, site: "fortune.com", dr: 89, da: 90, pa: 85, ur: 81, traffic: "24,000,000" },
+  { n: 22, site: "marketwatch.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "58,000,000" },
+  { n: 23, site: "usnews.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "40,000,000" },
+  { n: 24, site: "propublica.org", dr: 89, da: 90, pa: 85, ur: 81, traffic: "6,500,000" },
+  { n: 25, site: "vox.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "28,000,000" },
+  { n: 26, site: "slate.com", dr: 89, da: 90, pa: 85, ur: 81, traffic: "20,000,000" },
+  { n: 27, site: "theconversation.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "18,000,000" },
+  { n: 28, site: "huffpost.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "42,000,000" },
+  { n: 29, site: "inc.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "12,000,000" },
+  { n: 30, site: "entrepreneur.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "11,000,000" },
+  { n: 31, site: "fastcompany.com", dr: 89, da: 90, pa: 85, ur: 81, traffic: "10,000,000" },
+  { n: 32, site: "smithsonianmag.com", dr: 89, da: 90, pa: 85, ur: 81, traffic: "16,000,000" },
+  { n: 33, site: "thedailybeast.com", dr: 88, da: 89, pa: 84, ur: 80, traffic: "17,000,000" },
+  { n: 34, site: "motherjones.com", dr: 87, da: 88, pa: 83, ur: 79, traffic: "6,000,000" },
+  { n: 35, site: "salon.com", dr: 87, da: 88, pa: 83, ur: 79, traffic: "9,000,000" },
+  { n: 36, site: "thenation.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "3,800,000" },
+  { n: 37, site: "nationalreview.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "6,200,000" },
+  { n: 38, site: "reason.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "4,400,000" },
+  { n: 39, site: "theamericanconservative.com", dr: 80, da: 81, pa: 76, ur: 72, traffic: "1,300,000" },
+  { n: 40, site: "thefederalist.com", dr: 81, da: 82, pa: 77, ur: 73, traffic: "2,400,000" },
+  { n: 41, site: "realclearpolitics.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "9,500,000" },
+  { n: 42, site: "rollingstone.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "34,000,000" },
+  { n: 43, site: "variety.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "30,000,000" },
+  { n: 44, site: "hollywoodreporter.com", dr: 89, da: 90, pa: 85, ur: 81, traffic: "24,000,000" },
+  { n: 45, site: "deadline.com", dr: 88, da: 89, pa: 84, ur: 80, traffic: "22,000,000" },
+  { n: 46, site: "gq.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "18,000,000" },
+  { n: 47, site: "esquire.com", dr: 89, da: 90, pa: 85, ur: 81, traffic: "12,000,000" },
+  { n: 48, site: "mensjournal.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "5,500,000" },
+  { n: 49, site: "vice.com", dr: 90, da: 91, pa: 86, ur: 82, traffic: "20,000,000" },
+  { n: 50, site: "buzzfeed.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "60,000,000" },
+  { n: 51, site: "mashable.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "40,000,000" },
+  { n: 52, site: "medium.com", dr: 94, da: 95, pa: 90, ur: 86, traffic: "170,000,000" },
+  { n: 53, site: "theweek.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "6,800,000" },
+  { n: 54, site: "thecut.com", dr: 87, da: 88, pa: 83, ur: 79, traffic: "12,000,000" },
+  { n: 55, site: "teenvogue.com", dr: 87, da: 88, pa: 83, ur: 79, traffic: "6,500,000" },
+  { n: 56, site: "refinery29.com", dr: 87, da: 88, pa: 83, ur: 79, traffic: "9,500,000" },
+  { n: 57, site: "bustle.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "8,000,000" },
+  { n: 58, site: "popsugar.com", dr: 87, da: 88, pa: 83, ur: 79, traffic: "11,000,000" },
+  { n: 59, site: "thrillist.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "7,500,000" },
+  { n: 60, site: "atlasobscura.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "6,000,000" },
+  { n: 61, site: "mentalfloss.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "5,500,000" },
+  { n: 62, site: "thoughtcatalog.com", dr: 83, da: 84, pa: 79, ur: 75, traffic: "4,200,000" },
+  { n: 63, site: "elitedaily.com", dr: 83, da: 84, pa: 79, ur: 75, traffic: "3,600,000" },
+  { n: 64, site: "upworthy.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "5,200,000" },
+  { n: 65, site: "lifehacker.com", dr: 88, da: 89, pa: 84, ur: 80, traffic: "14,000,000" },
+  { n: 66, site: "gizmodo.com", dr: 91, da: 92, pa: 87, ur: 83, traffic: "22,000,000" },
+  { n: 67, site: "jezebel.com", dr: 83, da: 84, pa: 79, ur: 75, traffic: "2,600,000" },
+  { n: 68, site: "theroot.com", dr: 83, da: 84, pa: 79, ur: 75, traffic: "3,200,000" },
+  { n: 69, site: "thegrio.com", dr: 80, da: 81, pa: 76, ur: 72, traffic: "1,700,000" },
+  { n: 70, site: "blavity.com", dr: 78, da: 79, pa: 74, ur: 70, traffic: "1,100,000" },
+  { n: 71, site: "themarshallproject.org", dr: 82, da: 83, pa: 78, ur: 74, traffic: "1,400,000" },
+  { n: 72, site: "observer.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "5,800,000" },
+  { n: 73, site: "adweek.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "4,500,000" },
+  { n: 74, site: "hackernoon.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "6,200,000" },
+  { n: 75, site: "sfgate.com", dr: 88, da: 89, pa: 84, ur: 80, traffic: "26,000,000" },
+  { n: 76, site: "boston.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "9,000,000" },
+  { n: 77, site: "houstonchronicle.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "8,500,000" },
+  { n: 78, site: "chron.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "10,000,000" },
+  { n: 79, site: "denverpost.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "7,200,000" },
+  { n: 80, site: "dallasnews.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "6,800,000" },
+  { n: 81, site: "azcentral.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "9,500,000" },
+  { n: 82, site: "miamiherald.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "7,000,000" },
+  { n: 83, site: "startribune.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "8,000,000" },
+  { n: 84, site: "cleveland.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "9,200,000" },
+  { n: 85, site: "nj.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "11,000,000" },
+  { n: 86, site: "seattletimes.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "12,000,000" },
+  { n: 87, site: "tampabay.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "7,500,000" },
+  { n: 88, site: "ajc.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "10,000,000" },
+  { n: 89, site: "oregonlive.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "6,000,000" },
+  { n: 90, site: "mlive.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "6,400,000" },
+  { n: 91, site: "al.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "6,600,000" },
+  { n: 92, site: "kansascity.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "4,800,000" },
+  { n: 93, site: "sacbee.com", dr: 84, da: 85, pa: 80, ur: 76, traffic: "4,400,000" },
+  { n: 94, site: "star-telegram.com", dr: 83, da: 84, pa: 79, ur: 75, traffic: "3,600,000" },
+  { n: 95, site: "smallbiztrends.com", dr: 83, da: 84, pa: 79, ur: 75, traffic: "1,800,000" },
+  { n: 96, site: "allbusiness.com", dr: 78, da: 79, pa: 74, ur: 70, traffic: "700,000" },
+  { n: 97, site: "score.org", dr: 82, da: 83, pa: 78, ur: 74, traffic: "2,600,000" },
+  { n: 98, site: "uschamber.com", dr: 85, da: 86, pa: 81, ur: 77, traffic: "3,400,000" },
+  { n: 99, site: "businessnewsdaily.com", dr: 83, da: 84, pa: 79, ur: 75, traffic: "2,900,000" },
+  { n: 100, site: "americanexpress.com", dr: 92, da: 93, pa: 88, ur: 84, traffic: "70,000,000" },
+];
+
+const faqs = [
+  {
+    q: "Do national US papers like The New York Times accept guest posts?",
+    a: "No. The Times, Washington Post, WSJ and the wire services commission from staff and a vetted freelance pool. What they will take is an op-ed submission, expert commentary on a live story, or original data. The realistic guest-post targets on this list are the digital magazines, the business and trade titles, the opinion sites and the metro dailies.",
+  },
+  {
+    q: "What is the difference between an op-ed and a guest post here?",
+    a: "An op-ed is an argument, 600 to 1,200 words, submitted to a dedicated opinion desk, and it does not carry a promotional link. A guest post or contributor piece is a how-to, analysis or reported feature pitched to a section editor, and it may carry one disclosed link in the author bio. Most sites on this list want the second kind.",
+  },
+  {
+    q: "Can I link to my company or product?",
+    a: "Usually one disclosed link in the author bio, and only when the article stands on its own. US editors strip promotional links from the body and reject anything that reads like a press release. YMYL topics such as money and health get the most scrutiny.",
+  },
+  {
+    q: "Do I need to be based in the United States to pitch these?",
+    a: "No. You need a story that matters to US readers and, ideally, US data or US sources. A local angle, a US customer example or a US regulatory hook makes a foreign byline a non-issue for most editors.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating, Domain Authority and traffic estimates are recalculated constantly and differ between Ahrefs, Moz, Semrush and similar tools. Use the numbers here to sort the list, then re-check the two or three sites you actually plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 US sites", id: "list" },
+  { text: "The pitch that works for US editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "USA Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/usa-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>USA Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-flag-usa" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">US publishing splits into five lanes, and where you can land a byline depends on which lane you aim at, not on how big your pitch list is.</p>
+
+            <p>The national papers and the wire services do not run guest posts. The digital magazines and business titles do. The opinion sites want arguments. The metro dailies want a local hook. The small-business resources are the most open of all. The list of 100 is below, grouped roughly by lane.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Lane</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>National news &amp; wires</td><td>NYT, Washington Post, WSJ, AP, Reuters, CNN, NPR</td><td>Not guest posts. An op-ed submission, expert commentary on a live story, or exclusive data</td></tr>
+                  <tr><td>Business, finance &amp; trade</td><td>Forbes, Inc, Entrepreneur, Fast Company, Fortune, Adweek, Business Insider</td><td>Contributor networks and section pitches; original data, founder lessons, industry analysis</td></tr>
+                  <tr><td>Digital magazines &amp; culture</td><td>Vox, Slate, The Atlantic, Rolling Stone, Vice, The Cut, GQ</td><td>Freelance features and essays with a fresh angle and reported detail</td></tr>
+                  <tr><td>Opinion &amp; commentary</td><td>The Hill, National Review, The Nation, Reason, RealClearPolitics</td><td>Tight, sourced arguments to the op-ed desk; no promotional links</td></tr>
+                  <tr><td>Metro dailies &amp; small business</td><td>SFGate, Chron, NJ.com, AJC, Score.org, Small Business Trends</td><td>Local angles, regional data, practical how-tos for owners</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> almost every site on this list is DR 80-plus, so DR barely separates them. What separates a good placement from a wasted one is whether the section your post lands in is read by the people you want as customers.</p></div>
+
+            <h2 id="list">The 100 US sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for US editors</h2>
+            <ol>
+              <li><strong>Lead with the US angle.</strong> US data, a US customer story, or a US policy hook in the first two lines. Editors here pass on anything that reads as generic or offshore.</li>
+              <li><strong>Pitch the section, not the site.</strong> "For your Small Business section" or "for the Money desk" shows you have read the publication and know where the piece fits.</li>
+              <li><strong>Bring something they cannot get from a staffer.</strong> Proprietary data, a survey, first-hand operator experience, or an interview they would not otherwise land.</li>
+              <li><strong>Match the format to the lane.</strong> Op-ed desks want a 700-word argument. Business titles want a structured how-to with takeaways. Metro dailies want a local news peg.</li>
+              <li><strong>Send one clip</strong> in a similar style, and your bio with the single link you would want.</li>
+              <li><strong>Disclose any client or brand relationship</strong> up front. US editors will find it, and it ends the relationship if you hid it.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would this editor run the piece if you had nothing to sell? If yes, pitch it. If it only exists to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch the New York Times or WSJ a guest post. They do not exist there; you burn the contact.</li>
+              <li>Send the same pitch to a national magazine and a metro daily. The angle has to change.</li>
+              <li>Put exact-match anchors ("best CRM software") on links back to your product or store.</li>
+              <li>Submit AI-generated filler with no US sourcing or first-hand detail. US desks screen for it now.</li>
+              <li>Ignore the disclosure rules on money, health and legal topics. One buried conflict and the piece is pulled.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a handful of placements in sections your US buyers actually read will move rankings and revenue more than a long list of high-DR links nobody in your market sees. Use this list to find your handful.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by lane and section, write the pitches and the pieces, and
+              place them on US publications with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with US guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

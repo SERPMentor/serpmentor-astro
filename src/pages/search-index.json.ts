@@ -134,6 +134,15 @@ export const GET: APIRoute = async () => {
   });
   items.push({
     type: "guide",
+    title: "USA Posting Sites: 100 Places to Publish for US Readers",
+    url: "/seo/backlinks/usa-posting-sites",
+    desc: "100 live US news, business and lifestyle sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.",
+    keywords:
+      "usa posting sites us guest post sites american publications that accept guest posts us news sites contributor op-ed submission business insider forbes inc entrepreneur metro daily link building",
+    ts: Date.parse("2026-09-01"),
+  });
+  items.push({
+    type: "guide",
     title: "Lifestyle Posting Sites: 100 Places to Publish",
     url: "/seo/backlinks/lifestyle-posting-sites",
     desc: "100 live lifestyle, fashion, home, food and travel sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to pitch each type.",
