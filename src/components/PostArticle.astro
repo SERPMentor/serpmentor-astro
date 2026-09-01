@@ -53,10 +53,11 @@ const { listPost } = Astro.props;
 const slug = listPost.slug;
 const category = primaryCategory(listPost);
 
-// A hand-authored rewrite in src/lib/blog-content.ts takes over the body (and,
-// where set, the title / meta / date). If none exists, fall back to the live
-// WordPress post body.
+// Blog bodies come from live WordPress. An entry in src/lib/blog-content.ts can
+// optionally override metadata (title / meta / updated date) or, rarely, the
+// body itself. BLOG_CONTENT is normally empty, so the WordPress path runs.
 const rewrite = BLOG_CONTENT[slug];
+const useRewriteBody = Boolean(rewrite?.bodyHtml);
 
 let bodyRaw = "";
 let title = listPost.title;
@@ -67,15 +68,8 @@ let rawExcerpt = listPost.excerpt ?? "";
 let authorNodeSlug = listPost.author?.node?.slug;
 let authorNodeName = listPost.author?.node?.name;
 
-if (rewrite) {
-  bodyRaw = rewrite.bodyHtml;
-  if (rewrite.title) title = rewrite.title;
-  if (rewrite.excerpt) rawExcerpt = rewrite.excerpt;
-  const mod = rewrite.updated ? new Date(rewrite.updated) : new Date();
-  if (!Number.isNaN(mod.valueOf())) {
-    modifiedISO = mod.toISOString();
-    updatedLabel = formatDate(mod.toISOString(), "short");
-  }
+if (useRewriteBody) {
+  bodyRaw = rewrite!.bodyHtml as string;
 } else {
   const query = `
     {
@@ -104,13 +98,24 @@ if (rewrite) {
     throw new Error(`Post not found: ${slug}`);
   }
   bodyRaw = sanitizePostContent(post.content ?? "");
-  title = title;
+  title = post.title;
   rawExcerpt = post.excerpt ?? "";
   publishedISO = new Date(post.date).toISOString();
   modifiedISO = new Date(post.modified ?? post.date).toISOString();
   updatedLabel = formatDate(post.modified ?? post.date, "short");
   authorNodeSlug = post.author?.node?.slug;
   authorNodeName = post.author?.node?.name;
+}
+
+// optional metadata overrides, applied whichever body source was used
+if (rewrite?.title) title = rewrite.title;
+if (rewrite?.excerpt) rawExcerpt = rewrite.excerpt;
+if (rewrite?.updated) {
+  const mod = new Date(rewrite.updated);
+  if (!Number.isNaN(mod.valueOf())) {
+    modifiedISO = mod.toISOString();
+    updatedLabel = formatDate(mod.toISOString(), "short");
+  }
 }
 
 const readTime = Math.max(
