@@ -3,7 +3,12 @@
 // categories. Link-building posts live at /seo/backlinks/{slug} instead
 // (src/pages/seo/backlinks/[slug].astro). The shared layout is PostArticle.
 import PostArticle from "../../components/PostArticle.astro";
-import { getAllPosts, primaryCategory, isBacklinksCategory } from "../../lib/posts";
+import {
+  getAllPosts,
+  primaryCategory,
+  isBacklinksCategory,
+  BACKLINKS_STATIC_SLUGS,
+} from "../../lib/posts";
 import { pillarSlugs } from "../../lib/pillars";
 
 export async function getStaticPaths() {
@@ -12,6 +17,7 @@ export async function getStaticPaths() {
     .filter((post) => {
       const cat = primaryCategory(post).slug;
       if (isBacklinksCategory(cat)) return false; // handled by seo/backlinks/[slug]
+      if (BACKLINKS_STATIC_SLUGS.has(post.slug)) return false; // hand-built page
       return !pillarSlugs(cat).has(post.slug);
     })
     .map((post) => ({

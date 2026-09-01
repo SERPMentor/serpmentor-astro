@@ -15,6 +15,7 @@ import {
   postPath,
   primaryCategory,
   isBacklinksCategory,
+  BACKLINKS_STATIC_SLUGS,
   type WPPost,
 } from "../../lib/posts";
 import JsonLd from "../../components/JsonLd.astro";
@@ -43,50 +44,55 @@ let guides: WPPost[];
 if (pillar.slug === "backlinks") {
   // The backlinks pillar is the archive for every link-building post
   // (/seo/backlinks/{slug}), so list them all, newest first.
-  guides = allPosts.filter((p) => isBacklinksCategory(primaryCategory(p).slug));
-  // hand-built link-building posts that don't come from WordPress
-  guides.unshift(
+  guides = allPosts.filter(
+    (p) =>
+      isBacklinksCategory(primaryCategory(p).slug) ||
+      BACKLINKS_STATIC_SLUGS.has(p.slug),
+  );
+  // hand-built posting-site pages with no WordPress post yet
+  const HANDBUILT: { slug: string; title: string; excerpt: string }[] = [
     {
-      title: "Real Estate Posting Sites: 100 Places to Publish",
       slug: "real-estate-posting-sites",
-      date: "2026-09-01T09:00:00Z",
+      title: "Real Estate Posting Sites: 100 Places to Publish",
       excerpt:
         "100 live real estate sites for guest posts: residential, investing, property management, commercial and proptech, with DR, DA and traffic.",
-      categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
-    } as WPPost,
+    },
     {
-      title: "Finance Posting Sites: 100 Places to Publish",
       slug: "finance-posting-sites",
-      date: "2026-09-01T09:00:00Z",
+      title: "Finance Posting Sites: 100 Places to Publish",
       excerpt:
         "100 live finance, investing, personal-finance and fintech sites for guest posts, with Domain Rating, Domain Authority and traffic.",
-      categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
-    } as WPPost,
+    },
     {
-      title: "Lifestyle Posting Sites: 100 Places to Publish",
       slug: "lifestyle-posting-sites",
-      date: "2026-09-01T09:00:00Z",
+      title: "Lifestyle Posting Sites: 100 Places to Publish",
       excerpt:
         "100 live lifestyle, fashion, home, food and travel sites for guest posts, with Domain Rating, Domain Authority and traffic.",
-      categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
-    } as WPPost,
+    },
     {
-      title: "Dating Posting Sites: 100 Places to Publish Relationship Content",
       slug: "dating-posting-sites",
-      date: "2026-09-01T09:00:00Z",
+      title: "Dating Posting Sites: 100 Places to Publish Relationship Content",
       excerpt:
         "100 dating and relationship sites for guest posts, with Domain Rating and Domain Authority, plus how to pitch a niche full of bad pitches.",
-      categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
-    } as WPPost,
+    },
     {
-      title: "UK Posting Sites: 100 Places to Publish",
       slug: "uk-posting-sites",
-      date: "2026-09-01T09:00:00Z",
+      title: "UK Posting Sites: 100 Places to Publish",
       excerpt:
         "100 UK sites for guest posts, with Domain Rating and Domain Authority, plus how to shortlist and pitch them.",
+    },
+  ];
+  const have = new Set(guides.map((g) => g.slug));
+  for (const h of HANDBUILT) {
+    if (have.has(h.slug)) continue;
+    guides.unshift({
+      title: h.title,
+      slug: h.slug,
+      date: "2026-09-01T09:00:00Z",
+      excerpt: h.excerpt,
       categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
-    } as WPPost,
-  );
+    } as WPPost);
+  }
   // fold in any hand-picked backlink guides that sit in the general SEO category
   for (const s of pillar.guideSlugs) {
     const p = bySlug.get(s);

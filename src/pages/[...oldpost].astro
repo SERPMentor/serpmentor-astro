@@ -1,0 +1,41 @@
+---
+// Old WordPress permalinks were flat: serpmentor.com/{post-slug}. The Astro site
+// nests posts under a category (/seo/{slug}, /seo/backlinks/{slug}, ...). This
+// route emits a real redirect page at /{old-slug} for every published post, so
+// the old links keep working WITHOUT per-post lines in _redirects (Cloudflare
+// caps _redirects rules whose source has no matching file at 100 "dynamic").
+import { getAllPosts, postPath } from "../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  // single-segment paths that already belong to a real page/route
+  const reserved = new Set([
+    "about", "services", "coaching", "hire-seo-specialist", "local-seo-services",
+    "careers", "privacy", "terms", "blog", "resources", "reviews", "contact",
+    "newsletter-success", "website-design", "search", "404", "sitemap.xml",
+    "robots.txt", "search-index.json",
+    // category archive slugs
+    "seo", "linkedin", "case-study", "seo-backlinks", "articles",
+  ]);
+  return posts
+    .filter((p) => !reserved.has(p.slug))
+    .map((p) => ({ params: { oldpost: p.slug }, props: { to: postPath(p) } }));
+}
+
+const { to } = Astro.props as { to: string };
+const dest = new URL(to, Astro.site ?? "https://serpmentor.com").href;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={dest} />
+    <meta name="robots" content="noindex, follow" />
+    <title>Redirecting…</title>
+  </head>
+  <body>
+    <p>This article has moved to <a href={to}>{to}</a>.</p>
+    <script is:inline set:html={`window.location.replace(${JSON.stringify(to)});`} />
+  </body>
+</html>

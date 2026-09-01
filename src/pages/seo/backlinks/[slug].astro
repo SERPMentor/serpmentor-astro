@@ -2,16 +2,20 @@
 // Link-building posts nested under the backlinks pillar: /seo/backlinks/{slug}.
 // (The pillar hub itself is /seo/backlinks, from src/pages/seo/[pillar].astro.)
 import PostArticle from "../../../components/PostArticle.astro";
-import { getAllPosts, primaryCategory, isBacklinksCategory } from "../../../lib/posts";
+import {
+  getAllPosts,
+  primaryCategory,
+  isBacklinksCategory,
+  BACKLINKS_STATIC_SLUGS,
+} from "../../../lib/posts";
 
 export async function getStaticPaths() {
-  // slugs under /seo/backlinks/ that have a dedicated hand-built .astro page
-  const staticSlugs = new Set(["uk-posting-sites", "dating-posting-sites", "lifestyle-posting-sites", "finance-posting-sites", "real-estate-posting-sites"]);
   const posts = await getAllPosts();
   return posts
     .filter(
       (post) =>
-        isBacklinksCategory(primaryCategory(post).slug) && !staticSlugs.has(post.slug),
+        isBacklinksCategory(primaryCategory(post).slug) &&
+        !BACKLINKS_STATIC_SLUGS.has(post.slug), // hand-built .astro pages
     )
     .map((post) => ({ params: { slug: post.slug }, props: { listPost: post } }));
 }

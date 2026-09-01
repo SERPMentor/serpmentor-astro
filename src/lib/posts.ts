@@ -119,10 +119,25 @@ export function isBacklinksCategory(slug: string): boolean {
   return BACKLINKS_CATEGORY_SLUGS.has(slug);
 }
 
+/**
+ * Slugs that have a dedicated hand-built page at /seo/backlinks/{slug}
+ * (src/pages/seo/backlinks/{slug}.astro). If a WordPress post exists with the
+ * same slug it is not rendered from WP; its listing entry just links here.
+ */
+export const BACKLINKS_STATIC_SLUGS = new Set([
+  "uk-posting-sites",
+  "dating-posting-sites",
+  "lifestyle-posting-sites",
+  "finance-posting-sites",
+  "real-estate-posting-sites",
+]);
+
 /** Canonical path for a single post, e.g. "/seo/best-ai-seo-tools". */
 export function postPath(post: WPPost): string {
   const cat = primaryCategory(post).slug;
-  if (isBacklinksCategory(cat)) return `/seo/backlinks/${post.slug}`;
+  if (BACKLINKS_STATIC_SLUGS.has(post.slug) || isBacklinksCategory(cat)) {
+    return `/seo/backlinks/${post.slug}`;
+  }
   return `/${cat}/${post.slug}`;
 }
 

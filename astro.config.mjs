@@ -27,12 +27,9 @@ export default defineConfig({
     '/hub/link-building': '/seo/backlinks',
     '/hub/ai-search': '/seo/ai-optimization',
 
-    // link-building posts live at /seo/backlinks/{slug}. Old flat and interim
-    // /seo-backlinks/{slug} URLs 301 there. (/blog/{slug} is handled by the
-    // blog/[slug].astro stub; the full /seo-backlinks/* wildcard is in _redirects.)
-    '/dofollow-backlink-sites': '/seo/backlinks/dofollow-backlink-sites',
-    '/seo-backlinks': '/seo/backlinks',
-    '/seo-backlinks/dofollow-backlink-sites': '/seo/backlinks/dofollow-backlink-sites',
+    // (flat old post URLs like /dofollow-backlink-sites are handled by
+    // src/pages/[...oldpost].astro; /seo-backlinks and /seo-backlinks/* are in
+    // public/_redirects.)
 
     // old WordPress page slugs → clean paths
     '/about-us': '/about',
