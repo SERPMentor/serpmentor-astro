@@ -231,6 +231,14 @@ const graph = [
     <meta property="og:type" content="article" />
     <meta property="og:title" content={metaTitle} />
     <meta property="og:description" content={metaDescription} />
+    <meta property="og:image" content={abs("/images/posting/travel-posting-sites.png")} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={metaTitle} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={abs("/images/posting/travel-posting-sites.png")} />
     <JsonLd graph={graph} />
   </head>
   <body>
@@ -257,6 +265,9 @@ const graph = [
           <h1>{title}</h1>
           <p class="pillar-intro">{intro}</p>
           <PageByline />
+          <figure class="posting-feature">
+            <img src="/images/posting/travel-posting-sites.png" width="1200" height="630" alt={title} loading="eager" />
+          </figure>
         </div>
       </section>
 

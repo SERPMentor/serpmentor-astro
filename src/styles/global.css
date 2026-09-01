@@ -4920,3 +4920,21 @@ h6 {
     gap: 0.5rem 1rem;
   }
 }
+
+/* posting-site featured image (hand-built /seo/backlinks/*-posting-sites pages) */
+.posting-feature {
+  margin: 28px 0 0;
+  max-width: 640px;
+}
+.posting-feature img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  border: 1px solid var(--hairline, #e0e1e9);
+  border-radius: 12px;
+  display: block;
+  background: #fff;
+}
+@media (max-width: 640px) {
+  .posting-feature { margin-top: 20px; }
+}
