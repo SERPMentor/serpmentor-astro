@@ -107,6 +107,15 @@ export const GET: APIRoute = async () => {
   });
   items.push({
     type: "guide",
+    title: "Real Estate Posting Sites: 100 Places to Publish",
+    url: "/seo/backlinks/real-estate-posting-sites",
+    desc: "100 live real estate sites for guest posts: residential, investing, property management, commercial and proptech, with Domain Rating, Domain Authority and traffic.",
+    keywords:
+      "real estate posting sites real estate guest post sites property blogs that accept guest posts realtor agent investing property management commercial proptech guest posting link building",
+    ts: Date.parse("2026-09-01"),
+  });
+  items.push({
+    type: "guide",
     title: "Finance Posting Sites: 100 Places to Publish",
     url: "/seo/backlinks/finance-posting-sites",
     desc: "100 live finance, investing, personal-finance and fintech sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to pitch a YMYL niche.",

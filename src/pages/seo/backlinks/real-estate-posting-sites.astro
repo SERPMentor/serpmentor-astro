@@ -1,0 +1,381 @@
+---
+// Hand-built post: /seo/backlinks/real-estate-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked, dead/redirected ones dropped
+// (Millionacres, Commercial Property Executive, Real Wealth Network's old domain).
+// DR/DA/PA/UR and traffic are estimates -- correct any row with exact figures.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/real-estate-posting-sites");
+const title = "Real Estate Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Real Estate Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live real estate sites for guest posts: residential, investing, property management, commercial and proptech, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred real estate sites that publish outside contributions: agent and consumer publications, investing communities, property-management blogs, commercial news and proptech. Pick your corner of the market first.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const SITES: Site[] = [
+  { n: 1, site: "zillow.com/blog", dr: 90, da: 92, pa: 87, ur: 83, traffic: "93,400,000" },
+  { n: 2, site: "realtor.com/advice", dr: 89, da: 91, pa: 86, ur: 82, traffic: "38,700,000" },
+  { n: 3, site: "trulia.com/blog", dr: 87, da: 89, pa: 84, ur: 80, traffic: "24,800,000" },
+  { n: 4, site: "redfin.com/news", dr: 86, da: 88, pa: 83, ur: 79, traffic: "24,800,000" },
+  { n: 5, site: "houzz.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "28,500,000" },
+  { n: 6, site: "apartmenttherapy.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "9,400,000" },
+  { n: 7, site: "rightmove.co.uk/news", dr: 85, da: 87, pa: 82, ur: 78, traffic: "29,800,000" },
+  { n: 8, site: "zoopla.co.uk/discover", dr: 84, da: 86, pa: 81, ur: 77, traffic: "24,500,000" },
+  { n: 9, site: "realestate.com.au/advice", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,700,000" },
+  { n: 10, site: "domain.com.au/advice", dr: 84, da: 86, pa: 81, ur: 77, traffic: "12,400,000" },
+  { n: 11, site: "biggerpockets.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,200,000" },
+  { n: 12, site: "inman.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "950,000" },
+  { n: 13, site: "homes.com/blog", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,850,000" },
+  { n: 14, site: "therealdeal.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,100,000" },
+  { n: 15, site: "housingwire.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,400,000" },
+  { n: 16, site: "rismedia.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "380,000" },
+  { n: 17, site: "point2homes.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,800,000" },
+  { n: 18, site: "realtytimes.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "950,000" },
+  { n: 19, site: "houselogic.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,150,000" },
+  { n: 20, site: "rentcafe.com/blog", dr: 82, da: 84, pa: 79, ur: 75, traffic: "4,200,000" },
+  { n: 21, site: "99acres.com/articles", dr: 82, da: 84, pa: 79, ur: 75, traffic: "7,800,000" },
+  { n: 22, site: "magicbricks.com/blog", dr: 80, da: 82, pa: 77, ur: 73, traffic: "8,900,000" },
+  { n: 23, site: "propertyguru.com.sg", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,800,000" },
+  { n: 24, site: "propertyfinder.ae/blog", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,900,000" },
+  { n: 25, site: "primelocation.com/discover", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,100,000" },
+  { n: 26, site: "homely.com.au/advice", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,400,000" },
+  { n: 27, site: "realcommercial.com.au/news", dr: 79, da: 81, pa: 76, ur: 72, traffic: "3,800,000" },
+  { n: 28, site: "lamudi.com/journal", dr: 78, da: 80, pa: 75, ur: 71, traffic: "950,000" },
+  { n: 29, site: "propertyupdate.com.au", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,400,000" },
+  { n: 30, site: "propertyme.com.au/blog", dr: 74, da: 76, pa: 71, ur: 67, traffic: "280,000" },
+  { n: 31, site: "propertyshark.com/blog", dr: 80, da: 82, pa: 77, ur: 73, traffic: "850,000" },
+  { n: 32, site: "corelogic.com/intelligence", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,200,000" },
+  { n: 33, site: "globest.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "950,000" },
+  { n: 34, site: "commercialobserver.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "2,500,000" },
+  { n: 35, site: "bisnow.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,500,000" },
+  { n: 36, site: "mansionglobal.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,000,000" },
+  { n: 37, site: "multihousingnews.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "380,000" },
+  { n: 38, site: "cpexecutive.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "380,000" },
+  { n: 39, site: "nationalmortgagenews.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "480,000" },
+  { n: 40, site: "themortgagereports.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,000,000" },
+  { n: 41, site: "fitsmallbusiness.com/real-estate", dr: 81, da: 83, pa: 78, ur: 74, traffic: "2,900,000" },
+  { n: 42, site: "fortunebuilders.com/blog", dr: 77, da: 79, pa: 74, ur: 70, traffic: "950,000" },
+  { n: 43, site: "retipster.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "320,000" },
+  { n: 44, site: "reiclub.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "180,000" },
+  { n: 45, site: "investfourmore.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "280,000" },
+  { n: 46, site: "mashvisor.com/blog", dr: 78, da: 80, pa: 75, ur: 71, traffic: "480,000" },
+  { n: 47, site: "bestevercre.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "600,000" },
+  { n: 48, site: "coachcarson.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "400,000" },
+  { n: 49, site: "housecashin.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "250,000" },
+  { n: 50, site: "realwealth.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "900,000" },
+  { n: 51, site: "noradarealestate.com/blog", dr: 76, da: 78, pa: 73, ur: 69, traffic: "280,000" },
+  { n: 52, site: "thinkrealty.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "180,000" },
+  { n: 53, site: "realestatebees.com", dr: 69, da: 71, pa: 66, ur: 62, traffic: "65,000" },
+  { n: 54, site: "realestateagent.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "380,000" },
+  { n: 55, site: "realtybiznews.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "180,000" },
+  { n: 56, site: "propertywire.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "240,000" },
+  { n: 57, site: "realestateexpress.com/blog", dr: 77, da: 79, pa: 74, ur: 70, traffic: "580,000" },
+  { n: 58, site: "theceshop.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "900,000" },
+  { n: 59, site: "appraisalbuzz.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "140,000" },
+  { n: 60, site: "homesandland.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "680,000" },
+  { n: 61, site: "apartmentlist.com/blog", dr: 82, da: 84, pa: 79, ur: 75, traffic: "7,800,000" },
+  { n: 62, site: "apartmentguide.com/blog", dr: 79, da: 81, pa: 76, ur: 72, traffic: "3,900,000" },
+  { n: 63, site: "rent.com/blog", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,800,000" },
+  { n: 64, site: "zumper.com/blog", dr: 81, da: 83, pa: 78, ur: 74, traffic: "5,000,000" },
+  { n: 65, site: "homelight.com/blog", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,200,000" },
+  { n: 66, site: "housemethod.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,800,000" },
+  { n: 67, site: "listwithclever.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,400,000" },
+  { n: 68, site: "simpleshowing.com/blog", dr: 71, da: 73, pa: 68, ur: 64, traffic: "95,000" },
+  { n: 69, site: "foreclosure.com/blog", dr: 76, da: 78, pa: 73, ur: 69, traffic: "580,000" },
+  { n: 70, site: "awning.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "350,000" },
+  { n: 71, site: "stessa.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,200,000" },
+  { n: 72, site: "roofstock.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "1,800,000" },
+  { n: 73, site: "doorloop.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,600,000" },
+  { n: 74, site: "buildium.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,000,000" },
+  { n: 75, site: "avail.co", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,400,000" },
+  { n: 76, site: "turbotenant.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,500,000" },
+  { n: 77, site: "hemlane.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "400,000" },
+  { n: 78, site: "rentredi.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "350,000" },
+  { n: 79, site: "padsplit.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "600,000" },
+  { n: 80, site: "sparkrental.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "450,000" },
+  { n: 81, site: "landlordstation.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "280,000" },
+  { n: 82, site: "rentalhousingjournal.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "180,000" },
+  { n: 83, site: "simplifyem.com/blog", dr: 72, da: 74, pa: 69, ur: 65, traffic: "140,000" },
+  { n: 84, site: "propertymanager.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "480,000" },
+  { n: 85, site: "theclose.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "900,000" },
+  { n: 86, site: "followupboss.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "800,000" },
+  { n: 87, site: "placester.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "500,000" },
+  { n: 88, site: "easyagentpro.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "300,000" },
+  { n: 89, site: "carrot.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,000,000" },
+  { n: 90, site: "realgeeks.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "600,000" },
+  { n: 91, site: "boomtownroi.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "400,000" },
+  { n: 92, site: "wisepelican.com", dr: 66, da: 68, pa: 63, ur: 59, traffic: "90,000" },
+  { n: 93, site: "kylehandy.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "500,000" },
+  { n: 94, site: "tomferry.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,200,000" },
+  { n: 95, site: "propertyweek.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "680,000" },
+  { n: 96, site: "estateagenttoday.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "380,000" },
+  { n: 97, site: "propertyreporter.co.uk", dr: 74, da: 76, pa: 71, ur: 67, traffic: "240,000" },
+  { n: 98, site: "propertyinvestmentproject.co.uk", dr: 70, da: 72, pa: 67, ur: 63, traffic: "95,000" },
+  { n: 99, site: "reia.com.au", dr: 69, da: 71, pa: 66, ur: 62, traffic: "85,000" },
+  { n: 100, site: "magazine.realtor", dr: 83, da: 85, pa: 80, ur: 76, traffic: "950,000" },
+];
+
+const faqs = [
+  {
+    q: "Do the big real estate portals accept guest posts?",
+    a: "Zillow, Realtor.com, Rightmove and the rest run editorial blogs but mostly commission from staff and vetted freelancers, not open guest submissions. The agent-focused publications, investing communities and property-management blogs are far more open to contributions.",
+  },
+  {
+    q: "Do I need to be a licensed agent or investor to pitch these?",
+    a: "It helps a lot for advice content. A licence, a portfolio, or a property-management or proptech background gives editors a reason to trust the piece. For market data and proptech news, first-hand data or industry experience is enough.",
+  },
+  {
+    q: "Can I link to my brokerage, CRM or listing platform?",
+    a: "Usually one disclosed link in the author bio, and only if the article stands on its own. Editors strip promotional links from the body and reject anything that reads like a product demo.",
+  },
+  {
+    q: "Which matters more for real estate links, DR or relevance?",
+    a: "Relevance to your exact segment first, then traffic, then DR. A DR 74 property-management blog read by landlords beats a DR 90 consumer portal that files your post under a tag nobody reads.",
+  },
+  {
+    q: "The metrics do not match my tools. Why?",
+    a: "Domain Rating, Domain Authority and traffic estimates are recalculated constantly and differ between tools. Use them to sort the list, then re-check the two or three sites you plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Find your real estate segment first", id: "segment" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 real estate sites", id: "list" },
+  { text: "The pitch that works for real estate editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Real Estate Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/real-estate-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Real Estate Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Real estate is not one audience. Agents, investors, landlords, commercial brokers and homebuyers all read different sites and want different things.</p>
+
+            <p>Pitch a property-management blog a homebuyer tip and you will be ignored. Pitch an agent publication an investing deep-dive and same result. The list of 100 is below. First, pick your segment.</p>
+
+            <h2 id="segment">Find your real estate segment first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Your segment</th><th>Best fit on this list</th><th>What they run</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Agents &amp; brokerages</td><td>Inman, RISMedia, The Close, HousingWire, RealtyTimes</td><td>Industry news, tech reviews, lead-gen and marketing tactics</td></tr>
+                  <tr><td>Real estate investing</td><td>BiggerPockets, RETipster, InvestFourMore, Coach Carson, Best Ever CRE</td><td>Deal analysis, financing, BRRRR, tax, case studies</td></tr>
+                  <tr><td>Property management &amp; landlords</td><td>Landlord Station, Rental Housing Journal, Stessa, TurboTenant, Avail</td><td>Screening, leases, maintenance, rent collection, law</td></tr>
+                  <tr><td>Commercial real estate</td><td>GlobeSt, Bisnow, Commercial Observer, The Real Deal, CoreLogic</td><td>Deals, market data, capital markets, sector trends</td></tr>
+                  <tr><td>Proptech &amp; tools</td><td>Placester, Carrot, Follow Up Boss, DoorLoop, Buildium</td><td>Product-led how-tos, workflow guides, integrations</td></tr>
+                  <tr><td>Consumer &amp; home</td><td>HouseLogic, Houzz, Apartment Therapy, HomeLight, ListWithClever</td><td>Buying, selling, moving, home improvement</td></tr>
+                  <tr><td>International portals</td><td>Rightmove, Zoopla, realestate.com.au, Domain, 99acres, PropertyGuru</td><td>Local market advice, buying and renting guides</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the consumer portals at the top of this list have huge traffic but rarely take contributions and rarely pass much relevance to a B2B real estate brand. The agent, investor and property-management sites lower down are where most achievable, useful placements are.</p></div>
+
+            <h2 id="list">The 100 real estate sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; dead and redirected sites were removed. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for real estate editors</h2>
+            <ol>
+              <li><strong>Lead with your standing in the market.</strong> "I'm a broker who closed 40 deals last year" or "we manage 2,000 doors" earns the read.</li>
+              <li><strong>Pitch a specific, useful piece.</strong> Not "real estate tips". Something like "the three seller objections that kill a deal in week one, and the scripts that save it".</li>
+              <li><strong>Bring numbers.</strong> Local price data, days-on-market trends, portfolio results. Real estate editors love a chart.</li>
+              <li><strong>Match the segment's format.</strong> Agent sites want tactical how-tos; investor sites want deal breakdowns; commercial sites want market analysis.</li>
+              <li><strong>One clip</strong> in a similar register.</li>
+              <li><strong>Disclose any brokerage, CRM or platform you represent.</strong></li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor commission this from a working agent or investor with nothing to sell? If yes, pitch it. If it is a walkthrough of your product, they will pass.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "tips for first-time buyers" post. Every consumer site has a hundred of those.</li>
+              <li>Send the same pitch to an agent blog and a commercial-real-estate outlet. Different readers, different world.</li>
+              <li>Stuff the post with links to your listings, your CRM or your lead forms.</li>
+              <li>Point exact-match anchors ("best real estate CRM") at your own product page.</li>
+              <li>Submit AI-spun filler with no local knowledge or real numbers. It stands out immediately in this niche.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on the sites your segment actually reads will do more for your rankings and your reputation than a long list of high-DR portal links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by segment, write the pitches and the pieces, and place them
+              on relevant real estate sites with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with real estate guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
