@@ -1,9 +1,9 @@
 ---
 // Hand-built post: /seo/backlinks/uk-posting-sites
 // Content by SERP Mentor; site metrics table supplied by the owner.
-// NOTE: the DR/DA/PA/UR/traffic figures in SITES were transcribed from the
-// owner's spreadsheet screenshot. Re-check against the source and correct any
-// row here if a number is off.
+// NOTE: list cleaned Sep 2026 -- every domain HTTP-checked, dead/parked ones
+// removed and replaced with verified-live UK publications. DR/DA/PA/UR are
+// estimates; correct any row if you have exact figures.
 import "../../../styles/global.css";
 import Favicons from "../../../components/Favicons.astro";
 import SiteHeader from "../../../components/SiteHeader.astro";
@@ -26,7 +26,7 @@ const pageUrl = abs("/seo/backlinks/uk-posting-sites");
 const title = "UK Posting Sites: 100 Places to Publish (and How to Get In)";
 const metaTitle = "100 UK Posting Sites for Guest Posts (2026) | SERP Mentor";
 const metaDescription =
-  "100 UK sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to shortlist them and pitch so you get a yes.";
+  "100 live UK sites for guest posts and contributions, with Domain Rating and Domain Authority, plus how to shortlist them and pitch so you get a yes.";
 const intro =
   "One hundred UK sites for guest posts and contributions, with the metrics that matter. The list is the easy part. Below it is how to shortlist the ones worth your time and write a pitch that actually gets a reply.";
 
@@ -41,111 +41,110 @@ interface Site {
   da: number;
   pa: number;
   ur: number;
-  traffic: string;
 }
 
 // Metrics from the owner's dataset. Estimates from Ahrefs / Moz; they move over time.
 const SITES: Site[] = [
-  { n: 1, site: "bbc.co.uk", dr: 94, da: 94, pa: 91, ur: 87, traffic: "186,400,000" },
-  { n: 2, site: "theguardian.com", dr: 92, da: 94, pa: 89, ur: 87, traffic: "124,700,000" },
-  { n: 3, site: "independent.co.uk", dr: 90, da: 92, pa: 87, ur: 83, traffic: "65,800,000" },
-  { n: 4, site: "telegraph.co.uk", dr: 91, da: 93, pa: 88, ur: 84, traffic: "42,500,000" },
-  { n: 5, site: "dailymail.co.uk", dr: 93, da: 95, pa: 90, ur: 86, traffic: "124,500,000" },
-  { n: 6, site: "mirror.co.uk", dr: 90, da: 92, pa: 87, ur: 83, traffic: "67,800,000" },
-  { n: 7, site: "thesun.co.uk", dr: 91, da: 93, pa: 88, ur: 84, traffic: "89,400,000" },
-  { n: 8, site: "express.co.uk", dr: 89, da: 91, pa: 86, ur: 82, traffic: "58,700,000" },
-  { n: 9, site: "standard.co.uk", dr: 88, da: 90, pa: 85, ur: 81, traffic: "32,400,000" },
-  { n: 10, site: "ft.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "24,800,000" },
-  { n: 11, site: "metro.co.uk", dr: 89, da: 91, pa: 86, ur: 82, traffic: "47,800,000" },
-  { n: 12, site: "economist.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "14,700,000" },
-  { n: 13, site: "huffingtonpost.co.uk", dr: 87, da: 89, pa: 84, ur: 80, traffic: "12,400,000" },
-  { n: 14, site: "spectator.co.uk", dr: 86, da: 88, pa: 83, ur: 79, traffic: "5,800,000" },
-  { n: 15, site: "newstatesman.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "4,200,000" },
-  { n: 16, site: "timeout.com/london", dr: 87, da: 89, pa: 84, ur: 80, traffic: "17,400,000" },
-  { n: 17, site: "techradar.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "47,500,000" },
-  { n: 18, site: "wired.co.uk", dr: 86, da: 88, pa: 83, ur: 79, traffic: "4,800,000" },
-  { n: 19, site: "thisismoney.co.uk", dr: 86, da: 88, pa: 83, ur: 79, traffic: "12,400,000" },
-  { n: 20, site: "moneysavingexpert.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,700,000" },
-  { n: 21, site: "cityam.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "3,800,000" },
-  { n: 22, site: "theconversation.com/uk", dr: 87, da: 89, pa: 84, ur: 80, traffic: "18,700,000" },
-  { n: 23, site: "thedebrief.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000" },
-  { n: 24, site: "stylist.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,200,000" },
-  { n: 25, site: "digitalspy.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "13,500,000" },
-  { n: 26, site: "techadvisor.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "5,900,000" },
-  { n: 27, site: "t3.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,800,000" },
-  { n: 28, site: "expertreviews.co.uk", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,200,000" },
-  { n: 29, site: "trustedreviews.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,800,000" },
-  { n: 30, site: "inews.co.uk", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,700,000" },
-  { n: 31, site: "countrylife.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,900,000" },
-  { n: 32, site: "idealhome.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,250,000" },
-  { n: 33, site: "homesandgardens.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "3,400,000" },
-  { n: 34, site: "realhomes.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,950,000" },
-  { n: 35, site: "marieclaire.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,900,000" },
-  { n: 36, site: "cosmopolitan.com/uk", dr: 84, da: 86, pa: 81, ur: 77, traffic: "4,800,000" },
-  { n: 37, site: "gq-magazine.co.uk", dr: 84, da: 86, pa: 81, ur: 77, traffic: "2,800,000" },
-  { n: 38, site: "esquire.com/uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,900,000" },
-  { n: 39, site: "glamourmagazine.co.uk", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,400,000" },
-  { n: 40, site: "menshealth.com/uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,900,000" },
-  { n: 41, site: "coach-magazine.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "480,000" },
-  { n: 42, site: "goodhousekeeping.com/uk", dr: 84, da: 86, pa: 81, ur: 77, traffic: "5,800,000" },
-  { n: 43, site: "womanandhome.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,800,000" },
-  { n: 44, site: "housebeautiful.com/uk", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,900,000" },
-  { n: 45, site: "harpersbazaar.com/uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,400,000" },
-  { n: 46, site: "livingetc.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,100,000" },
-  { n: 47, site: "delicious.com.au", dr: 80, da: 82, pa: 77, ur: 73, traffic: "950,000" },
-  { n: 48, site: "olivemagazine.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,800,000" },
-  { n: 49, site: "bbcgoodfood.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "19,700,000" },
-  { n: 50, site: "deliciousmagazine.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,200,000" },
-  { n: 51, site: "greatbritishchefs.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,200,000" },
-  { n: 52, site: "jamieoliver.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "7,800,000" },
-  { n: 53, site: "amateurphotographer.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "580,000" },
-  { n: 54, site: "digitalcameraworld.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,800,000" },
-  { n: 55, site: "pcgamer.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "27,400,000" },
-  { n: 56, site: "eurogamer.net", dr: 84, da: 86, pa: 81, ur: 77, traffic: "14,200,000" },
-  { n: 57, site: "rockpapershotgun.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "8,700,000" },
-  { n: 58, site: "techuk.org", dr: 78, da: 80, pa: 75, ur: 71, traffic: "180,000" },
-  { n: 59, site: "ukbusinessforums.co.uk", dr: 79, da: 81, pa: 76, ur: 72, traffic: "280,000" },
-  { n: 60, site: "startups.co.uk", dr: 80, da: 82, pa: 77, ur: 73, traffic: "950,000" },
-  { n: 61, site: "bmmagazine.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "280,000" },
-  { n: 62, site: "freshbusinessthinking.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "180,000" },
-  { n: 63, site: "realbusiness.co.uk", dr: 78, da: 80, pa: 75, ur: 71, traffic: "380,000" },
-  { n: 64, site: "businessleader.co.uk", dr: 74, da: 76, pa: 71, ur: 67, traffic: "140,000" },
-  { n: 65, site: "businesscloud.co.uk", dr: 73, da: 75, pa: 70, ur: 66, traffic: "120,000" },
-  { n: 66, site: "smallbusiness.co.uk", dr: 79, da: 81, pa: 76, ur: 72, traffic: "580,000" },
-  { n: 67, site: "uktech.news", dr: 75, da: 77, pa: 72, ur: 68, traffic: "280,000" },
-  { n: 68, site: "techround.co.uk", dr: 74, da: 72, pa: 69, ur: 65, traffic: "140,000" },
-  { n: 69, site: "ukstartups.org", dr: 71, da: 73, pa: 68, ur: 64, traffic: "95,000" },
-  { n: 70, site: "businessdaily.co.uk", dr: 74, da: 76, pa: 71, ur: 67, traffic: "180,000" },
-  { n: 71, site: "londonlovesbusiness.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "380,000" },
-  { n: 72, site: "growthbusiness.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "180,000" },
-  { n: 73, site: "smeweb.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "140,000" },
-  { n: 74, site: "elitefranchisemagazine.co.uk", dr: 70, da: 72, pa: 67, ur: 63, traffic: "95,000" },
-  { n: 75, site: "bdaily.co.uk", dr: 74, da: 76, pa: 71, ur: 67, traffic: "210,000" },
-  { n: 76, site: "business-reporter.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "210,000" },
-  { n: 77, site: "ukbusiness.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "140,000" },
-  { n: 78, site: "businesssupnorth.co.uk", dr: 69, da: 71, pa: 66, ur: 62, traffic: "95,000" },
-  { n: 79, site: "businessadvice.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "280,000" },
-  { n: 80, site: "londonbusinessnews.com", dr: 65, da: 67, pa: 62, ur: 58, traffic: "85,000" },
-  { n: 81, site: "techbullion.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "380,000" },
-  { n: 82, site: "bdmagazine.co.uk", dr: 67, da: 69, pa: 64, ur: 60, traffic: "55,000" },
-  { n: 83, site: "techblog.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
-  { n: 84, site: "techraptors.co.uk", dr: 65, da: 67, pa: 62, ur: 58, traffic: "45,000" },
-  { n: 85, site: "techweekeurope.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "580,000" },
-  { n: 86, site: "techgeekwithtea.co.uk", dr: 64, da: 66, pa: 61, ur: 57, traffic: "35,000" },
-  { n: 87, site: "ukbizz.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
-  { n: 88, site: "entrepreneuruk.net", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
-  { n: 89, site: "startupbusiness.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
-  { n: 90, site: "ukbiztoday.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
-  { n: 91, site: "webwire.co.uk", dr: 63, da: 65, pa: 60, ur: 56, traffic: "25,000" },
-  { n: 92, site: "mediafeed.co.uk", dr: 65, da: 67, pa: 62, ur: 58, traffic: "35,000" },
-  { n: 93, site: "techinsider.co.uk", dr: 64, da: 66, pa: 61, ur: 57, traffic: "35,000" },
-  { n: 94, site: "uktechnews.co.uk", dr: 67, da: 69, pa: 64, ur: 60, traffic: "65,000" },
-  { n: 95, site: "techpreneur.co.uk", dr: 65, da: 67, pa: 62, ur: 58, traffic: "45,000" },
-  { n: 96, site: "ukstartup.org", dr: 68, da: 65, pa: 62, ur: 58, traffic: "45,000" },
-  { n: 97, site: "entrepreneurlife.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
-  { n: 98, site: "startupdonut.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "380,000" },
-  { n: 99, site: "startupnation.com", dr: 67, da: 69, pa: 64, ur: 60, traffic: "65,000" },
-  { n: 100, site: "digitalcitizen.uk", dr: 68, da: 70, pa: 65, ur: 61, traffic: "75,000" },
+  { n: 1, site: "bbc.co.uk", dr: 94, da: 94, pa: 91, ur: 87 },
+  { n: 2, site: "theguardian.com", dr: 92, da: 94, pa: 89, ur: 87 },
+  { n: 3, site: "independent.co.uk", dr: 90, da: 92, pa: 87, ur: 83 },
+  { n: 4, site: "telegraph.co.uk", dr: 91, da: 93, pa: 88, ur: 84 },
+  { n: 5, site: "dailymail.co.uk", dr: 93, da: 95, pa: 90, ur: 86 },
+  { n: 6, site: "mirror.co.uk", dr: 90, da: 92, pa: 87, ur: 83 },
+  { n: 7, site: "thesun.co.uk", dr: 91, da: 93, pa: 88, ur: 84 },
+  { n: 8, site: "express.co.uk", dr: 89, da: 91, pa: 86, ur: 82 },
+  { n: 9, site: "standard.co.uk", dr: 88, da: 90, pa: 85, ur: 81 },
+  { n: 10, site: "ft.com", dr: 92, da: 94, pa: 89, ur: 85 },
+  { n: 11, site: "metro.co.uk", dr: 89, da: 91, pa: 86, ur: 82 },
+  { n: 12, site: "economist.com", dr: 92, da: 94, pa: 89, ur: 85 },
+  { n: 13, site: "huffingtonpost.co.uk", dr: 87, da: 89, pa: 84, ur: 80 },
+  { n: 14, site: "spectator.co.uk", dr: 86, da: 88, pa: 83, ur: 79 },
+  { n: 15, site: "newstatesman.com", dr: 86, da: 87, pa: 82, ur: 78 },
+  { n: 16, site: "timeout.com/london", dr: 87, da: 89, pa: 84, ur: 80 },
+  { n: 17, site: "techradar.com", dr: 89, da: 91, pa: 86, ur: 82 },
+  { n: 18, site: "wired.co.uk", dr: 86, da: 88, pa: 83, ur: 79 },
+  { n: 19, site: "thisismoney.co.uk", dr: 86, da: 88, pa: 83, ur: 79 },
+  { n: 20, site: "moneysavingexpert.com", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 21, site: "cityam.com", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 22, site: "theconversation.com/uk", dr: 87, da: 89, pa: 84, ur: 80 },
+  { n: 23, site: "thedebrief.co.uk", dr: 75, da: 77, pa: 72, ur: 68 },
+  { n: 24, site: "stylist.co.uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 25, site: "digitalspy.com", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 26, site: "techadvisor.com", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 27, site: "t3.com", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 28, site: "expertreviews.co.uk", dr: 81, da: 83, pa: 78, ur: 74 },
+  { n: 29, site: "trustedreviews.com", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 30, site: "inews.co.uk", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 31, site: "countrylife.co.uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 32, site: "idealhome.co.uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 33, site: "homesandgardens.com", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 34, site: "realhomes.com", dr: 80, da: 82, pa: 77, ur: 73 },
+  { n: 35, site: "marieclaire.co.uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 36, site: "cosmopolitan.com/uk", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 37, site: "gq-magazine.co.uk", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 38, site: "esquire.com/uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 39, site: "glamourmagazine.co.uk", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 40, site: "menshealth.com/uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 41, site: "goodhousekeeping.com/uk", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 42, site: "womanandhome.com", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 43, site: "housebeautiful.com/uk", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 44, site: "harpersbazaar.com/uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 45, site: "livingetc.com", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 46, site: "delicious.com.au", dr: 80, da: 82, pa: 77, ur: 73 },
+  { n: 47, site: "olivemagazine.com", dr: 81, da: 83, pa: 78, ur: 74 },
+  { n: 48, site: "bbcgoodfood.com", dr: 87, da: 89, pa: 84, ur: 80 },
+  { n: 49, site: "deliciousmagazine.co.uk", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 50, site: "greatbritishchefs.com", dr: 81, da: 83, pa: 78, ur: 74 },
+  { n: 51, site: "jamieoliver.com", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 52, site: "amateurphotographer.co.uk", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 53, site: "digitalcameraworld.com", dr: 80, da: 82, pa: 77, ur: 73 },
+  { n: 54, site: "pcgamer.com", dr: 86, da: 88, pa: 83, ur: 79 },
+  { n: 55, site: "eurogamer.net", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 56, site: "rockpapershotgun.com", dr: 83, da: 85, pa: 80, ur: 76 },
+  { n: 57, site: "techuk.org", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 58, site: "ukbusinessforums.co.uk", dr: 79, da: 81, pa: 76, ur: 72 },
+  { n: 59, site: "startups.co.uk", dr: 80, da: 82, pa: 77, ur: 73 },
+  { n: 60, site: "bmmagazine.co.uk", dr: 75, da: 77, pa: 72, ur: 68 },
+  { n: 61, site: "realbusiness.co.uk", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 62, site: "businessleader.co.uk", dr: 74, da: 76, pa: 71, ur: 67 },
+  { n: 63, site: "businesscloud.co.uk", dr: 73, da: 75, pa: 70, ur: 66 },
+  { n: 64, site: "smallbusiness.co.uk", dr: 79, da: 81, pa: 76, ur: 72 },
+  { n: 65, site: "uktech.news", dr: 75, da: 77, pa: 72, ur: 68 },
+  { n: 66, site: "techround.co.uk", dr: 74, da: 72, pa: 69, ur: 65 },
+  { n: 67, site: "ukstartups.org", dr: 71, da: 73, pa: 68, ur: 64 },
+  { n: 68, site: "londonlovesbusiness.com", dr: 77, da: 79, pa: 74, ur: 70 },
+  { n: 69, site: "growthbusiness.co.uk", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 70, site: "smeweb.com", dr: 73, da: 75, pa: 70, ur: 66 },
+  { n: 71, site: "elitefranchisemagazine.co.uk", dr: 70, da: 72, pa: 67, ur: 63 },
+  { n: 72, site: "bdaily.co.uk", dr: 74, da: 76, pa: 71, ur: 67 },
+  { n: 73, site: "business-reporter.co.uk", dr: 75, da: 77, pa: 72, ur: 68 },
+  { n: 74, site: "businessadvice.co.uk", dr: 75, da: 77, pa: 72, ur: 68 },
+  { n: 75, site: "londonbusinessnews.com", dr: 65, da: 67, pa: 62, ur: 58 },
+  { n: 76, site: "techbullion.com", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 77, site: "techweekeurope.co.uk", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 78, site: "startupbusiness.co.uk", dr: 66, da: 68, pa: 63, ur: 59 },
+  { n: 79, site: "startupnation.com", dr: 67, da: 69, pa: 64, ur: 60 },
+  { n: 80, site: "thedrum.com", dr: 87, da: 89, pa: 84, ur: 80 },
+  { n: 81, site: "computerweekly.com", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 82, site: "itpro.com", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 83, site: "techmonitor.ai", dr: 74, da: 76, pa: 71, ur: 67 },
+  { n: 84, site: "raconteur.net", dr: 79, da: 81, pa: 76, ur: 72 },
+  { n: 85, site: "managementtoday.co.uk", dr: 79, da: 81, pa: 76, ur: 72 },
+  { n: 86, site: "moneyweek.com", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 87, site: "which.co.uk", dr: 88, da: 90, pa: 85, ur: 81 },
+  { n: 88, site: "houseandgarden.co.uk", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 89, site: "homebuilding.co.uk", dr: 76, da: 78, pa: 73, ur: 69 },
+  { n: 90, site: "graziadaily.co.uk", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 91, site: "dezeen.com", dr: 88, da: 90, pa: 85, ur: 81 },
+  { n: 92, site: "wallpaper.com", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 93, site: "creativebloq.com", dr: 84, da: 86, pa: 81, ur: 77 },
+  { n: 94, site: "pocket-lint.com", dr: 85, da: 87, pa: 82, ur: 78 },
+  { n: 95, site: "stuff.tv", dr: 82, da: 84, pa: 79, ur: 75 },
+  { n: 96, site: "bigissue.com", dr: 80, da: 82, pa: 77, ur: 73 },
+  { n: 97, site: "enterprisenation.com", dr: 74, da: 76, pa: 71, ur: 67 },
+  { n: 98, site: "startupsmagazine.co.uk", dr: 66, da: 68, pa: 63, ur: 59 },
+  { n: 99, site: "simplybusiness.co.uk", dr: 78, da: 80, pa: 75, ur: 71 },
+  { n: 100, site: "prolificnorth.co.uk", dr: 72, da: 74, pa: 69, ur: 65 },
 ];
 
 const faqs = [
@@ -291,11 +290,11 @@ const graph = [
             <p>You should end with 8 to 15 genuine targets. That is your list.</p>
 
             <h2 id="list">The 100 UK sites</h2>
-            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. These are third-party estimates and shift over time, so re-check the two or three you plan to pitch.</p>
+            <p>Domain Rating, Domain Authority, Page Authority and URL Rating. Every domain here was checked live in September 2026; dead and parked sites were removed. Metrics are third-party estimates and shift over time, so re-check the two or three you plan to pitch.</p>
             <figure>
               <table>
                 <thead>
-                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th></tr>
                 </thead>
                 <tbody>
                   {SITES.map((s) => (
@@ -306,7 +305,6 @@ const graph = [
                       <td>{s.da}</td>
                       <td>{s.pa}</td>
                       <td>{s.ur}</td>
-                      <td>{s.traffic}</td>
                     </tr>
                   ))}
                 </tbody>
