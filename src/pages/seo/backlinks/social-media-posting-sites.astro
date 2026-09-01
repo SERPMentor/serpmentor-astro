@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/social-media-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/social-media-posting-sites");
+const title = 'Social Media Posting Sites: 100 Places to Publish';
+const metaTitle = '100 Social Media Marketing Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 live social media marketing sites for guest posts, data studies and platform analysis, with Domain Rating, Domain Authority and traffic.';
+const intro = 'One hundred social media marketing publications that run outside contributions: the big marketing media, tool and scheduler blogs, agency and analytics blogs, and platform-specific resources. Pick the tier that fits what you can offer an editor.';
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["hubspot.com", 91, "18,600,000"],
+  ["socialmediaexaminer.com", 88, "5,760,000"],
+  ["techcrunch.com", 87, "4,620,000"],
+  ["adweek.com", 86, "5,220,000"],
+  ["neilpatel.com", 86, "7,080,000"],
+  ["searchenginejournal.com", 86, "5,520,000"],
+  ["socialmediatoday.com", 86, "5,040,000"],
+  ["buffer.com", 85, "7,500,000"],
+  ["sproutsocial.com", 85, "6,779,999"],
+  ["hootsuite.com", 84, "2,352,000"],
+  ["blog.hootsuite.com", 84, "3,900,000"],
+  ["contentmarketinginstitute.com", 82, "3,048,000"],
+  ["blog.bufferapp.com", 82, "1,900,000"],
+  ["convinceandconvert.com", 80, "2,760,000"],
+  ["planoly.com/blog", 76, "620,000"],
+  ["sendpulse.com/blog", 76, "1,400,000"],
+  ["smallbiztrends.com", 75, "1,146,600"],
+  ["adroll.com/blog", 74, "420,000"],
+  ["jeffbullas.com", 73, "499,200"],
+  ["jonloomer.com", 73, "383,999"],
+  ["socialnetworking.lovetoknow.com", 73, "561,600"],
+  ["talkwalker.com", 73, "451,200"],
+  ["socialquant.net", 72, "465,600"],
+  ["falcon.io", 71, "364,800"],
+  ["loomly.com", 71, "340,800"],
+  ["oktopost.com", 71, "619,200"],
+  ["tailwindapp.com", 70, "475,200"],
+  ["yourescapefrom9to5.com", 70, "571,200"],
+  ["socialinsider.io/blog", 70, "420,000"],
+  ["iconosquare.com/blog", 70, "420,000"],
+  ["socialmediadaily.com", 69, "291,200"],
+  ["sendible.com", 68, "271,600"],
+  ["keyhole.co/blog", 68, "320,000"],
+  ["planable.io/blog", 68, "420,000"],
+  ["marketingland.com", 67, "282,800"],
+  ["socialmarketingwriting.com", 67, "361,200"],
+  ["techjury.net", 67, "288,400"],
+  ["dashthis.com", 66, "350,000"],
+  ["hopperhq.com/blog", 66, "320,000"],
+  ["rebekahradice.com", 65, "238,000"],
+  ["socialnomics.net", 65, "215,600"],
+  ["thesocialsavior.com", 65, "299,599"],
+  ["socialbutterflyguy.com", 64, "164,800"],
+  ["socialmediaclub.org", 64, "163,200"],
+  ["napoleoncat.com/blog", 64, "280,000"],
+  ["emplifi.io/resources", 64, "180,000"],
+  ["dashhudson.com/blog", 64, "180,000"],
+  ["allin1panel.com", 63, "121,600"],
+  ["meetedgar.com", 62, "129,599"],
+  ["kolsquare.com/en/blog", 62, "180,000"],
+  ["nuvi.com", 61, "161,600"],
+  ["agorapulse.com", 60, "201,600"],
+  ["sociallogical.com", 60, "184,000"],
+  ["sotrender.com/blog", 60, "120,000"],
+  ["shieldapp.ai/blog", 60, "140,000"],
+  ["bloggingwizard.com", 59, "86,449"],
+  ["socialmedialawyer.com", 59, "76,950"],
+  ["business2community.com", 57, "78,850"],
+  ["freshsparks.com", 57, "73,150"],
+  ["thesocialmediamonthly.com", 57, "97,850"],
+  ["mention.com", 54, "43,800"],
+  ["simplymeasured.com", 53, "43,800"],
+  ["smperth.com", 53, "63,600"],
+  ["socialwayne.com", 53, "57,600"],
+  ["brandmentions.com", 50, "52,200"],
+  ["wersm.com", 49, "27,299"],
+  ["brandwatch.com", 48, "32,199"],
+  ["socialmedianews.com.au", 47, "38,149"],
+  ["adespresso.com", 46, "27,649"],
+  ["agencyanalytics.com", 46, "27,299"],
+  ["digitalmarketer.com", 46, "44,100"],
+  ["socialmediacollege.com", 46, "30,100"],
+  ["audiense.com", 45, "38,500"],
+  ["cyberclick.net", 44, "22,880"],
+  ["socialfresh.com", 43, "18,480"],
+  ["socialmedia.biz", 42, "20,020"],
+  ["searchenginewatch.com", 41, "15,399"],
+  ["metricool.com", 40, "17,380"],
+  ["socialmediastrategiessummit.com", 40, "18,480"],
+  ["socialmediaweek.org", 40, "21,780"],
+  ["socialsamosa.com", 40, "25,960"],
+  ["unionmetrics.com", 40, "25,299"],
+  ["statusbrew.com", 39, "17,919"],
+  ["later.com", 38, "14,140"],
+  ["eclincher.com", 37, "16,099"],
+  ["likeable.com", 37, "14,699"],
+  ["rivaliq.com", 36, "11,199"],
+  ["socialreport.com", 36, "15,259"],
+  ["postplanner.com", 35, "16,099"],
+  ["zoho.com", 35, "9,940"],
+  ["influencermarketinghub.com", 34, "7,119"],
+  ["socialpilot.co", 34, "9,440"],
+  ["everyonesocial.com", 33, "6,080"],
+  ["quintly.com", 33, "7,199"],
+  ["socialchefs.com", 32, "6,800"],
+  ["thesocialshepherd.com", 32, "5,680"],
+  ["smartinsights.com", 31, "7,039"],
+  ["sociallyahead.com", 31, "6,880"],
+  ["singlegrain.com", 30, "7,039"],
+  ["socialbakers.com", 30, "8,640"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Do sites like Social Media Examiner accept guest posts?', a: 'Not open guest posts. They and Social Media Today commission from staff and vetted contributors and will take original research or a platform-change analysis. The tool blogs and practitioner sites are where contributed writing runs.' },
+  { q: 'What gets published?', a: 'An original data study (posting-time analysis, engagement benchmarks, algorithm testing), a breakdown of a platform change with what it means for marketers, or a campaign teardown with real numbers. Generic tips do not get past the desk.' },
+  { q: 'Can I link to my tool or agency?', a: 'One disclosed link in the author bio at most, and only where the piece is genuine education. Editors strip promotional links from the body.' },
+  { q: 'How current does it need to be?', a: 'Very. A tactic tied to a platform feature that changed six months ago will be rejected. Lead with something from the last few weeks.' },
+  { q: 'The metrics do not match my SEO tool. Why?', a: "Domain Rating and traffic estimates are recalculated constantly and differ between tools. Several social tools on older lists (Simply Measured, Quintly, Crowdfire's blog) have since been acquired or shut." },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'Social Media Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/social-media-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>Social Media Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-hashtag" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Social media publishing splits into four tiers, and where you can land a byline depends on whether you have data or just tactics.</p>
+            <p>The marketing media do not take open guest posts. The tool blogs take research and education. The agency blogs want data studies. The practitioner blogs are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Marketing media</td><td>Social Media Examiner, Social Media Today, Search Engine Journal, Adweek, Content Marketing Institute</td><td>Not open guest posts. Original data, a platform-change breakdown, or expert commentary</td></tr>
+                <tr><td>Tool &amp; scheduler blogs</td><td>Buffer, Hootsuite, Later, Sprout Social, Agorapulse, SocialPilot, Sendible</td><td>Contributed education and research; how practitioners actually use social tools</td></tr>
+                <tr><td>Agency &amp; analytics blogs</td><td>Brandwatch, Talkwalker, Rival IQ, Audiense, Metricool, Keyhole, Statusbrew</td><td>Data studies, benchmark reports, campaign teardowns with numbers</td></tr>
+                <tr><td>Practitioner blogs</td><td>Jon Loomer, Jeff Bullas, Rebekah Radice, The Social Shepherd, Socially Ahead</td><td>Tested tactics, first-hand results, platform experiments</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> social media marketing moves faster than almost any niche and tactics date within months. Editors want fresh data and platform changes, not another "how to use hashtags" post.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down tools and dormant blogs were replaced with active publications. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Lead with the data.</strong> "We analysed 2M posts and found engagement peaks shifted 90 minutes" earns the read.</li>
+              <li><strong>Show the method.</strong> Sample size, date range, how you pulled the data. Editors reject studies they cannot assess.</li>
+              <li><strong>Pitch the section.</strong> "For your platform-updates coverage" or "for the data studies" shows you read the site.</li>
+              <li><strong>Bring the assets.</strong> Charts, the raw numbers, a downloadable data set.</li>
+              <li><strong>Match the format.</strong> Media want a data story. Tool blogs want a how-to with a workflow. Agency blogs want a benchmark report.</li>
+              <li><strong>Disclose the tool or agency</strong> behind the data.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a "how to grow on Instagram" post. Every site has fifty.</li>
+              <li>Send a data study with no methodology.</li>
+              <li>Write about a feature that was removed months ago.</li>
+              <li>Put exact-match anchors ("best social media scheduler") on links back to your tool.</li>
+              <li>Use AI-generated "social media trends" with no data and no named author.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> one placement on Social Media Examiner or Sprout Social's blog, built on original data, beats a dozen links from thin "social media tips" sites.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We shortlist the social media publications that carry weight, run the data study with your team, write the pitches and place them. No link farms, no risk.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with social media marketing guest posting and digital PR.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>

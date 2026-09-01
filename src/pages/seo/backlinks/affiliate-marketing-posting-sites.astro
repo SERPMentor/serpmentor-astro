@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/affiliate-marketing-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/affiliate-marketing-posting-sites");
+const title = 'Affiliate Marketing Posting Sites: 100 Places to Publish';
+const metaTitle = '100 Affiliate Marketing Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 live affiliate marketing, blogging and SEO sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.';
+const intro = 'One hundred affiliate marketing publications that run outside contributions: the big marketing and SEO blogs, affiliate-network resource sections, blogging and monetisation sites, and tool blogs. Pick the tier that fits what you can offer an editor.';
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["hubspot.com", 91, "18,600,000"],
+  ["ahrefs.com", 90, "24,200,000"],
+  ["semrush.com", 90, "22,399,999"],
+  ["moz.com/blog", 90, "6,000,000"],
+  ["neilpatel.com", 86, "7,080,000"],
+  ["backlinko.com", 84, "2,184,000"],
+  ["wordstream.com/blog", 84, "3,900,000"],
+  ["optinmonster.com/blog", 84, "2,400,000"],
+  ["kinsta.com/blog", 84, "3,400,000"],
+  ["authorityhacker.com", 83, "2,352,000"],
+  ["crazyegg.com/blog", 83, "1,900,000"],
+  ["nichepursuits.com", 82, "2,567,999"],
+  ["contentmarketinginstitute.com", 82, "1,900,000"],
+  ["smartpassiveincome.com", 81, "2,544,000"],
+  ["convinceandconvert.com", 80, "2,760,000"],
+  ["themeisle.com/blog", 80, "1,900,000"],
+  ["cxl.com/blog", 80, "780,000"],
+  ["problogger.com", 79, "813,400"],
+  ["affiliatewisdom.com", 74, "388,800"],
+  ["rakutenmarketing.com", 74, "436,799"],
+  ["income.com", 73, "609,600"],
+  ["makealivingwriting.com", 73, "436,799"],
+  ["zacjohnson.com", 72, "475,200"],
+  ["ryrob.com", 72, "620,000"],
+  ["growthhackers.com", 72, "420,000"],
+  ["growthbadger.com", 71, "470,400"],
+  ["affilorama.com", 70, "609,600"],
+  ["sidehustlenation.com", 70, "780,000"],
+  ["firstsiteguide.com", 70, "620,000"],
+  ["affiliateresources.org", 69, "254,799"],
+  ["affiliatetips.com", 69, "358,399"],
+  ["copyblogger.com", 69, "358,399"],
+  ["thrivethemes.com", 68, "330,400"],
+  ["blogging.com", 68, "420,000"],
+  ["bloggerspassion.com", 68, "420,000"],
+  ["webhostingsecretrevealed.net", 68, "420,000"],
+  ["smartblogger.com", 67, "285,600"],
+  ["affiliatejournal.com", 66, "350,000"],
+  ["amnavigator.com", 66, "358,399"],
+  ["earningguys.com", 66, "282,800"],
+  ["onemorecupof-coffee.com", 66, "198,800"],
+  ["bloggingtips.com", 65, "280,000"],
+  ["affiliatevalley.com", 64, "188,800"],
+  ["gauravtiwari.org", 64, "320,000"],
+  ["masterblogging.com", 64, "320,000"],
+  ["affiliatesummit.com", 62, "203,200"],
+  ["marketingexamined.com", 62, "180,000"],
+  ["passiveincomemd.com", 62, "320,000"],
+  ["bloggingbasics101.com", 62, "180,000"],
+  ["affiliatecoach.com", 61, "195,200"],
+  ["affiliatemarketingmastermind.com", 61, "131,200"],
+  ["affplaybook.com", 61, "121,600"],
+  ["iamattila.com", 61, "182,399"],
+  ["affiliatefix.com", 60, "148,800"],
+  ["nichehacks.com", 60, "180,000"],
+  ["fatstacksblog.com", 60, "180,000"],
+  ["bloggingx.com", 60, "240,000"],
+  ["bloggingwizard.com", 59, "86,449"],
+  ["profitblitz.com", 59, "80,750"],
+  ["affiliate.net", 58, "111,150"],
+  ["bloggingfromparadise.com", 58, "120,000"],
+  ["nichesiteproject.com", 58, "95,000"],
+  ["mostlyblogging.com", 58, "180,000"],
+  ["bloggersideas.com", 58, "180,000"],
+  ["techtage.com", 58, "180,000"],
+  ["affiliatemarketinginsiders.com", 56, "107,349"],
+  ["shoutmeloud.com", 56, "118,750"],
+  ["wpbeginner.com", 56, "107,349"],
+  ["problogbooster.com", 56, "140,000"],
+  ["nichewebsitebuilders.com", 56, "120,000"],
+  ["affiliatemarketingbasics.com", 55, "78,850"],
+  ["wiyre.com", 54, "55,199"],
+  ["nichepie.com", 52, "87,000"],
+  ["bloggerspath.com", 52, "95,000"],
+  ["affiliatewebsitebuilder.com", 51, "75,600"],
+  ["affiliatemarketertraining.com", 50, "58,200"],
+  ["clickbank.com", 50, "48,600"],
+  ["smartaffiliatehub.com", 50, "67,200"],
+  ["nichesitelady.com", 50, "65,000"],
+  ["cloudways.com", 47, "37,449"],
+  ["millionairemob.com", 47, "42,700"],
+  ["diggitymarketing.com", 46, "30,450"],
+  ["abesttools.com", 45, "26,600"],
+  ["johnchow.com", 45, "25,550"],
+  ["shareasale.com", 45, "34,650"],
+  ["moneymindedmom.com", 44, "28,380"],
+  ["thewirecutter.com", 44, "28,159"],
+  ["awin.com", 39, "15,959"],
+  ["digitalreadymarketing.com", 39, "10,500"],
+  ["startupbonsai.com", 39, "12,319"],
+  ["impact.com", 36, "17,780"],
+  ["incomeschool.com", 36, "12,180"],
+  ["adamenfroy.com", 33, "9,680"],
+  ["affiliateunguru.com", 33, "10,239"],
+  ["webmarketingtoday.com", 33, "7,920"],
+  ["blogtyrant.com", 32, "9,120"],
+  ["matthewwoodward.co.uk", 32, "9,520"],
+  ["affiliatemindset.com", 31, "6,720"],
+  ["affiliatemarketingdude.com", 30, "7,600"],
+  ["marketingprofs.com", 30, "7,279"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Do sites like Backlinko or Ahrefs accept guest posts?', a: 'Not open guest posts. They commission from staff and known contributors and will take original research, a documented case study, or expert commentary. The affiliate and blogging blogs are where contributed writing runs.' },
+  { q: 'What gets published?', a: 'A case study with real revenue and traffic numbers, a tested tactic with before-and-after data, a tool comparison based on genuine use, or a monetisation breakdown. "How to start affiliate marketing" explainers do not get past the desk.' },
+  { q: 'Can I link to my site, course or affiliate program?', a: 'One disclosed link in the author bio at most, and only where the piece is genuine education. Editors strip promotional links and reject anything that reads like a sales page.' },
+  { q: 'Is this a safe niche for link building?', a: 'The reputable blogs are fine. Large parts of the "make money online" space trade and sell links, run PBNs, and have been hit by Google updates. Use the traffic column and stick to sites with real editorial teams and real audiences.' },
+  { q: 'The metrics do not match my SEO tool. Why?', a: 'Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. This niche churns fast and many older "affiliate blogs" are now parked or abandoned.' },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'Affiliate Marketing Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/affiliate-marketing-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>Affiliate Marketing Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-link" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Affiliate publishing splits into four tiers, and where you can land a byline depends on whether you have real numbers or just opinions.</p>
+            <p>The marketing and SEO blogs do not take open guest posts. The affiliate and monetisation blogs take case studies with real numbers. The networks take education for their own blogs. The blogging sites are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Marketing &amp; SEO blogs</td><td>Backlinko, Ahrefs, Semrush, HubSpot, Search Engine Journal, Neil Patel</td><td>Not open guest posts. Original data, a case study, or expert commentary on a live SEO story</td></tr>
+                <tr><td>Affiliate &amp; monetisation blogs</td><td>Authority Hacker, Niche Pursuits, Smart Passive Income, Adam Enfroy, Diggity Marketing</td><td>Real case studies with revenue numbers, tested tactics, tool comparisons</td></tr>
+                <tr><td>Affiliate networks &amp; tools</td><td>Impact, Awin, ShareASale, ClickBank, Rakuten, Cloudways, Thrive Themes</td><td>Contributed education for their blog; how partners actually use the platform</td></tr>
+                <tr><td>Blogging &amp; small-business</td><td>ProBlogger, Blogging Wizard, Blogging Tips, Startup Bonsai, Make a Living Writing</td><td>Practical guides, first-hand experience, monetisation breakdowns</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> affiliate marketing is one of the most link-spammed niches on the web, and Google knows it. A placement on a site with a real audience and case-study data is worth far more than a link on a made-for-links blog that has not posted since 2020.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and made-for-links sites were replaced with active publications. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Lead with the numbers.</strong> "We took this site from $0 to $4,200/month in 11 months, here is the breakdown" earns the read.</li>
+              <li><strong>Show the work.</strong> Screenshots of real dashboards, a traffic graph, a documented timeline. Editors reject claims they cannot verify.</li>
+              <li><strong>Pitch the section.</strong> "For your case-study series" or "for the SEO tactics coverage" shows you read the blog.</li>
+              <li><strong>Bring the assets.</strong> A spreadsheet, a step-by-step process, a spend-vs-return table.</li>
+              <li><strong>Match the format.</strong> Marketing blogs want a data-led argument. Affiliate blogs want a full case study. Blogging sites want a practical how-to.</li>
+              <li><strong>Disclose the affiliate relationship</strong> behind any tool or program you write about.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Buy links from "affiliate blogs" that quote a flat per-post price. That is the exact footprint Google penalises here.</li>
+              <li>Pitch a "what is affiliate marketing" explainer. Every site has ten.</li>
+              <li>Send a case study with no screenshots and no numbers.</li>
+              <li>Put exact-match anchors ("best affiliate program") on links back to your offer.</li>
+              <li>Use AI-generated "passive income" content with no real results behind it.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> in affiliate marketing, one placement on a respected blog with a real income report or case study beats a dozen links from thin "make money online" sites. Use the traffic column and recent posting activity to find the real ones.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We shortlist the affiliate and marketing blogs that carry weight, package your case-study data, write the pitches and place them. No link farms, no PBNs, no risk.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with affiliate marketing guest posting and digital PR.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/weight-loss-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/weight-loss-posting-sites");
+const title = 'Weight Loss Posting Sites: 100 Places to Publish';
+const metaTitle = '100 Weight Loss Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 live weight loss, diet and nutrition sites for guest posts and expert contributions, with Domain Rating, Domain Authority and traffic.';
+const intro = 'One hundred weight-loss sites that publish outside contributions: medically-reviewed health brands, diet-programme and nutrition media, recipe and meal-plan sites, and coaching blogs. This niche overlaps heavily with health and fitness. Pick the tier that fits what you can offer.';
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["healthline.com", 93, "25,200,000"],
+  ["cdc.gov/healthyweight", 92, "6,000,000"],
+  ["webmd.com", 91, "20,000,000"],
+  ["mayoclinic.org/healthy-lifestyle/weight-loss", 91, "4,000,000"],
+  ["medicalnewstoday.com", 90, "25,800,000"],
+  ["popsugar.com", 90, "19,800,000"],
+  ["eatright.org", 88, "4,320,000"],
+  ["everydayhealth.com", 88, "7,380,000"],
+  ["hsph.harvard.edu/nutritionsource", 88, "3,900,000"],
+  ["health.com/weight-loss", 88, "4,600,000"],
+  ["livestrong.com", 87, "5,520,000"],
+  ["menshealth.com", 87, "7,620,000"],
+  ["eatingwell.com", 86, "4,200,000"],
+  ["prevention.com", 86, "6,240,000"],
+  ["self.com", 86, "4,440,000"],
+  ["shape.com", 86, "5,220,000"],
+  ["verywellfit.com", 86, "5,339,999"],
+  ["womenshealthmag.com", 86, "4,980,000"],
+  ["consumerreports.org/health/weight-loss", 86, "2,400,000"],
+  ["goodhousekeeping.com/health/diet-nutrition", 86, "4,200,000"],
+  ["verywellhealth.com/weight-loss-4014796", 86, "3,400,000"],
+  ["bodybuilding.com", 85, "6,120,000"],
+  ["mensjournal.com", 85, "6,180,000"],
+  ["myfitnesspal.com", 85, "6,959,999"],
+  ["runnersworld.com", 85, "4,320,000"],
+  ["mindbodygreen.com", 84, "1,967,999"],
+  ["realsimple.com/health/nutrition-diet/weight-loss", 84, "2,100,000"],
+  ["dietdoctor.com", 83, "2,928,000"],
+  ["wellandgood.com", 83, "2,256,000"],
+  ["nutrition.org", 82, "1,900,000"],
+  ["precisionnutrition.com", 81, "1,752,000"],
+  ["skinnytaste.com", 78, "1,205,400"],
+  ["healthyeater.com", 74, "431,999"],
+  ["wellnessmama.com", 74, "403,200"],
+  ["obesity.org", 74, "620,000"],
+  ["dietplans.org", 73, "470,400"],
+  ["fitnessblender.com", 73, "585,600"],
+  ["fatgirl.com", 72, "513,599"],
+  ["healthyandnaturalworld.com", 71, "585,600"],
+  ["loseit.com", 70, "412,800"],
+  ["weightlossresources.co.uk", 70, "542,400"],
+  ["eatwell.com", 69, "238,000"],
+  ["nutritionstripped.com", 69, "296,800"],
+  ["weightlossmadesimple.com", 69, "218,399"],
+  ["nutritionadvance.com", 67, "257,599"],
+  ["dietsinreview.com", 66, "341,600"],
+  ["foodsforbetterhealth.com", 66, "341,600"],
+  ["powerofpositivity.com", 66, "266,000"],
+  ["realplans.com", 63, "147,200"],
+  ["dietitians-online.com", 61, "166,400"],
+  ["fatburningman.com", 61, "156,800"],
+  ["nutrisystem.com", 61, "126,399"],
+  ["crossfit.com", 60, "171,199"],
+  ["fitwatch.com", 60, "153,600"],
+  ["bestlifeonline.com", 59, "69,350"],
+  ["ketologic.com", 59, "122,550"],
+  ["diethood.com", 58, "103,549"],
+  ["wholefully.com", 58, "93,100"],
+  ["healthyfitnessmeals.com", 57, "75,050"],
+  ["nutribullet.com", 57, "78,850"],
+  ["pritikin.com", 57, "97,850"],
+  ["wellnessresources.com", 57, "82,650"],
+  ["dietitian.com", 56, "110,199"],
+  ["atkins.com", 55, "101,649"],
+  ["fitnessvolt.com", 55, "104,500"],
+  ["slenderkitchen.com", 55, "120,650"],
+  ["healthifyme.com", 54, "51,000"],
+  ["eatthis.com", 52, "43,200"],
+  ["nutritionsecrets.com", 52, "51,600"],
+  ["toneitup.com", 52, "57,600"],
+  ["healthcanal.com", 51, "49,800"],
+  ["healthylivingmagazine.com", 51, "52,200"],
+  ["nutriciously.com", 51, "75,000"],
+  ["livewellzone.com", 50, "46,799"],
+  ["fitnesstogether.com", 49, "37,800"],
+  ["muscleandstrength.com", 49, "37,449"],
+  ["theleangreenbean.com", 49, "27,299"],
+  ["thehealthy.com", 46, "37,800"],
+  ["fitday.com", 45, "36,050"],
+  ["thenutritionadvisor.com", 45, "38,849"],
+  ["healthywomen.org", 44, "23,539"],
+  ["eatthisnotthat.com", 43, "23,979"],
+  ["caloriesecrets.net", 42, "17,820"],
+  ["lowcarbdietitian.com", 42, "23,320"],
+  ["lowcarbmaven.com", 42, "18,480"],
+  ["weightlossforall.com", 42, "25,960"],
+  ["diet.com", 41, "19,799"],
+  ["skinnymom.com", 41, "27,720"],
+  ["healthygem.com", 40, "18,700"],
+  ["noom.com", 40, "19,579"],
+  ["slimmingworld.co.uk", 40, "16,280"],
+  ["fitandwell.com", 39, "9,940"],
+  ["livinglean.com", 38, "15,819"],
+  ["sparkpeople.com", 38, "12,319"],
+  ["weightwatchers.com", 38, "12,739"],
+  ["weightlossjumpstart.com", 36, "16,940"],
+  ["thedietchefs.com", 35, "13,160"],
+  ["eatlovepray.com", 34, "7,199"],
+  ["nutritiouslife.com", 34, "7,920"],
+  ["caloriesburnedcalculator.com", 31, "9,840"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Do sites like Healthline or WebMD accept weight-loss guest posts?', a: 'No. They run a medical review process and commission from staff and credentialed contributors. They will take a byline from a registered dietitian, physician or licensed professional. The programme media and coaching blogs are more open.' },
+  { q: 'What do I need to pitch a weight-loss site?', a: 'For nutrition, metabolism and supplement pieces, a relevant qualification (RD, MD, RN) or a named expert reviewer. Serious sites also expect a duty-of-care approach: no extreme deficits, no "lose 10 lbs in a week" framing, awareness of disordered eating.' },
+  { q: 'Can I link to my programme, app or coaching?', a: 'One disclosed link in the author bio at most, and only on the sites that take contributed articles. Weight loss is YMYL, so promotional links in the body get the piece pulled and unsupported claims get it rejected.' },
+  { q: 'Which matters more, Domain Rating or author expertise?', a: "Author expertise. Google's systems lean heavily on named, credentialed authors for this topic. A placement with a real dietitian byline on a reviewed site beats a higher-DR link with anonymous posts." },
+  { q: 'The metrics do not match my SEO tool. Why?', a: 'Domain Rating and traffic estimates are recalculated constantly and differ between tools. Several diet sites on older lists (Fitness Magazine, DietSpotlight) have shut down or merged.' },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'Weight Loss Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/weight-loss-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>Weight Loss Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-weight-scale" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Weight-loss publishing splits into four tiers, and where you can land a byline depends almost entirely on the credential behind it.</p>
+            <p>The medically-reviewed brands do not take open guest posts. The programme media take evidence-based nutrition. The recipe sites take genuine meal content. The coaching blogs are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Medically-reviewed health brands</td><td>Healthline, WebMD, Medical News Today, Verywell Fit, Everyday Health, Prevention</td><td>Not open guest posts. A byline from a registered dietitian, physician or licensed professional</td></tr>
+                <tr><td>Diet programmes &amp; nutrition media</td><td>WeightWatchers, Noom, Diet Doctor, Eating Well, Precision Nutrition, Nutrisystem</td><td>Evidence-based nutrition pieces, protocol explainers, myth-busting from qualified authors</td></tr>
+                <tr><td>Recipe &amp; meal-plan sites</td><td>Skinnytaste, Slender Kitchen, The Diet Chefs, Healthy Fitness Meals, Diethood</td><td>Genuine recipes with nutrition data, meal-plan frameworks, batch-cooking guides</td></tr>
+                <tr><td>Coaching &amp; results blogs</td><td>Fat-Burning Man, Living Lean, Fit Watch, Tone It Up, Power of Positivity Health</td><td>Real client results with data, sustainable-habit content, honest expectation-setting</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> weight loss is core YMYL and one of the most tightly policed topics in search. Google weighs named, credentialed authors and medical review heavily, and disordered-eating safeguards matter. A link earned with a real RD or MD byline is in a different class.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and redirected sites were replaced with live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Lead with the credential and the evidence.</strong> "As a registered dietitian, here is what the latest research on protein and satiety actually shows" earns the read.</li>
+              <li><strong>Cite primary sources.</strong> Link the studies, not a summary of a summary.</li>
+              <li><strong>Pitch the section.</strong> "For your nutrition coverage" or "for the sustainable-habits series" shows you read the site.</li>
+              <li><strong>Frame it responsibly.</strong> Moderate approach, realistic timelines, no before-and-after shock tactics.</li>
+              <li><strong>Bring the assets.</strong> A protocol, a meal framework, a data set.</li>
+              <li><strong>Disclose any programme, app or product</strong> you have a stake in.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a "lose weight fast" listicle with no author credential.</li>
+              <li>Make metabolism or supplement claims you cannot back with a study.</li>
+              <li>Use dramatic before-and-after framing or extreme-deficit advice.</li>
+              <li>Put exact-match anchors ("best weight loss pill") on links back to your store.</li>
+              <li>Use AI-generated diet content. In a YMYL niche it is both obvious and risky.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on medically-reviewed sites with a real dietitian or physician byline will do more for rankings and trust than a long list of thin diet-blog links.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We build the shortlist by tier, pair every claim with a credentialed reviewer, write the pitches responsibly and place them on real health publications. No link farms, no risk.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with weight loss and diet guest posting and digital PR.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>

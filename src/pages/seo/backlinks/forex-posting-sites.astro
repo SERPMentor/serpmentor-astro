@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/forex-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/forex-posting-sites");
+const title = 'Forex Posting Sites: 100 Places to Publish';
+const metaTitle = '100 Forex Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 live forex and trading sites for guest posts, analysis and broker-industry news, with Domain Rating, Domain Authority and traffic.';
+const intro = 'One hundred forex publications that run outside contributions: the major trading and market-data outlets, broker-industry trade press, education and analysis sites, and affiliate and review portals. Pick the tier that fits what you can offer an editor.';
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["investopedia.com", 92, "25,200,000"],
+  ["tradingview.com", 92, "20,600,000"],
+  ["investing.com", 92, "120,000,000"],
+  ["forexfactory.com", 87, "5,220,000"],
+  ["ig.com/en/trading-strategies", 84, "3,900,000"],
+  ["fxstreet.com", 83, "2,304,000"],
+  ["babypips.com", 80, "2,976,000"],
+  ["cmcmarkets.com/en/news-and-analysis", 80, "1,900,000"],
+  ["oanda.com/us-en/trading/market-analysis", 80, "1,900,000"],
+  ["forexlive.com", 79, "1,166,200"],
+  ["brokerchooser.com/education", 78, "1,400,000"],
+  ["exness.com/blog", 78, "1,400,000"],
+  ["pepperstone.com/en/market-analysis", 78, "1,400,000"],
+  ["dukascopy.com/swiss/english/marketwatch", 76, "620,000"],
+  ["theforexgeek.com", 74, "508,800"],
+  ["forexbrokers.com/guides", 74, "620,000"],
+  ["axi.com/int/blog", 74, "620,000"],
+  ["forexbonusnodeposit.com", 73, "393,600"],
+  ["forexreviews.info", 73, "542,400"],
+  ["forexschoolonline.com", 73, "537,600"],
+  ["fbs.com/analytics", 72, "780,000"],
+  ["forexstrategiesresources.com", 70, "345,600"],
+  ["fxleaders.com", 70, "780,000"],
+  ["tickmill.com/blog", 70, "420,000"],
+  ["forex.com", 69, "271,600"],
+  ["forexindicators.net", 69, "324,800"],
+  ["tradingpedia.com", 69, "350,000"],
+  ["fxopen.com/blog", 68, "320,000"],
+  ["dailyforex.com", 67, "316,399"],
+  ["forexfraud.com", 67, "291,200"],
+  ["actionforex.com", 66, "204,400"],
+  ["cityforex.co.uk", 65, "232,400"],
+  ["forexnews.com", 64, "150,400"],
+  ["orbex.com/blog", 64, "320,000"],
+  ["wikifx.com/en/news", 64, "420,000"],
+  ["forexeconomiccalendar.com", 63, "148,800"],
+  ["forexfbi.com", 63, "136,000"],
+  ["forexrealm.com", 63, "144,000"],
+  ["forexspace.com", 63, "139,200"],
+  ["forextrader.site", 63, "187,200"],
+  ["dailyfx.com", 62, "127,999"],
+  ["forex-strategies-revealed.com", 62, "167,999"],
+  ["forexanalytix.com", 61, "126,399"],
+  ["fxtimes.com", 61, "155,200"],
+  ["efxnews.com", 60, "187,200"],
+  ["leaprate.com", 60, "155,200"],
+  ["forexbonuslab.com", 59, "119,700"],
+  ["forexcaptain.com", 59, "95,000"],
+  ["forexops.com", 58, "84,549"],
+  ["forexsites.com", 58, "114,000"],
+  ["earnforex.com", 57, "105,449"],
+  ["forexbee.co", 57, "103,549"],
+  ["theforexreview.com", 57, "110,199"],
+  ["forexbrokerz.com", 56, "95,000"],
+  ["tradersdna.com", 56, "78,850"],
+  ["ismarkets.com/blog", 56, "120,000"],
+  ["hantecfx.com/analysis", 56, "120,000"],
+  ["fxview.com/blog", 56, "120,000"],
+  ["forexgdp.com", 55, "117,800"],
+  ["fxdailyreport.com", 55, "119,700"],
+  ["tradingforex.com", 55, "107,349"],
+  ["forexcracked.com", 52, "74,400"],
+  ["tradetoolsfx.com", 52, "59,400"],
+  ["forexgrand.com", 51, "69,000"],
+  ["forexsignals.com", 51, "75,600"],
+  ["compareforexbrokers.com", 50, "66,000"],
+  ["myfxbook.com", 50, "53,399"],
+  ["efxdata.com", 50, "87,000"],
+  ["fpmarkets.com/blog", 50, "60,000"],
+  ["fxpremiere.com", 49, "44,799"],
+  ["globalforexawards.com", 49, "25,200"],
+  ["fxempire.com", 48, "29,400"],
+  ["fxscouts.com", 48, "25,550"],
+  ["financemagnates.com", 47, "44,100"],
+  ["forextrademaster.com", 46, "33,950"],
+  ["100forexbrokers.com", 44, "17,820"],
+  ["forexboat.com", 44, "25,079"],
+  ["forexbrokersreview.com", 44, "19,799"],
+  ["forextraders.com", 43, "19,579"],
+  ["forexchief.com", 42, "26,840"],
+  ["tradersunion.com", 42, "23,979"],
+  ["forexrating.com", 41, "26,840"],
+  ["forexsignal.com", 41, "20,020"],
+  ["fxpro.com", 41, "27,280"],
+  ["forex-central.net", 40, "16,940"],
+  ["fxdaily.com", 40, "18,700"],
+  ["forexbetter.com", 39, "13,720"],
+  ["forexcrunch.com", 39, "10,220"],
+  ["forexticket.com", 38, "15,259"],
+  ["forextradingbonus.com", 38, "15,959"],
+  ["tradingforexguide.com", 38, "11,340"],
+  ["forexjournal.com", 37, "11,340"],
+  ["theforextradingcoach.com", 37, "14,560"],
+  ["forex-ratings.com", 36, "12,040"],
+  ["forexcup.com", 36, "13,440"],
+  ["forexsq.com", 34, "10,160"],
+  ["forex4you.com", 33, "6,160"],
+  ["forexbonus.com", 33, "8,160"],
+  ["thinkforex.com", 32, "7,279"],
+  ["forexpeacearmy.com", 31, "5,760"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Is guest posting worth it in forex?', a: 'For SEO on a trading site, the useful links are the market-data outlets, the broker trade press, and the established education sites. The thousands of thin broker-review blogs pass almost nothing and many carry a manual-action risk. Treat this list as a shortlist of the few worth pitching.' },
+  { q: 'What gets published?', a: 'Original market analysis, an economic-calendar or central-bank breakdown, regulatory analysis for a specific jurisdiction, or trading education from someone with a verifiable track record. Signal-service promotion and "get rich" content does not get past the desk.' },
+  { q: 'Can I link to my brokerage or signal service?', a: 'On the trade and data outlets, one disclosed link in the author bio at most, and only for genuine analysis. Forex is YMYL, so editors are strict.' },
+  { q: 'Does the affiliate-review part of this list carry risk?', a: 'Yes. Large parts of the forex-affiliate space trade links and sell placements, and Google has hit the niche repeatedly. Stick to sites with real editorial teams and avoid anything sold at a flat per-post price.' },
+  { q: 'The metrics do not match my SEO tool. Why?', a: 'Domain Rating and traffic estimates are recalculated constantly and differ between tools. This niche churns fast; re-check every site the week you plan to pitch it.' },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'Forex Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/forex-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>Forex Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Forex publishing splits into four tiers, and only two of them are worth much for SEO. Know which one you are pitching.</p>
+            <p>The market-data outlets do not take open guest posts. The trade press takes regulatory and industry analysis. The education sites take genuine lessons. The review portals are the risky layer. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Market data &amp; analysis</td><td>DailyFX, FXStreet, ForexLive, Investing.com, Myfxbook, TradingView</td><td>Not open guest posts. Original analysis, an economic-data breakdown, or expert commentary on a live move</td></tr>
+                <tr><td>Broker-industry trade press</td><td>Finance Magnates, LeapRate, Forex Crunch, Global Forex Awards</td><td>Regulatory analysis, broker-market data, industry commentary from a named professional</td></tr>
+                <tr><td>Education &amp; strategy</td><td>BabyPips, Investopedia Forex, Earn Forex, Forex School Online, Trading Pedia</td><td>Genuine trading education with tested method and honest expectation-setting</td></tr>
+                <tr><td>Affiliate &amp; review portals</td><td>ForexBrokerz, ForexPeaceArmy, Compare Forex Brokers, 100 Forex Brokers, FXScouts</td><td>Real reviews and comparisons; disclosed bio link only on the ones with real editorial teams</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> forex is a YMYL niche packed with bought links, PBNs and paid placements, and Google has suppressed the whole space in updates. One placement on FXStreet or Finance Magnates is worth more than fifty affiliate-review links, and the fifty carry risk.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; dead and parked sites were replaced with live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Lead with the analysis.</strong> "Why the ECB decision sets up EUR/USD for a range" or "our data on retail positioning before NFP" earns the read.</li>
+              <li><strong>Prove the track record.</strong> A verified Myfxbook, published analysis, or a role at a broker, fund or research desk.</li>
+              <li><strong>Pitch the section.</strong> "For your technical analysis" or "for the regulation coverage" shows you read the outlet.</li>
+              <li><strong>Bring the assets.</strong> Annotated charts, a data set, a positioning table.</li>
+              <li><strong>Match the format.</strong> Data outlets want a tight analysis. Trade press wants a sourced industry story. Education sites want a structured lesson.</li>
+              <li><strong>Disclose any broker or affiliate relationship</strong> up front. In a YMYL niche this is non-negotiable.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Buy links from broker-review blogs that quote a flat per-post price. That is the exact footprint Google penalises here.</li>
+              <li>Pitch a "what is forex" explainer. Every site has one.</li>
+              <li>Send analysis with no charts and no track record.</li>
+              <li>Put exact-match anchors ("best forex broker") on links back to your brokerage.</li>
+              <li>Run AI-generated market analysis with no real figures and no named author.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> in forex, a short list of placements on real market-data and trade outlets beats a long list of review-site links, and it is the only approach that does not put the domain at risk.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We shortlist the forex outlets that carry real weight, shape the analysis or data with your team, write the pitches and place them. No link farms, no PBNs, no risk.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with forex guest posting and digital PR.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>

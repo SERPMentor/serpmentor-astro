@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/latin-america-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/latin-america-posting-sites");
+const title = 'Latin America Posting Sites: 100 Places to Publish';
+const metaTitle = '100 Latin America Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 live Latin American news, business, policy and regional sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.';
+const intro = 'One hundred Latin America publications that run outside contributions: English-language regional news and analysis, business and finance outlets, country-focused news sites, and policy and academic platforms across Mexico, Central America, the Caribbean and South America. Pick the tier that matches what you can bring an editor.';
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["aljazeera.com/where/latin-america", 92, "8,000,000"],
+  ["elpais.com/america", 90, "12,000,000"],
+  ["infobae.com/america", 90, "18,000,000"],
+  ["wilsoncenter.org/program/latin-american-program", 84, "1,400,000"],
+  ["bloomberglinea.com", 80, "3,400,000"],
+  ["piaui.folha.uol.com.br", 78, "1,900,000"],
+  ["americamagazine.org", 78, "1,400,000"],
+  ["bnamericas.com", 76, "780,000"],
+  ["gzeromedia.com/latin-america", 76, "620,000"],
+  ["worldpoliticsreview.com", 75, "725,200"],
+  ["cuencahighlife.com", 74, "446,399"],
+  ["insightcrime.org", 74, "403,200"],
+  ["mexiconewsdaily.com", 74, "383,999"],
+  ["americaeconomia.com", 74, "620,000"],
+  ["thedialogue.org/analysis", 74, "420,000"],
+  ["latinamerica.tech", 73, "451,200"],
+  ["latinamericanpost.com", 72, "585,600"],
+  ["panamatoday.com", 72, "571,200"],
+  ["as-coa.org/blogs", 72, "420,000"],
+  ["azcentral.com", 71, "441,599"],
+  ["mercopress.com", 71, "595,200"],
+  ["colombiareports.com", 70, "427,199"],
+  ["latintimes.com", 70, "355,200"],
+  ["peruviantimes.com", 70, "580,800"],
+  ["thebrazilianreport.com", 70, "620,000"],
+  ["brazilian.report", 70, "540,000"],
+  ["brazilianreport.com", 70, "540,000"],
+  ["nacla.org", 68, "240,800"],
+  ["dialogochino.net", 68, "320,000"],
+  ["americasquarterly.org", 66, "218,399"],
+  ["laraza.com", 66, "257,599"],
+  ["latinoshealth.com", 66, "327,600"],
+  ["riotimesonline.com", 66, "201,600"],
+  ["labsnews.com", 66, "320,000"],
+  ["telesurtv.net", 65, "291,200"],
+  ["centralamericadata.com", 64, "140,799"],
+  ["latamdaily.com", 64, "164,800"],
+  ["latincorrespondent.com", 64, "142,399"],
+  ["nearshoreamericas.com", 64, "180,000"],
+  ["panamericanworld.com", 62, "132,800"],
+  ["stabroeknews.com", 62, "320,000"],
+  ["latinnews.com", 61, "188,800"],
+  ["antiguaobserver.com", 60, "192,000"],
+  ["ticotimes.net", 60, "280,000"],
+  ["lawg.org/blog", 60, "87,000"],
+  ["colombiaone.com", 58, "180,000"],
+  ["coha.org", 58, "120,000"],
+  ["q-costarica.com", 58, "280,000"],
+  ["costaricatimes.com", 57, "116,850"],
+  ["caribbeannewsnow.com", 56, "68,400"],
+  ["latinfinance.com", 56, "108,299"],
+  ["thecity.com.mx", 56, "120,000"],
+  ["q24n.com", 56, "140,000"],
+  ["thecostaricanews.com", 56, "180,000"],
+  ["caribbeannationalweekly.com", 56, "120,000"],
+  ["thecity.mx", 56, "120,000"],
+  ["latinamericanreports.com", 56, "180,000"],
+  ["qcostarica.com", 56, "280,000"],
+  ["americasthandnorth.wordpress.com", 55, "75,050"],
+  ["havanatimes.org", 55, "110,199"],
+  ["thesanjuanstar.com", 54, "46,799"],
+  ["todayvenezuela.com", 54, "52,200"],
+  ["latinospost.com", 53, "73,200"],
+  ["latinvex.com", 53, "58,200"],
+  ["hispanic.la", 52, "47,399"],
+  ["latinousa.org", 52, "44,400"],
+  ["aula-blog.website", 50, "32,000"],
+  ["contxto.com", 48, "37,449"],
+  ["dialogo-americas.com", 48, "40,950"],
+  ["globalamericans.org", 48, "39,199"],
+  ["caricomnewsnetwork.com", 47, "40,600"],
+  ["latinstyle.com", 47, "26,600"],
+  ["peruthisweek.com", 47, "25,900"],
+  ["thecaribbeanreview.com", 47, "25,550"],
+  ["laht.com", 45, "32,199"],
+  ["pulsamerica.co.uk", 45, "38,849"],
+  ["peoplesworld.org", 44, "20,240"],
+  ["thebrazilbusiness.com", 43, "16,940"],
+  ["latinamericanscience.org", 42, "26,180"],
+  ["argentinaindependent.com", 41, "16,720"],
+  ["latinpost.com", 41, "18,480"],
+  ["latamlist.com", 39, "18,060"],
+  ["latinorebels.com", 39, "10,220"],
+  ["larepublica.pe", 38, "14,699"],
+  ["latinometrics.com", 38, "16,940"],
+  ["bahamaspress.com", 36, "18,060"],
+  ["latinlawyer.com", 36, "16,800"],
+  ["latintrade.com", 36, "13,160"],
+  ["panoramas.pitt.edu", 35, "15,539"],
+  ["theyucatantimes.com", 35, "11,480"],
+  ["latinamericanstudies.org", 34, "7,439"],
+  ["latinbusinesstoday.com", 34, "9,280"],
+  ["puertoricoreport.com", 34, "9,440"],
+  ["bolivianexpress.com", 32, "5,920"],
+  ["dominicantoday.com", 31, "8,719"],
+  ["laprensalatina.com", 31, "8,559"],
+  ["latinamericareporter.com", 31, "9,920"],
+  ["latintrends.com", 31, "10,160"],
+  ["latintravelguide.com", 30, "5,840"],
+  ["latino.foxnews.com", 78, "620,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Do the regional analysis outlets accept guest posts?', a: 'Some do, from writers with genuine regional expertise or local reporting. Americas Quarterly, World Politics Review and the policy platforms take contributed analysis. The country-focused news sites are more open to local stories and business content.' },
+  { q: 'Does the piece have to be in Spanish or Portuguese?', a: "For the titles on this list, English is fine: they are the English-language regional outlets. But each country's local-language press is far larger and is a separate track that needs a native writer (Spanish for most, Portuguese for Brazil)." },
+  { q: 'What gets published?', a: 'A market or regulatory analysis for a specific country, original data on a regional trend, an operator story with real numbers, or reported news with local sources. Generic "why invest in Latin America" pieces do not get past the desk.' },
+  { q: 'Can I link to my company?', a: 'One disclosed link in the author bio at most, and only where the piece is genuine analysis.' },
+  { q: 'The metrics do not match my SEO tool. Why?', a: 'Domain Rating and traffic estimates are recalculated constantly and differ between tools. Several regional titles have closed since older lists were compiled and were replaced here with active outlets.' },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'Latin America Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/latin-america-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>Latin America Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-earth-americas" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Regional publishing splits into four tiers, and where you can land a byline depends on which one you aim at and whether the story has a real country angle.</p>
+            <p>The regional analysis outlets take contributed analysis from regional experts. The business outlets take operator stories with numbers. The country news sites take local stories. The policy platforms take research analysis. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Regional news &amp; analysis</td><td>Americas Quarterly, World Politics Review, NACLA, Latin America Reports, InSight Crime, MercoPress</td><td>Not open guest posts. Reported analysis with a clear country or regional focus</td></tr>
+                <tr><td>Business &amp; finance</td><td>LatinFinance, Contxto, Latin American Post, Latin Business Today, Latinometrics, Central America Data</td><td>Founder and operator stories with numbers, market data, sector analysis</td></tr>
+                <tr><td>Country-focused news</td><td>Colombia Reports, The Yucatan Times, Rio Times, Havana Times, Peru This Week, Dominican Today</td><td>Local stories, city and regional angles, business and travel content for that country</td></tr>
+                <tr><td>Policy &amp; academic</td><td>Global Americans, Latin American Studies, Dialogo Americas, LatinAmerica21, Peoples World</td><td>Contributed policy or research analysis; no promotional links</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> "Latin America" is not one market. Each country has its own press, rules and audience, and the English-language regional outlets are a thin layer on top. The largest opportunity is usually the local-language press, which needs a native writer.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; closed titles were replaced with active outlets. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Lead with the country.</strong> "What Colombia's new tax reform means for SaaS pricing" or "Brazil's fintech numbers by state" earns the read.</li>
+              <li><strong>Show you know the ground.</strong> Local sources, local data, an understanding of the regulatory context.</li>
+              <li><strong>Pitch the desk.</strong> "For your business coverage" or "for the analysis section" shows you read the outlet.</li>
+              <li><strong>Bring the assets.</strong> A data set, a chart, a country-by-country table.</li>
+              <li><strong>Match the format.</strong> Analysis outlets want a reported argument. Business outlets want a structured piece. Country news wants a local story.</li>
+              <li><strong>Disclose any client or brand tie</strong> up front.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Treat the whole region as one market.</li>
+              <li>Send a US or Europe piece with a country name swapped in.</li>
+              <li>Pitch a national daily a "guest post." That format does not exist there.</li>
+              <li>Put exact-match anchors on links back to your product.</li>
+              <li>Chase titles that have closed. Check the site is still publishing.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on active regional outlets with a genuine country angle will move rankings and pipeline more than a long list of links, some pointing at titles that no longer publish.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We build the shortlist by country and tier, write the pitches and the pieces with a real local angle, and place them on active regional publications. No link farms, no dead titles, no risk.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with Latin America guest posting and digital PR.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>

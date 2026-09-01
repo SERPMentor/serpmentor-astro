@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/high-traffic-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/high-traffic-posting-sites");
+const title = 'High-Traffic Sites Posting Sites: 100 Places to Publish';
+const metaTitle = '100 High-Traffic Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 of the highest-traffic sites that accept contributions across news, business, health, tech and lifestyle, with Domain Rating, Domain Authority and traffic.';
+const intro = "One hundred of the highest-traffic websites that publish outside contributions in some form, across business, tech, health, lifestyle, finance and personal-development. This is a cross-niche list; use it to find the biggest platforms, then check each one's actual submission route.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["nytimes.com", 95, "560,000,000"],
+  ["medium.com", 94, "210,456,000"],
+  ["behance.net", 93, "24,600,000"],
+  ["forbes.com", 93, "134,765,000"],
+  ["healthline.com", 93, "25,200,000"],
+  ["buzzfeed.com", 92, "18,200,000"],
+  ["coindesk.com", 92, "15,342,000"],
+  ["entrepreneur.com", 92, "112,345,000"],
+  ["investopedia.com", 92, "25,200,000"],
+  ["tradingview.com", 92, "20,600,000"],
+  ["inc.com", 91, "98,765,000"],
+  ["quora.com", 91, "487,654,000"],
+  ["reddit.com", 91, "542,789,000"],
+  ["theatlantic.com", 91, "22,000,000"],
+  ["webmd.com", 91, "20,000,000"],
+  ["bhg.com", 90, "24,400,000"],
+  ["cointelegraph.com", 90, "15,432,000"],
+  ["deviantart.com", 90, "23,800,000"],
+  ["huffpost.com", 90, "87,654,000"],
+  ["medicalnewstoday.com", 90, "25,800,000"],
+  ["popsugar.com", 90, "19,800,000"],
+  ["vox.com", 90, "16,600,000"],
+  ["wikihow.com", 90, "65,432,000"],
+  ["apartmenttherapy.com", 89, "5,459,999"],
+  ["businessinsider.com", 89, "76,543,000"],
+  ["cosmopolitan.com", 89, "7,560,000"],
+  ["health.com", 89, "5,820,000"],
+  ["refinery29.com", 89, "6,719,999"],
+  ["techradar.com", 89, "7,080,000"],
+  ["theverge.com", 89, "5,040,000"],
+  ["allrecipes.com", 88, "7,380,000"],
+  ["cnet.com", 88, "6,360,000"],
+  ["digitaltrends.com", 88, "6,539,999"],
+  ["epicurious.com", 88, "7,200,000"],
+  ["everydayhealth.com", 88, "7,380,000"],
+  ["fastcompany.com", 88, "67,890,000"],
+  ["goodhousekeeping.com", 88, "6,659,999"],
+  ["indiegogo.com", 88, "5,040,000"],
+  ["lifehacker.com", 88, "7,380,000"],
+  ["mashable.com", 88, "4,440,000"],
+  ["nerdwallet.com", 88, "5,160,000"],
+  ["slate.com", 88, "7,500,000"],
+  ["thenextweb.com", 88, "5,580,000"],
+  ["techcrunch.com", 87, "4,620,000"],
+  ["kiplinger.com", 86, "7,500,000"],
+  ["newsbtc.com", 86, "7,440,000"],
+  ["parents.com", 86, "6,240,000"],
+  ["searchenginejournal.com", 86, "5,520,000"],
+  ["self.com", 86, "4,440,000"],
+  ["shape.com", 86, "5,220,000"],
+  ["thespruce.com", 86, "7,380,000"],
+  ["thespruceeats.com", 86, "5,100,000"],
+  ["bustle.com", 85, "6,480,000"],
+  ["runnersworld.com", 85, "4,320,000"],
+  ["sheknows.com", 85, "5,940,000"],
+  ["venturebeat.com", 85, "5,100,000"],
+  ["wired.com", 85, "4,500,000"],
+  ["countryliving.com", 84, "2,088,000"],
+  ["greatist.com", 84, "2,208,000"],
+  ["healthychildren.org", 84, "3,096,000"],
+  ["lifehack.org", 84, "2,880,000"],
+  ["mindbodygreen.com", 84, "1,967,999"],
+  ["outsideonline.com", 84, "2,567,999"],
+  ["realsimple.com", 84, "2,400,000"],
+  ["dietdoctor.com", 83, "2,928,000"],
+  ["elitedaily.com", 83, "2,424,000"],
+  ["fxstreet.com", 83, "2,304,000"],
+  ["thepointsguy.com", 83, "1,680,000"],
+  ["verywell.com", 83, "2,519,999"],
+  ["wellandgood.com", 83, "2,256,000"],
+  ["goop.com", 82, "1,895,999"],
+  ["babypips.com", 80, "2,976,000"],
+  ["fatherly.com", 80, "3,048,000"],
+  ["theladders.com", 80, "1,919,999"],
+  ["themuse.com", 80, "2,784,000"],
+  ["thepennyhoarder.com", 80, "1,871,999"],
+  ["thrillist.com", 80, "1,800,000"],
+  ["forexlive.com", 79, "1,166,200"],
+  ["problogger.com", 79, "813,400"],
+  ["brit.co", 78, "1,019,200"],
+  ["gobankingrates.com", 78, "695,800"],
+  ["moneycrashers.com", 78, "1,205,400"],
+  ["purewow.com", 78, "705,600"],
+  ["skinnytaste.com", 78, "1,205,400"],
+  ["cheatsheet.com", 76, "950,600"],
+  ["moneyunder30.com", 76, "881,999"],
+  ["rd.com", 76, "891,799"],
+  ["recipegirl.com", 74, "465,600"],
+  ["healthyandnaturalworld.com", 71, "585,600"],
+  ["addicted2success.com", 67, "260,399"],
+  ["techjury.net", 67, "288,400"],
+  ["upjourney.com", 62, "145,600"],
+  ["techhub.com", 61, "148,800"],
+  ["thebalancesmb.com", 55, "118,750"],
+  ["thebalance.com", 52, "43,800"],
+  ["apartmentguide.com", 51, "60,000"],
+  ["healthyway.com", 51, "56,400"],
+  ["diynetwork.com", 44, "20,460"],
+  ["blog.hubspot.com", 40, "27,060"],
+  ["makeuseof.com", 32, "8,080"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Can I really guest post on a DR 90 site?', a: 'Rarely in the "submit an article" sense. The open platforms (Medium, Reddit, Quora, LinkedIn) let you publish directly. The contributor networks have narrowed and mostly want expert commentary. The section-based editorial sites commission and require credentials. Check each site\'s actual route before you pitch.' },
+  { q: 'Does a link from a huge site always help?', a: 'No. Relevance and the section it sits in matter more than raw traffic. A link buried in an unrelated section of a DR 90 site can pass almost nothing useful for your topic.' },
+  { q: 'Is a Medium or LinkedIn post worth it?', a: 'For distribution and audience, often yes. For SEO, the link value is limited (Medium links are usually nofollow), but a strong post can earn real editorial links from elsewhere.' },
+  { q: 'How do I use this list?', a: "Filter to the sites relevant to your niche, check each one's submission or contributor page, and pitch the two or three where your audience actually overlaps." },
+  { q: 'The metrics do not match my SEO tool. Why?', a: 'Domain Rating and traffic are whole-domain figures and differ between tools. The section you would publish in is a small slice of the total.' },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'High-Traffic Sites Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/high-traffic-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>High-Traffic Sites Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-fire" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">"High traffic" is a filter, not a strategy. The biggest sites are also the hardest to get into and the strictest on relevance, so read this list as a shortlist of platforms to research, not a target of 100.</p>
+            <p>The open platforms let you publish directly. The contributor networks have narrowed. The section-based editorial sites commission and require credentials. The crowdfunding and community routes are story-led. The list of 100 is below, grouped by route.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Open platforms</td><td>Medium, Reddit, Quora, LinkedIn, HackerNoon, Behance, DeviantArt</td><td>Publish directly; earn distribution through the platform's own ranking, not an editor</td></tr>
+                <tr><td>Contributor networks</td><td>Entrepreneur, Forbes, Inc, HuffPost, Business2Community, AllBusiness</td><td>A vetted contributor programme, where it still exists; expert commentary is the realistic route</td></tr>
+                <tr><td>Section-based editorial</td><td>The Balance, Healthline, Investopedia, The Spruce, Verywell, NerdWallet</td><td>Not open guest posts. Credentialed contributors for a specific section</td></tr>
+                <tr><td>Crowdfunding &amp; community</td><td>Indiegogo, Kickstarter blogs, GoFundMe stories, community subreddits</td><td>Story-led content tied to a campaign or a genuine community contribution</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> a link on a DR 90 site in the wrong section, with no topical relevance to your business, does very little. A link on a DR 75 site whose readers are your buyers does a lot. Traffic is one input; relevance is the one that matters most.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026. Traffic figures are whole-domain estimates; the section you would actually publish in is usually a fraction of that. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Check the route first.</strong> Open platform, contributor network or commissioned editorial. Each needs a completely different approach.</li>
+              <li><strong>Lead with relevance.</strong> Why this site's readers specifically need this piece.</li>
+              <li><strong>Bring the credential or the data.</strong> The bigger the site, the higher the bar for who gets a byline.</li>
+              <li><strong>Pitch the exact section.</strong> Naming it is the difference between a reply and silence.</li>
+              <li><strong>Match the platform's format.</strong> A Medium essay, a Reddit answer, a Forbes contributor piece and a Healthline section article are not interchangeable.</li>
+              <li><strong>Disclose any commercial interest</strong> in what you are writing about.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Treat a DR 90 link as valuable regardless of relevance or section.</li>
+              <li>Send the same pitch to Forbes, Reddit and Healthline.</li>
+              <li>Assume a contributor programme still exists without checking.</li>
+              <li>Put exact-match anchors on links back to your product.</li>
+              <li>Publish thin content on Medium purely for a nofollow link.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> use the traffic column to find the platforms with reach, then ignore it and choose the two or three whose audience actually overlaps with your customers. That short list beats chasing all 100.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We work out the real route into each big platform, match it to your audience, write to the format and place the piece. No link farms, no wasted pitches.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with guest posting on high-traffic sites.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>

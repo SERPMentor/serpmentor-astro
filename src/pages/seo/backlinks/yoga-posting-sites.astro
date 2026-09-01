@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/yoga-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/yoga-posting-sites");
+const title = 'Yoga Posting Sites: 100 Places to Publish';
+const metaTitle = '100 Yoga Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 live yoga, meditation and wellness sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.';
+const intro = 'One hundred yoga sites that publish outside contributions: the big yoga and wellness media, teacher and studio resources, practice and philosophy blogs, and yoga-brand editorial. Pick the tier that fits what you can offer an editor.';
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["yogajournal.com", 87, "4,560,000"],
+  ["mindbodygreen.com", 84, "1,967,999"],
+  ["elephantjournal.com", 78, "1,068,199"],
+  ["gaia.com", 78, "1,078,000"],
+  ["yogainternational.com", 78, "1,058,400"],
+  ["chopra.com/articles", 78, "1,900,000"],
+  ["mindful.org", 78, "1,900,000"],
+  ["insighttimer.com/blog", 76, "780,000"],
+  ["sonima.com", 74, "561,600"],
+  ["wanderlust.com/journal", 74, "620,000"],
+  ["lionsroar.com", 74, "780,000"],
+  ["spiritualityhealth.com", 73, "580,800"],
+  ["yogalifestyle.com", 73, "499,200"],
+  ["theyogapractice.org", 72, "489,600"],
+  ["yogisurprise.com", 72, "340,800"],
+  ["tricycle.org", 72, "620,000"],
+  ["kripalu.org", 71, "508,800"],
+  ["yogiclifestyle.com", 71, "350,400"],
+  ["aloyoga.com", 70, "552,000"],
+  ["meditative.org", 70, "398,400"],
+  ["theyogainstitute.org", 70, "412,800"],
+  ["yogaenergy.com", 69, "310,799"],
+  ["yogasimply.com", 69, "319,200"],
+  ["yogateachermagazine.com", 69, "355,600"],
+  ["theyogaspace.com", 68, "268,800"],
+  ["yogabliss.com", 68, "257,599"],
+  ["yogawithadriene.com", 68, "288,400"],
+  ["yogawiz.com", 68, "271,600"],
+  ["theyogilifestyle.com", 67, "268,800"],
+  ["myyogaglobal.com", 66, "254,799"],
+  ["yogaforbeginners.com", 66, "313,599"],
+  ["yogaforeveryone.tv", 65, "229,600"],
+  ["yogapractices.com", 65, "204,400"],
+  ["brettlarkin.com/blog", 64, "420,000"],
+  ["siddhiyoga.com/blog", 64, "540,000"],
+  ["badyogi.com", 63, "193,600"],
+  ["yogaco.com", 63, "115,200"],
+  ["yogarise.com", 63, "116,800"],
+  ["beginneryoga.com", 62, "163,200"],
+  ["yogahealthfoundation.org", 62, "179,199"],
+  ["arhantayoga.org/blog", 62, "420,000"],
+  ["yogamedicine.com/blog", 62, "320,000"],
+  ["theyogalunchbox.co.nz", 61, "187,200"],
+  ["karmasurfretreat.com", 59, "91,200"],
+  ["yoganytime.com", 59, "120,650"],
+  ["theyogacollective.com", 58, "120,000"],
+  ["wildmind.org", 58, "180,000"],
+  ["yogaeasy.de/en", 58, "120,000"],
+  ["yogaglo.com", 56, "114,950"],
+  ["yogateacherresource.com", 56, "85,499"],
+  ["theyogauk.com", 56, "120,000"],
+  ["yogarove.com", 56, "180,000"],
+  ["yogajala.com", 56, "180,000"],
+  ["yogatoday.com", 55, "88,350"],
+  ["yogatribe.com", 55, "106,399"],
+  ["theyoganomads.com", 54, "120,000"],
+  ["yogilab.com", 54, "120,000"],
+  ["yogaoutlet.com", 52, "64,800"],
+  ["mindfull.org", 52, "95,000"],
+  ["wellnessliving.com", 51, "70,800"],
+  ["yogabasics.com", 51, "42,600"],
+  ["yogacore.com", 50, "42,000"],
+  ["yogapedia.com", 50, "66,000"],
+  ["jasonyoga.com", 50, "87,000"],
+  ["mantramag.com", 50, "87,000"],
+  ["theyogaconnection.com", 50, "65,000"],
+  ["yogicway.com", 49, "41,300"],
+  ["dailycupofyoga.com", 48, "65,000"],
+  ["yogitrition.com", 48, "65,000"],
+  ["yogitimes.com", 46, "38,849"],
+  ["yogamatters.com", 45, "25,550"],
+  ["hummingpuppy.com/blog", 44, "32,000"],
+  ["yogawithsarah.com", 42, "23,320"],
+  ["sivananda.org", 41, "19,140"],
+  ["ashtanga.com", 40, "18,260"],
+  ["yogawisdom.com", 40, "28,159"],
+  ["yogapaws.com", 39, "17,919"],
+  ["theyogablog.com", 38, "14,560"],
+  ["yogaalliance.org", 38, "17,500"],
+  ["yogateaching.com", 38, "10,080"],
+  ["yogauonline.com", 38, "16,660"],
+  ["ekhartyoga.com", 37, "10,640"],
+  ["karmiyoga.com", 37, "12,459"],
+  ["yoga-international.com", 37, "16,520"],
+  ["yogaway.com", 37, "12,739"],
+  ["omstars.com", 36, "11,340"],
+  ["yogabody.com", 36, "17,220"],
+  ["yogafire.com", 36, "9,940"],
+  ["yogaforfitness.com", 35, "17,080"],
+  ["yogapassport.com", 35, "11,900"],
+  ["yogasupport.org", 33, "7,039"],
+  ["buddhaweekly.com", 32, "7,199"],
+  ["doyouyoga.com", 32, "7,520"],
+  ["pranayama.com", 32, "7,520"],
+  ["yogahaven.co.uk", 32, "8,559"],
+  ["yogaprana.com", 32, "9,680"],
+  ["doyou.com", 31, "8,800"],
+  ["yogadigest.com", 31, "8,160"],
+  ["yogicfoods.com", 31, "7,920"],
+  ["yogawithuliana.com", 30, "9,440"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Do sites like Yoga Journal accept guest posts?', a: 'Not open guest posts. Yoga Journal, Yoga International and the wellness media commission from staff and experienced contributors. They will take a byline from a senior teacher, a yoga therapist, or a writer with a fresh reported angle. The teacher resources and practice blogs are more open.' },
+  { q: 'What do I need to pitch a yoga site?', a: 'For anything physical (alignment, injury, therapy, prenatal), a recognised teaching certification (RYT-200/500) or a yoga-therapy qualification, and ideally a named reviewer. For philosophy, practice and lifestyle pieces, real depth of practice.' },
+  { q: 'Can I link to my studio, teacher training or product?', a: 'One disclosed link in the author bio at most, and only where the piece is genuinely useful. Editors strip promotional links from the body.' },
+  { q: 'Which matters more, Domain Rating or the audience?', a: 'The audience. A mid-DR site read by practitioners and teachers in your style beats a higher-DR general wellness site that buries your post.' },
+  { q: 'The metrics do not match my SEO tool. Why?', a: 'Domain Rating and traffic estimates are recalculated constantly and differ between tools. The yoga-blog space has thinned, and several well-known blogs from the 2010s have stopped publishing.' },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'Yoga Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/yoga-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>Yoga Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-spa" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Yoga publishing splits into four tiers, and where you can land a byline depends on whether you teach, practise deeply, or just write about it.</p>
+            <p>The big yoga media do not take open guest posts. The teacher resources take method and business content. The practice blogs are open. The brands run product-adjacent editorial. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Yoga &amp; wellness media</td><td>Yoga Journal, Yoga International, DoYou, MindBodyGreen, Gaia, Elephant Journal</td><td>Not open guest posts. A byline from an experienced teacher, yoga therapist or a fresh reported angle</td></tr>
+                <tr><td>Teacher &amp; studio resources</td><td>Yoga Alliance, Yoga Basics, Yogapedia, Yoga Teacher Magazine, Yoga Teacher Resource</td><td>Contributions on sequencing, teaching method, business of teaching, anatomy</td></tr>
+                <tr><td>Practice &amp; philosophy blogs</td><td>The Yoga Lunchbox, Yogic Way, Yogi Times, The Yogi Lifestyle, YogiClifestyle</td><td>Open to contributions; practice essays, philosophy, first-hand experience</td></tr>
+                <tr><td>Yoga brands &amp; retreats</td><td>Alo Yoga, Yoga Outlet, YogaPaws, Yogi Surprise, Karma Surf Retreat</td><td>Product-adjacent education, retreat and travel content, teacher spotlights</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> yoga overlaps with health and mindfulness, so anything touching injury, therapy or medical claims needs real qualifications. A piece from a certified teacher or a yoga therapist carries weight a generic wellness post does not.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; dormant and shut-down blogs were replaced with active yoga publications. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Lead with the teaching or the practice.</strong> "As a yoga therapist working with lower-back pain" or "what 10 years of Mysore practice taught me about consistency" earns the read.</li>
+              <li><strong>State your credential.</strong> Certification, lineage, years teaching. Editors want to know who is giving the guidance.</li>
+              <li><strong>Pitch the section.</strong> "For your teaching resources" or "for the philosophy series" shows you read the site.</li>
+              <li><strong>Bring your own detail.</strong> A sequence you actually teach, cues that work, a real student example (anonymised).</li>
+              <li><strong>Match the format.</strong> Media want a reported or personal piece. Teacher resources want a structured guide. Blogs want an honest essay.</li>
+              <li><strong>Disclose any training or product</strong> you have a stake in.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "5 poses for beginners" listicle with no teaching credential.</li>
+              <li>Make injury, prenatal or therapy claims with no qualification attached.</li>
+              <li>Send a lightly-reworded version of a post already on your own site.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best yoga mat") at your store.</li>
+              <li>Use AI-generated "yoga tips" with no lived practice behind them.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on yoga media and teacher resources with real readers, written from actual practice or teaching, will do more for rankings and studio bookings than a long list of dormant yoga-blog links.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We build the shortlist by style and tier, pair physical pieces with a certified teacher or therapist, write the pitches and place them on real yoga publications. No link farms, no risk.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with yoga and wellness guest posting and digital PR.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>

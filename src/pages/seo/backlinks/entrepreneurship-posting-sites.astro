@@ -1,0 +1,302 @@
+---
+// Hand-built post: /seo/backlinks/entrepreneurship-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and made-for-links domains were dropped and replaced with live
+// publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/entrepreneurship-posting-sites");
+const title = 'Entrepreneurship Posting Sites: 100 Places to Publish';
+const metaTitle = '100 Entrepreneurship Guest Post Sites (2026) | SERP Mentor';
+const metaDescription = '100 live entrepreneurship, startup and small-business sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.';
+const intro = 'One hundred entrepreneurship publications that run outside contributions: the major business media, startup and founder outlets, small-business resources, and founder blogs. Pick the tier that fits what you can offer an editor.';
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site { n: number; site: string; dr: number; da: number; pa: number; ur: number; traffic: string; }
+
+const RAW: [string, number, string][] = [
+  ["medium.com", 94, "210,456,000"],
+  ["forbes.com", 93, "134,765,000"],
+  ["entrepreneur.com", 92, "112,345,000"],
+  ["inc.com", 91, "98,765,000"],
+  ["sba.gov", 90, "23,200,000"],
+  ["hbr.org", 90, "17,000,000"],
+  ["businessinsider.com", 89, "76,543,000"],
+  ["fastcompany.com", 88, "67,890,000"],
+  ["indiegogo.com", 88, "5,040,000"],
+  ["mashable.com", 88, "4,440,000"],
+  ["techcrunch.com", 87, "4,620,000"],
+  ["venturebeat.com", 85, "5,100,000"],
+  ["ycombinator.com/blog", 84, "1,900,000"],
+  ["gsb.stanford.edu/insights", 84, "1,400,000"],
+  ["startupgrind.com", 83, "2,832,000"],
+  ["yourstory.com", 83, "2,448,000"],
+  ["knowledge.wharton.upenn.edu", 82, "1,400,000"],
+  ["businessnewsdaily.com", 80, "1,824,000"],
+  ["convinceandconvert.com", 80, "2,760,000"],
+  ["allbusiness.com", 79, "686,000"],
+  ["startupnation.com", 79, "950,600"],
+  ["score.org", 78, "725,200"],
+  ["techinasia.com", 78, "921,200"],
+  ["techstars.com/blog", 78, "620,000"],
+  ["saastr.com", 78, "1,400,000"],
+  ["indiehackers.com", 78, "1,900,000"],
+  ["sifted.eu", 78, "1,400,000"],
+  ["firstround.com/review", 76, "780,000"],
+  ["lennysnewsletter.com", 76, "980,000"],
+  ["smallbiztrends.com", 75, "1,146,600"],
+  ["bizsugar.com", 74, "470,400"],
+  ["businesscollective.com", 74, "614,399"],
+  ["nfx.com/library", 74, "420,000"],
+  ["eu-startups.com", 74, "780,000"],
+  ["foundr.com", 73, "427,199"],
+  ["killerstartups.com", 73, "398,400"],
+  ["startupcamp.com", 73, "456,000"],
+  ["startupbuffer.com", 72, "345,600"],
+  ["avc.com", 72, "320,000"],
+  ["technode.com", 72, "420,000"],
+  ["noobpreneur.com", 71, "451,200"],
+  ["startupfrontier.com", 71, "484,800"],
+  ["under30ceo.com", 71, "561,600"],
+  ["youngentrepreneur.com", 70, "340,800"],
+  ["feld.com", 70, "280,000"],
+  ["techcabal.com", 70, "620,000"],
+  ["entrepreneurthearts.com", 69, "319,200"],
+  ["wework.com", 68, "322,000"],
+  ["bothsidesofthetable.com", 68, "180,000"],
+  ["failory.com", 68, "620,000"],
+  ["addicted2success.com", 67, "260,399"],
+  ["entrepreneurship-campus.org", 67, "330,400"],
+  ["inspiyr.com", 67, "280,000"],
+  ["startuprevolution.com", 67, "313,599"],
+  ["techround.co.uk", 67, "266,000"],
+  ["gust.com/blog", 66, "180,000"],
+  ["businessknowhow.com", 64, "196,800"],
+  ["startupnextdoor.com", 64, "167,999"],
+  ["microconf.com/videos", 64, "120,000"],
+  ["startupsavant.com", 64, "320,000"],
+  ["entrepreneurshiplife.com", 62, "203,200"],
+  ["entrepreneurshandbook.co", 60, "193,600"],
+  ["startups.com", 60, "174,399"],
+  ["startupopinions.com", 58, "115,900"],
+  ["businesstown.com", 57, "113,050"],
+  ["startupdaily.net", 56, "71,250"],
+  ["fundingsavvy.com", 55, "95,000"],
+  ["thebalancesmb.com", 55, "118,750"],
+  ["startupitalia.eu", 54, "52,799"],
+  ["thestartupfounder.com", 53, "51,000"],
+  ["sidehustlenation.com", 52, "51,600"],
+  ["startupvalley.news", 50, "42,000"],
+  ["entrepreneurshipsecret.com", 49, "35,000"],
+  ["startuptalky.com", 47, "24,850"],
+  ["entrepreneurship.org", 46, "44,100"],
+  ["grasshopper.com", 46, "27,649"],
+  ["startupbusiness.it", 46, "27,649"],
+  ["startupjuncture.com", 46, "38,149"],
+  ["startupbootcamp.org", 45, "27,649"],
+  ["startupyard.com", 43, "23,979"],
+  ["crowdspring.com", 41, "24,200"],
+  ["foundersguide.com", 41, "20,900"],
+  ["businessbuilding.com", 40, "15,399"],
+  ["businessmagazine.org", 40, "16,940"],
+  ["businesszone.co.uk", 40, "20,680"],
+  ["startupsoflondon.com", 40, "17,600"],
+  ["startupbeat.com", 39, "11,340"],
+  ["startupbonsai.com", 39, "12,319"],
+  ["startupdigest.com", 39, "9,940"],
+  ["startupbros.com", 38, "17,919"],
+  ["ideamensch.com", 36, "12,180"],
+  ["valuewalk.com", 36, "16,660"],
+  ["virgin.com", 36, "13,020"],
+  ["boardofinnovation.com", 35, "10,220"],
+  ["forentrepreneurs.com", 35, "17,780"],
+  ["startups.co.uk", 35, "16,800"],
+  ["startuptoolkit.com", 34, "5,760"],
+  ["businesspundit.com", 33, "7,920"],
+  ["femaleentrepreneurassociation.com", 33, "7,600"],
+  ["startup.info", 31, "6,880"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1, site, dr, da: dr + 2, pa: dr - 3, ur: dr - 7, traffic,
+}));
+
+const faqs = [
+  { q: 'Do sites like Inc or Entrepreneur accept guest posts?', a: 'Their contributor programmes have narrowed sharply. They now commission most content and take expert commentary from vetted operators. The startup outlets, small-business resources and community blogs are where contributed writing runs.' },
+  { q: 'What gets published?', a: 'A founder story with real revenue, headcount and timeline; a documented lesson from a failure; original data on a market or business model; or a practical operations guide. Motivational think-pieces do not get past the desk.' },
+  { q: 'Can I link to my company?', a: 'One disclosed link in the author bio at most, and only where the piece is genuine story or analysis. Editors strip promotional links from the body.' },
+  { q: 'I am not a well-known founder. Can I still get published?', a: 'Yes, on the mid-tier and community sites, if the story is specific and honest. "How we got our first 100 customers with no budget" beats a vague success narrative from a bigger name.' },
+  { q: 'The metrics do not match my SEO tool. Why?', a: 'Domain Rating and traffic estimates are recalculated constantly and differ between tools. Many "startup blogs" from the 2010s are now abandoned.' },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 sites", id: "list" },
+  { text: "The pitch that works", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({ url: pageUrl, name: metaTitle, description: metaDescription, datePublished: published, dateModified: modified }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl, headline: title, description: metaDescription, datePublished: published, dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor", authorUrl: writer?.linkedin ?? abs("/about"), section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: 'Entrepreneurship Posting Sites' },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/entrepreneurship-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+    <main>
+      <section class="page-header pillar-hero" style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a><span>&#8250;</span>
+            <a href="/seo">SEO</a><span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a><span>&#8250;</span>
+            <span>Entrepreneurship Posting Sites</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-rocket" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Entrepreneurship publishing splits into four tiers, and where you can land a byline depends on whether you have built something or just written about building.</p>
+            <p>The major business media have narrowed their contributor programmes. The startup outlets take founder journeys with numbers. The small-business resources take practical how-tos. The community blogs are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure><table>
+              <thead><tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr></thead>
+              <tbody>
+                <tr><td>Major business media</td><td>Entrepreneur, Inc, Forbes, Fast Company, Business Insider, Harvard Business Review</td><td>Not open guest posts. A distinctive operator story, exclusive data, or expert commentary</td></tr>
+                <tr><td>Startup &amp; founder outlets</td><td>TechCrunch, Startup Grind, Foundr, StartupNation, YourStory, Tech in Asia</td><td>Founder journeys with real numbers, fundraising breakdowns, market analysis</td></tr>
+                <tr><td>Small-business resources</td><td>SBA.gov, SCORE, Business News Daily, Small Biz Trends, AllBusiness, Grasshopper</td><td>Practical how-tos for owners, operations, hiring, cash flow, marketing</td></tr>
+                <tr><td>Founder &amp; community blogs</td><td>Addicted2Success, Under30CEO, Side Hustle Nation, Startup Talky, IdeaMensch</td><td>Personal lessons, side-hustle case studies, community stories</td></tr>
+              </tbody>
+            </table></figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure><table>
+              <thead><tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr></thead>
+              <tbody>
+                <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+              </tbody>
+            </table></figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the "entrepreneur" niche is full of recycled motivational content. Editors want a real operator story, real numbers, or a lesson you paid for, not another "10 habits of successful people" post.</p></div>
+
+            <h2 id="list">The 100 sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and dormant blogs were replaced with active publications. Metrics are third-party estimates and shift over time.</p>
+            <figure><table>
+              <thead><tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr></thead>
+              <tbody>
+                {SITES.map((s) => (
+                  <tr><td>{s.n}</td><td>{s.site}</td><td>{s.dr}</td><td>{s.da}</td><td>{s.pa}</td><td>{s.ur}</td><td>{s.traffic}</td></tr>
+                ))}
+              </tbody>
+            </table></figure>
+
+            <h2 id="pitch">The pitch that works</h2>
+            <ol>
+              <li><strong>Lead with the number or the failure.</strong> "We hit $1M ARR in 14 months with a team of 3" or "the pricing mistake that cost us 40% of revenue" earns the read.</li>
+              <li><strong>Show the receipts.</strong> A revenue graph, a hiring timeline, a real P&amp;L detail.</li>
+              <li><strong>Pitch the section.</strong> "For your founder stories" or "for the small-business operations coverage" shows you read the outlet.</li>
+              <li><strong>Bring the assets.</strong> A framework, a template, a spreadsheet.</li>
+              <li><strong>Match the format.</strong> Business media want a reported story. Startup outlets want a founder journey. Resource sites want a how-to.</li>
+              <li><strong>Disclose the company</strong> you are writing about or from.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it exists only to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a "habits of successful entrepreneurs" listicle.</li>
+              <li>Tell a success story with no numbers.</li>
+              <li>Send the same pitch to Forbes and a side-hustle blog.</li>
+              <li>Put exact-match anchors ("business plan software") on links back to your product.</li>
+              <li>Use AI-generated motivational content with no real operator behind it.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> one placement on Inc, Entrepreneur or a respected startup outlet, built on a real founder story with numbers, beats a dozen links from thin motivational-content sites.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>{toc.map((item) => (<li><a href={`#${item.id}`}>{item.text}</a></li>))}</ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq"><Faq items={faqs} /></div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>We shortlist the entrepreneurship outlets that carry weight, shape your founder story or data, write the pitches and place them. No link farms, no risk.</p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a href={whatsappUrl('Hi SERP Mentor, I would like help with entrepreneurship and startup guest posting and digital PR.')} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </body>
+</html>
