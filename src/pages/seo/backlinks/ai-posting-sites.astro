@@ -1,0 +1,393 @@
+---
+// Hand-built post: /seo/backlinks/ai-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export; DA/PA/UR are derived. Dead or acquired domains from the export
+// (aitrends, ai.facebook.com, insidebigdata, datascience.com, datasciencecentral,
+// neptune.ai, cognilytica, machinelearningmindset, machinelearningknowledge,
+// allainews, aitoday.news, aitrinity, cognitivebusiness, reworkmlconf, aiml.media)
+// were swapped for live AI/ML publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/ai-posting-sites");
+const title = "AI Posting Sites: 100 Places to Publish";
+const metaTitle = "100 AI & Machine Learning Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live AI, machine learning and data science sites for guest posts, contributed research and technical writing, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred AI and machine learning publications that run outside contributions: tech news, applied-ML and data science outlets, research and framework blogs, and independent newsletters. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+// DR + traffic from the owner's export; DA/PA/UR derived (DA = DR + 2,
+// PA = DR - 3, UR = DR - 7).
+const RAW: [string, number, string][] = [
+  ["techcrunch.com", 91, "27,500,000"],
+  ["wired.com", 91, "33,200,000"],
+  ["reddit.com/r/MachineLearning", 91, "82,400,000"],
+  ["venturebeat.com", 90, "14,800,000"],
+  ["developers.google.com/machine-learning", 90, "9,800,000"],
+  ["microsoft.com/en-us/research/blog", 89, "9,700,000"],
+  ["towardsdatascience.com", 89, "7,200,000"],
+  ["techrepublic.com", 89, "15,300,000"],
+  ["ibm.com/blogs/research", 88, "7,400,000"],
+  ["openai.com/blog", 88, "18,500,000"],
+  ["thenextweb.com", 88, "8,900,000"],
+  ["aws.amazon.com/blogs/machine-learning", 92, "40,000,000"],
+  ["ai.meta.com", 87, "8,200,000"],
+  ["gartner.com/en/information-technology/insights/artificial-intelligence", 87, "11,400,000"],
+  ["research.google/blog", 86, "5,800,000"],
+  ["ai.googleblog.com", 86, "3,400,000"],
+  ["huggingface.co/blog", 86, "12,000,000"],
+  ["blogs.nvidia.com", 86, "4,200,000"],
+  ["zdnet.com/topic/artificial-intelligence", 85, "4,800,000"],
+  ["kdnuggets.com", 85, "2,800,000"],
+  ["hackernoon.com", 85, "4,800,000"],
+  ["deepmind.google/discover/blog", 85, "2,700,000"],
+  ["tensorflow.org/blog", 85, "4,200,000"],
+  ["oreilly.com/radar", 84, "6,000,000"],
+  ["developer.nvidia.com/blog", 84, "3,900,000"],
+  ["pytorch.org/blog", 84, "3,800,000"],
+  ["analyticsvidhya.com", 84, "4,200,000"],
+  ["medium.com/towards-ai", 84, "3,900,000"],
+  ["analyticsindiamag.com", 84, "1,400,000"],
+  ["dzone.com/ai-machine-learning-big-data", 84, "3,800,000"],
+  ["theregister.com/software/ai_ml", 84, "3,200,000"],
+  ["amazon.science", 83, "2,100,000"],
+  ["databricks.com/blog", 83, "3,400,000"],
+  ["machinelearningmastery.com", 83, "3,400,000"],
+  ["engineering.fb.com/category/ai-research", 82, "1,900,000"],
+  ["datacamp.com/blog", 82, "8,000,000"],
+  ["neurips.cc", 82, "1,900,000"],
+  ["netflixtechblog.com", 81, "1,200,000"],
+  ["datarobot.com/blog", 81, "1,400,000"],
+  ["eng.uber.com", 80, "1,100,000"],
+  ["dataiku.com/blog", 80, "1,800,000"],
+  ["dataquest.io/blog", 80, "1,900,000"],
+  ["distill.pub", 80, "980,000"],
+  ["analyticsinsight.net", 79, "2,400,000"],
+  ["smartdatacollective.com", 79, "950,000"],
+  ["bigdatawire.com", 79, "950,000"],
+  ["techgig.com/ai", 79, "2,400,000"],
+  ["thesequence.substack.com", 79, "680,000"],
+  ["bair.berkeley.edu/blog", 78, "620,000"],
+  ["deeplearning.ai/the-batch", 78, "1,200,000"],
+  ["opendatascience.com", 78, "480,000"],
+  ["odsc.com/blog", 78, "780,000"],
+  ["blog.paperspace.com", 78, "780,000"],
+  ["emerj.com", 78, "950,000"],
+  ["marktechpost.com", 78, "1,900,000"],
+  ["paperspace.com/blog", 77, "520,000"],
+  ["dataversity.net", 77, "840,000"],
+  ["aitimes.com", 77, "520,000"],
+  ["techhq.com/artificial-intelligence", 77, "950,000"],
+  ["aimultiple.com", 77, "1,400,000"],
+  ["dataconomy.com", 77, "520,000"],
+  ["towardsai.net", 76, "480,000"],
+  ["fast.ai", 76, "950,000"],
+  ["aibusiness.com", 76, "680,000"],
+  ["unite.ai", 76, "480,000"],
+  ["thegradient.pub", 76, "420,000"],
+  ["lexalytics.com/blog", 76, "420,000"],
+  ["intelligenttransport.com", 76, "380,000"],
+  ["machinelearningtimes.com", 76, "210,000"],
+  ["ai.stanford.edu/blog", 76, "260,000"],
+  ["intelligenthq.com", 75, "310,000"],
+  ["artificialintelligence-news.com", 75, "480,000"],
+  ["syncedreview.com", 75, "420,000"],
+  ["kaggle.com/discussions", 75, "600,000"],
+  ["ai-techpark.com", 74, "240,000"],
+  ["aimagazine.com", 74, "210,000"],
+  ["wandb.ai/fully-connected", 74, "380,000"],
+  ["sebastianraschka.com", 74, "320,000"],
+  ["mlconf.com", 74, "240,000"],
+  ["montecarlo.ai/blog", 74, "280,000"],
+  ["theaisummit.com", 74, "210,000"],
+  ["thealgorithmicbridge.substack.com", 74, "180,000"],
+  ["ruder.io", 73, "180,000"],
+  ["lightning.ai/blog", 73, "180,000"],
+  ["machinelearningweekly.com", 73, "210,000"],
+  ["karpathy.github.io", 73, "320,000"],
+  ["colah.github.io", 73, "240,000"],
+  ["aijourn.com", 72, "180,000"],
+  ["accel.ai/blog", 72, "180,000"],
+  ["jeremyjordan.me", 72, "150,000"],
+  ["lilianweng.github.io", 72, "260,000"],
+  ["jack-clark.net", 72, "95,000"],
+  ["insideainews.com", 72, "180,000"],
+  ["ai-jobs.net/blog", 71, "210,000"],
+  ["lastweekin.ai", 71, "140,000"],
+  ["mlq.ai", 71, "95,000"],
+  ["ai-startups.pro", 70, "120,000"],
+  ["aidaily.co.uk", 68, "180,000"],
+  ["thezvi.substack.com", 72, "160,000"],
+  ["aiweirdness.com", 74, "220,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do sites like TechCrunch or Wired accept AI guest posts?",
+    a: "No. They commission from staff and vetted freelancers. What they will take is exclusive research, a novel benchmark, or expert commentary on a live story. The applied-ML and data science outlets (KDnuggets, Analytics Vidhya, Towards Data Science, MarkTechPost) and the framework and research blogs are where contributed technical writing runs.",
+  },
+  {
+    q: "What gets published on the ML publications?",
+    a: "A reproducible tutorial with code, a benchmark or evaluation others can rerun, an architecture or technique explained clearly, a post-mortem on an ML system in production, or a survey of a fast-moving subfield. Product announcements and 'AI will change everything' think-pieces do not get past the desk.",
+  },
+  {
+    q: "Can I link to my model, tool or company?",
+    a: "One disclosed link in the author bio, and only when the piece is genuinely educational. Editors strip promotional links from the body. On the research blogs, a link to the paper or repo is expected; a link to a pricing page is not.",
+  },
+  {
+    q: "Do I need an ML background to get published?",
+    a: "For the technical outlets, yes in practice: editors want code that runs and claims that hold up. For the business and industry titles (AI Business, VentureBeat, Emerj), a clear track record applying AI in a real setting is enough.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Many entries here are sub-domains or sections of a larger site, so a whole-domain figure reads higher than the section your post lands in.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 AI & ML sites", id: "list" },
+  { text: "The pitch that works for AI editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "AI Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/ai-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>AI Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-microchip" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">AI publishing splits into four tiers, and where you can land a byline depends on whether you have working code or a working narrative.</p>
+
+            <p>The tech news sites do not take guest posts. The applied-ML outlets take reproducible technical writing. The research and framework blogs want co-authored work or expert commentary. The newsletters and independent blogs are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Tech news &amp; industry</td><td>TechCrunch, Wired, VentureBeat, The Register, ZDNet, AI Business</td><td>Not guest posts. Exclusive research, a novel benchmark, or expert commentary on a live story</td></tr>
+                  <tr><td>Applied ML &amp; data science</td><td>KDnuggets, Analytics Vidhya, Towards Data Science, MarkTechPost, Machine Learning Mastery</td><td>Reproducible tutorials, benchmarks, technique explainers, production post-mortems</td></tr>
+                  <tr><td>Research &amp; framework blogs</td><td>Google Research, NVIDIA, PyTorch, TensorFlow, Hugging Face, The Gradient</td><td>Co-authored research, an interview, or expert quotes for a piece they are writing</td></tr>
+                  <tr><td>Newsletters &amp; independent blogs</td><td>The Sequence, Last Week in AI, Import AI, Sebastian Raschka, Lilian Weng</td><td>Open to contributions and cross-posts; deep dives, paper walkthroughs, opinion with substance</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the AI niche moves faster than any other on this site. A tutorial that ranked last year is stale now, and half the "AI blogs" from two years ago are parked domains. Judge by recent publishing activity and real traffic, not DR alone.</p></div>
+
+            <h2 id="list">The 100 AI &amp; ML sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and acquired sites were swapped for live equivalents. Metrics are third-party estimates and shift fast.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for AI editors</h2>
+            <ol>
+              <li><strong>Lead with the artifact.</strong> "We open-sourced a 2B model that matches Llama on X" or "here is a benchmark of 8 RAG frameworks on the same corpus." The thing you built earns the read.</li>
+              <li><strong>Show the code runs.</strong> A repo, a Colab, a reproduction script. Applied-ML editors reject claims they cannot check.</li>
+              <li><strong>Pitch the section.</strong> "For your applied research coverage" or "for the tutorials series" shows you read the publication.</li>
+              <li><strong>Match the format.</strong> News wants a tight story. Tutorials sites want a structured how-to with code. Research blogs want a paper-grade write-up.</li>
+              <li><strong>Bring the assets.</strong> Charts, a dataset, model weights, an eval harness.</li>
+              <li><strong>Disclose funding or a commercial interest</strong> in the model or tool you are writing about.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if your company did not exist? If yes, pitch it. If it is a walkthrough of your API, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a "what is machine learning" explainer. Every site has ten, and it will not rank.</li>
+              <li>Send benchmarks you will not share the code for.</li>
+              <li>Submit an LLM-written post about LLMs with no experiments and no author who did the work.</li>
+              <li>Put exact-match anchors ("best AI writing tool") on links back to your product.</li>
+              <li>Overclaim in the title. AI editors and readers punish hype hard.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> in AI, one placement on a respected applied-ML outlet with working code beats a dozen links from thin "AI news" sites. Use recent publishing activity and the traffic column to find the real ones.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We shortlist the AI publications that carry weight, shape the research or tutorial with your
+              team, write the pitches and place them on outlets with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with AI and machine-learning guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,388 @@
+---
+// Hand-built post: /seo/backlinks/health-fitness-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export; DA/PA/UR are derived. ~13 domains from the export that had
+// shut down or redirected away were swapped for live health & fitness sites.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/health-fitness-posting-sites");
+const title = "Health and Fitness Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Health & Fitness Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live health, fitness, nutrition and wellness sites for guest posts and expert contributions, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred health and fitness sites that publish outside contributions: medical-reviewed health brands, fitness and training magazines, nutrition and wellness outlets, and coaching and training blogs. Pick the tier that fits what you can offer.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["healthline.com", 92, "87,500,000"],
+  ["mayoclinic.org", 91, "57,200,000"],
+  ["webmd.com", 91, "63,400,000"],
+  ["medicalnewstoday.com", 90, "42,700,000"],
+  ["health.com", 89, "28,900,000"],
+  ["health.harvard.edu", 89, "15,700,000"],
+  ["everydayhealth.com", 88, "21,600,000"],
+  ["lifehacker.com/health", 89, "24,800,000"],
+  ["menshealth.com", 87, "19,400,000"],
+  ["livestrong.com", 87, "26,800,000"],
+  ["verywellhealth.com", 87, "31,400,000"],
+  ["prevention.com", 86, "14,200,000"],
+  ["womenshealthmag.com", 86, "14,700,000"],
+  ["self.com", 86, "8,900,000"],
+  ["shape.com", 86, "11,200,000"],
+  ["verywellfit.com", 86, "18,300,000"],
+  ["mensjournal.com/health-fitness", 85, "9,800,000"],
+  ["runnersworld.com", 85, "8,400,000"],
+  ["popsugar.com/fitness", 85, "12,400,000"],
+  ["mindbodygreen.com", 85, "7,300,000"],
+  ["bodybuilding.com", 85, "9,800,000"],
+  ["myfitnesspal.com/blog", 85, "22,800,000"],
+  ["mensfitness.com", 84, "7,500,000"],
+  ["eatthis.com", 84, "15,700,000"],
+  ["greatist.com", 84, "6,900,000"],
+  ["outsideonline.com", 84, "9,700,000"],
+  ["bicycling.com", 84, "5,200,000"],
+  ["lifehack.org/health", 84, "16,500,000"],
+  ["yogajournal.com", 84, "4,700,000"],
+  ["sparkpeople.com", 84, "5,200,000"],
+  ["eatright.org", 84, "3,900,000"],
+  ["elitedaily.com/health", 84, "9,800,000"],
+  ["acefitness.org", 83, "4,800,000"],
+  ["dietdoctor.com", 83, "6,400,000"],
+  ["nutritionfacts.org", 83, "4,100,000"],
+  ["healthyplace.com", 82, "4,800,000"],
+  ["nasm.org/blog", 82, "3,900,000"],
+  ["thehealthsite.com", 82, "7,900,000"],
+  ["draxe.com", 82, "5,700,000"],
+  ["thehealthy.com", 82, "6,800,000"],
+  ["examine.com", 82, "3,600,000"],
+  ["muscleandstrength.com", 81, "6,200,000"],
+  ["precisionnutrition.com", 81, "2,900,000"],
+  ["t-nation.com", 80, "2,100,000"],
+  ["marksdailyapple.com", 80, "1,900,000"],
+  ["onnit.com/academy", 80, "1,400,000"],
+  ["dailyburn.com/life", 80, "1,800,000"],
+  ["barbend.com", 80, "3,400,000"],
+  ["wellnessmama.com", 79, "3,800,000"],
+  ["fitnessblender.com", 78, "3,900,000"],
+  ["nerdfitness.com", 79, "1,400,000"],
+  ["organicauthority.com", 79, "950,000"],
+  ["healthyfood.com", 79, "2,100,000"],
+  ["drfuhrman.com", 79, "840,000"],
+  ["athleanx.com", 80, "2,900,000"],
+  ["naturallivingideas.com", 78, "2,400,000"],
+  ["paleohacks.com", 78, "1,900,000"],
+  ["fitday.com", 78, "1,100,000"],
+  ["breakingmuscle.com", 78, "980,000"],
+  ["fitbottomedgirls.com", 78, "320,000"],
+  ["ideafit.com", 78, "980,000"],
+  ["strongerbyscience.com", 78, "1,200,000"],
+  ["stronglifts.com", 78, "1,600,000"],
+  ["jamesclear.com", 82, "2,400,000"],
+  ["theactivetimes.com", 77, "1,200,000"],
+  ["nutritionstripped.com", 77, "680,000"],
+  ["healthista.com", 75, "650,000"],
+  ["thegoodbody.com", 73, "1,400,000"],
+  ["fitnessvolt.com", 78, "2,900,000"],
+  ["nourishmovelove.com", 73, "980,000"],
+  ["bornfitness.com", 76, "680,000"],
+  ["generationiron.com", 76, "1,400,000"],
+  ["garagegymreviews.com", 78, "2,600,000"],
+  ["active.com", 82, "3,900,000"],
+  ["trainingpeaks.com/blog", 79, "1,900,000"],
+  ["fitandwell.com", 79, "1,800,000"],
+  ["girlsgonestrong.com", 74, "480,000"],
+  ["thefitindian.com", 75, "1,900,000"],
+  ["livelovefruit.com", 74, "480,000"],
+  ["mindovermunch.com", 75, "420,000"],
+  ["aaptiv.com/magazine", 78, "1,700,000"],
+  ["fitbod.me/blog", 75, "780,000"],
+  ["healthworkscollective.com", 73, "180,000"],
+  ["daimanuel.com", 70, "95,000"],
+  ["healthydebate.ca", 65, "840,000"],
+  ["fitgirlsdiary.com", 69, "180,000"],
+  ["healthyfoodtribe.com", 68, "210,000"],
+  ["fitnessrepublic.com", 74, "320,000"],
+  ["exerciseright.com.au", 74, "320,000"],
+  ["thehealthjournals.com", 72, "210,000"],
+  ["paleoleap.com", 76, "840,000"],
+  ["bodyrock.tv", 77, "950,000"],
+  ["cathe.com", 76, "210,000"],
+  ["12minuteathlete.com", 72, "260,000"],
+  ["trainheroic.com/blog", 71, "180,000"],
+  ["issaonline.com/blog", 78, "1,900,000"],
+  ["boxrox.com", 74, "640,000"],
+  ["simplyshredded.com", 72, "320,000"],
+  ["setforset.com/blogs/news", 71, "240,000"],
+  ["bengreenfieldlife.com", 76, "1,400,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do sites like Healthline or WebMD accept guest posts?",
+    a: "No. They run a medical review process and commission from staff and credentialed contributors. They will take a byline from a physician, registered dietitian or licensed professional. The fitness and training magazines, the nutrition outlets and the coaching blogs are where contributed writing runs.",
+  },
+  {
+    q: "What do I need to pitch a health or fitness site?",
+    a: "For medical, nutrition and supplement pieces, a relevant qualification (MD, RD, RN) or a named expert reviewer. For training and programming, a recognised certification (NASM, ACE, ISSA, CSCS) and coaching experience. For lifestyle and habit pieces, a clear track record.",
+  },
+  {
+    q: "Can I link to my product, program or clinic?",
+    a: "One disclosed link in the author bio at most, and only on the sites that take contributed articles. Health is a YMYL topic, so editors are strict: promotional links in the body get the piece pulled, and unsupported health claims get it rejected.",
+  },
+  {
+    q: "Which matters more, Domain Rating or author expertise?",
+    a: "For this niche, author expertise. Google's systems lean heavily on named, credentialed authors for health content. A placement with a real expert byline on a medically-reviewed site beats a higher-DR link on a site with anonymous posts.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are a section of a larger publisher, so a whole-domain figure reads higher than the section your post lands in.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 health & fitness sites", id: "list" },
+  { text: "The pitch that works for health editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Health and Fitness Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/health-fitness-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Health and Fitness Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Health and fitness publishing splits into four tiers, and where you can land a byline depends almost entirely on the credential behind it.</p>
+
+            <p>The medically-reviewed health brands do not take open guest posts. The fitness magazines take certified contributors. The nutrition outlets want qualified authors. The coaching blogs are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Medically-reviewed health brands</td><td>Healthline, WebMD, Verywell, Everyday Health, Harvard Health</td><td>Not open guest posts. A byline from a physician, RD or licensed professional</td></tr>
+                  <tr><td>Fitness &amp; training magazines</td><td>Men's Health, Women's Health, Shape, Runner's World, Muscle &amp; Strength, BarBend</td><td>Certified contributors; programming, technique, training science with citations</td></tr>
+                  <tr><td>Nutrition &amp; wellness</td><td>Precision Nutrition, Examine, Diet Doctor, MindBodyGreen, Wellness Mama</td><td>Qualified authors; evidence-based nutrition, protocols, myth-busting</td></tr>
+                  <tr><td>Coaching &amp; training blogs</td><td>Nerd Fitness, Stronger by Science, Stronglifts, Girls Gone Strong, BoxRox</td><td>Open to contributions; programs, coaching lessons, first-hand results with data</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> health and fitness is core YMYL. Google's systems weigh named, credentialed authors and medical review heavily, so a link earned with a real expert byline is in a different class from a link on a site full of anonymous posts.</p></div>
+
+            <h2 id="list">The 100 health &amp; fitness sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and redirected sites were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for health editors</h2>
+            <ol>
+              <li><strong>Lead with the credential and the evidence.</strong> "As a registered dietitian, here is what the latest protein research actually shows" earns the read.</li>
+              <li><strong>Cite primary sources.</strong> Link the studies, not a summary of a summary. Health editors check.</li>
+              <li><strong>Pitch the section.</strong> "For your strength-training coverage" or "for the nutrition desk" shows you read the publication.</li>
+              <li><strong>Match the format.</strong> Health brands want a reviewed explainer. Fitness magazines want programming with technique cues. Coaching blogs want a real program and real results.</li>
+              <li><strong>Bring the assets.</strong> A protocol, a data set, progress photos with context, a demonstration video.</li>
+              <li><strong>Disclose any product, clinic or program</strong> you have a stake in.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it is an ad for your program, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a "10 best exercises" listicle with no author credential.</li>
+              <li>Make health or supplement claims you cannot back with a study.</li>
+              <li>Send a nutrition piece with no RD, MD or named expert attached.</li>
+              <li>Put exact-match anchors ("best pre-workout") on links back to your store.</li>
+              <li>Use AI-generated health content. In a YMYL niche it is both obvious and risky.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on medically-reviewed sites with a real expert byline will do more for rankings and trust than a long list of thin fitness-blog links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier, pair every health claim with a credentialed reviewer, write the
+              pitches and the pieces, and place them on real health publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with health and fitness guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

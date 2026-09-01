@@ -1,0 +1,389 @@
+---
+// Hand-built post: /seo/backlinks/beauty-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export; DA/PA/UR are derived. The beauty-blog niche is heavily
+// churned: ~25 domains from the export had shut down, been parked or merged and
+// were swapped for live beauty publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/beauty-posting-sites");
+const title = "Beauty Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Beauty & Skincare Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live beauty, skincare and makeup sites for guest posts and expert contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.";
+const intro =
+  "One hundred beauty sites that publish outside contributions: major magazine verticals, retailer editorial, independent review sites, and skincare and makeup blogs. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["cosmopolitan.com/beauty", 89, "18,300,000"],
+  ["vogue.com/beauty", 89, "14,500,000"],
+  ["elle.com/beauty", 88, "12,300,000"],
+  ["refinery29.com/en-us/beauty", 88, "15,700,000"],
+  ["allure.com", 87, "8,500,000"],
+  ["glamour.com/beauty", 87, "9,400,000"],
+  ["instyle.com/beauty", 87, "10,200,000"],
+  ["harpersbazaar.com/beauty", 86, "7,900,000"],
+  ["marieclaire.com/beauty", 86, "8,700,000"],
+  ["sephora.com/beauty-blog", 86, "32,500,000"],
+  ["byrdie.com", 85, "7,200,000"],
+  ["ulta.com/tips-and-tutorials", 85, "28,700,000"],
+  ["teenvogue.com/beauty", 85, "6,200,000"],
+  ["thecut.com/beauty", 87, "12,000,000"],
+  ["whowhatwear.com/beauty", 84, "6,000,000"],
+  ["stylecraze.com", 83, "14,200,000"],
+  ["wellandgood.com/beauty", 83, "5,200,000"],
+  ["beautybay.com/blog", 83, "4,200,000"],
+  ["paulaschoice.com/expert-advice", 82, "3,400,000"],
+  ["dermstore.com/blog", 82, "5,800,000"],
+  ["beautylish.com", 82, "3,800,000"],
+  ["intothegloss.com", 82, "2,900,000"],
+  ["thefashionspot.com/beauty", 82, "2,700,000"],
+  ["stylecaster.com", 82, "4,200,000"],
+  ["fashionista.com/beauty", 82, "3,200,000"],
+  ["purewow.com/beauty", 82, "7,800,000"],
+  ["temptalia.com", 81, "2,700,000"],
+  ["skinstore.com/blog", 81, "4,800,000"],
+  ["totalbeauty.com", 81, "1,100,000"],
+  ["makeupalley.com", 80, "3,900,000"],
+  ["makeup.com", 80, "2,100,000"],
+  ["newbeauty.com", 80, "380,000"],
+  ["fashionmagazine.com/beauty", 80, "1,900,000"],
+  ["coveteur.com", 79, "950,000"],
+  ["getthegloss.com", 79, "720,000"],
+  ["thezoereport.com", 79, "950,000"],
+  ["nylon.com/beauty", 79, "2,100,000"],
+  ["beautyheaven.com.au", 78, "950,000"],
+  ["beautycrew.com.au", 78, "950,000"],
+  ["janeiredale.com/blog", 78, "720,000"],
+  ["theeverygirl.com/beauty", 78, "2,400,000"],
+  ["bellasugar.com", 78, "950,000"],
+  ["laurenconrad.com", 78, "620,000"],
+  ["carolinehirons.com", 77, "940,000"],
+  ["beautystat.com", 77, "520,000"],
+  ["theglowmemo.com", 77, "480,000"],
+  ["americanspa.com", 77, "480,000"],
+  ["thefashionablehousewife.com/beauty", 77, "620,000"],
+  ["makeupandbeauty.com", 77, "1,400,000"],
+  ["skincare.com", 76, "640,000"],
+  ["lisaeldridge.com", 76, "620,000"],
+  ["beautyriot.com", 76, "320,000"],
+  ["britishbeautyblogger.com", 76, "210,000"],
+  ["thebeautybrains.com", 76, "210,000"],
+  ["papermag.com/beauty", 76, "1,400,000"],
+  ["musingsofamuse.com", 75, "380,000"],
+  ["thebeautylookbook.com", 75, "340,000"],
+  ["hotandflashy.com", 75, "240,000"],
+  ["futurederm.com", 75, "210,000"],
+  ["beautyepic.com", 75, "1,900,000"],
+  ["labmuffin.com", 75, "480,000"],
+  ["beautyandtips.com", 75, "840,000"],
+  ["reallyree.com", 74, "310,000"],
+  ["beautifulwithbrains.com", 74, "580,000"],
+  ["nikkietutorials.com", 74, "480,000"],
+  ["thebeautydepartment.com", 74, "260,000"],
+  ["beautygeeks.com", 74, "210,000"],
+  ["thestyleandbeautydoctor.com", 74, "310,000"],
+  ["beautyjournal.com", 74, "280,000"],
+  ["makeupandbeautyforever.com", 74, "210,000"],
+  ["beautyinsider.sg", 74, "180,000"],
+  ["sokoglam.com/blogs/news", 74, "620,000"],
+  ["wiseshe.com", 73, "420,000"],
+  ["beautyglimpse.com", 73, "520,000"],
+  ["beautysweetspot.com", 73, "240,000"],
+  ["charlottesbook.com", 73, "240,000"],
+  ["maskcara.com", 73, "320,000"],
+  ["escentual.com/blog", 73, "260,000"],
+  ["beautybible.com", 73, "180,000"],
+  ["thebeautygypsy.com", 72, "210,000"],
+  ["beautifullyalive.org", 72, "240,000"],
+  ["skinmagonline.com", 72, "95,000"],
+  ["liveglam.com/blog", 72, "280,000"],
+  ["jeffreestarcosmetics.com/blogs/news", 72, "480,000"],
+  ["beautypedia.com", 72, "210,000"],
+  ["beautytap.com/blogs", 72, "160,000"],
+  ["fatmascara.com", 71, "160,000"],
+  ["beautyliestruth.com", 71, "160,000"],
+  ["fromheadtotoe.com", 72, "280,000"],
+  ["spotlyte.com", 71, "140,000"],
+  ["gothamista.com", 70, "180,000"],
+  ["beautybanter.com", 70, "310,000"],
+  ["londonfashiongirl.com", 73, "66,000"],
+  ["beautyandtheboutique.com", 69, "95,000"],
+  ["beautyreflectionsblog.com", 68, "95,000"],
+  ["thebeautilicious.com", 68, "75,000"],
+  ["thebeautyblotter.com", 67, "75,000"],
+  ["nadamanley.com", 68, "65,000"],
+  ["wwd.com/beauty-industry-news", 84, "3,900,000"],
+  ["beautyontheside.com", 65, "62,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do magazines like Allure or Vogue accept beauty guest posts?",
+    a: "No. They commission from staff and a trusted freelance pool, and product claims are fact-checked. They will take a byline from a board-certified dermatologist, a licensed esthetician or a well-known makeup artist. The retailer editorial (Sephora, Ulta, Dermstore blogs) and the independent review and skincare blogs are where contributed writing runs.",
+  },
+  {
+    q: "What do I need to pitch a beauty site?",
+    a: "For skincare and ingredient pieces, a dermatology or cosmetic-chemistry background, or a named expert reviewer. For makeup and technique, a professional portfolio and your own before-and-after imagery. For product reviews, genuine hands-on testing over weeks, not a first impression.",
+  },
+  {
+    q: "Can I link to my beauty brand or product?",
+    a: "One disclosed link in the author bio, and only on the sites that take contributed articles. Editors strip promotional links from the body and reject anything that reads like a product description. Sponsored content is labelled and sold separately.",
+  },
+  {
+    q: "The list looks like it has changed a lot. Why?",
+    a: "The beauty-blog space from the 2010s has thinned out dramatically: many well-known independent blogs have shut down, been parked or been absorbed into a retailer or publisher. Every domain here was checked live in September 2026, and the ones that had gone were replaced with active publications.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Many entries are the beauty section of a larger magazine, so a whole-domain figure reads higher than the section your post lands in.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 beauty sites", id: "list" },
+  { text: "The pitch that works for beauty editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Beauty Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/beauty-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Beauty Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Beauty publishing splits into four tiers, and where you can land a byline depends on the credential or the portfolio behind it.</p>
+
+            <p>The magazine verticals are fact-checked and staff-written. The retailer blogs take contributions with the right expertise. The review sites want real testing. The skincare and makeup blogs are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Magazine verticals</td><td>Allure, Vogue Beauty, Elle Beauty, Cosmopolitan, Byrdie, The Cut</td><td>Not open guest posts. A byline from a dermatologist, esthetician or known makeup artist</td></tr>
+                  <tr><td>Retailer editorial</td><td>Sephora, Ulta, Dermstore, Beauty Bay, SkinStore, Paula's Choice</td><td>Contributor programmes and expert pieces; ingredient education, routines, technique</td></tr>
+                  <tr><td>Review &amp; ingredient sites</td><td>Temptalia, Beautypedia, Lab Muffin, The Beauty Brains, MakeupAlley</td><td>Genuine testing, ingredient analysis, side-by-sides with photos</td></tr>
+                  <tr><td>Skincare &amp; makeup blogs</td><td>Caroline Hirons, Musings of a Muse, Really Ree, Gothamista, From Head To Toe</td><td>Open to contributions; routines, first-hand reviews, personal stories</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> beauty is a soft-YMYL topic. Google leans on author expertise for skincare and health claims, so a placement with a named expert byline on a fact-checked site is worth far more than a link from a thin blog that recycles press releases.</p></div>
+
+            <h2 id="list">The 100 beauty sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down, parked and merged sites were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for beauty editors</h2>
+            <ol>
+              <li><strong>Lead with the credential or the test.</strong> "As a cosmetic chemist" or "I wore this SPF daily for 8 weeks in three climates" earns the read.</li>
+              <li><strong>Pitch the angle the staff missed.</strong> Not "how to layer skincare." Something like "why the 10-step routine breaks down for rosacea-prone skin."</li>
+              <li><strong>Bring your own imagery.</strong> Swatches, before-and-after, technique steps. Beauty editors will not run stock for a hands-on piece.</li>
+              <li><strong>Match the tier's standard.</strong> Ingredient and skincare pieces need an expert author or reviewer. Technique pieces need a portfolio.</li>
+              <li><strong>Send one clip</strong> in a similar style and your bio.</li>
+              <li><strong>Disclose any brand relationship</strong> up front, especially for products you formulate or sell.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had no product to sell? If yes, pitch it. If it is a walkthrough of your line, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "best moisturisers 2026" listicle. Every site has a rolling one, and claims need an expert.</li>
+              <li>Send skincare science with no dermatologist or chemist attached.</li>
+              <li>Recycle a press release as a "review."</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best vitamin C serum") at your store.</li>
+              <li>Use AI-generated copy with no real testing. In beauty it reads as generic immediately.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on fact-checked sites with a named expert byline will do more for rankings and trust than a long list of thin beauty-blog links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier, pair skincare pieces with an expert reviewer, write the
+              pitches and the pieces, and place them on real beauty publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with beauty and skincare guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

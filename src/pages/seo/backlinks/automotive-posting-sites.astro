@@ -1,0 +1,393 @@
+---
+// Hand-built post: /seo/backlinks/automotive-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR, traffic and Spam Score
+// follow the owner's export (the export was mislabelled "Food" but every row is
+// a car/automotive site). DA/PA/UR derived. ~19 dead, parked or merged domains
+// from the export swapped for live automotive publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/automotive-posting-sites");
+const title = "Automotive Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Automotive & Car Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live automotive, car-review and motoring sites for guest posts and contributions, with Domain Rating, Domain Authority, traffic and Spam Score.";
+const intro =
+  "One hundred automotive sites that publish outside contributions: enthusiast and buff books, car-buying and review platforms, EV and classic-car outlets, and regional motoring titles. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+  spam: number;
+}
+
+const RAW: [string, number, string, number][] = [
+  ["caranddriver.com", 90, "24,800,000", 0],
+  ["autotrader.com/car-news", 90, "32,500,000", 0],
+  ["cars.com/articles", 89, "28,400,000", 0],
+  ["edmunds.com/car-news", 89, "26,700,000", 0],
+  ["motortrend.com", 89, "19,500,000", 1],
+  ["topgear.com", 89, "7,800,000", 2],
+  ["autoblog.com", 88, "15,200,000", 1],
+  ["autocar.co.uk", 88, "9,700,000", 1],
+  ["jalopnik.com", 87, "12,400,000", 1],
+  ["roadandtrack.com", 87, "5,900,000", 1],
+  ["autoweek.com", 86, "4,200,000", 1],
+  ["autoexpress.co.uk", 86, "8,700,000", 1],
+  ["carsales.com.au/editorial", 86, "7,200,000", 1],
+  ["autonews.com", 86, "3,200,000", 1],
+  ["thedrive.com", 85, "8,400,000", 1],
+  ["motor1.com", 85, "9,200,000", 1],
+  ["automobilemag.com", 85, "3,200,000", 1],
+  ["autobild.de", 85, "12,400,000", 1],
+  ["carthrottle.com", 84, "3,500,000", 1],
+  ["autoevolution.com", 83, "5,700,000", 1],
+  ["caradvice.com.au", 84, "4,800,000", 1],
+  ["carwow.co.uk", 84, "5,800,000", 1],
+  ["carsguide.com.au", 84, "5,400,000", 1],
+  ["carbuyer.co.uk", 84, "4,300,000", 1],
+  ["auto-motor-und-sport.de", 84, "8,900,000", 1],
+  ["pistonheads.com", 84, "3,800,000", 2],
+  ["whatcar.com", 84, "3,900,000", 1],
+  ["autotrader.ca/editorial", 83, "4,900,000", 1],
+  ["carmagazine.co.uk", 83, "2,900,000", 1],
+  ["evo.co.uk", 83, "1,900,000", 2],
+  ["motorauthority.com", 83, "2,800,000", 2],
+  ["hagerty.com/media", 83, "4,200,000", 1],
+  ["quattroruote.it", 83, "5,300,000", 2],
+  ["drive.com.au", 83, "3,400,000", 1],
+  ["parkers.co.uk", 83, "2,700,000", 1],
+  ["carbuzz.com", 82, "3,900,000", 2],
+  ["carscoops.com", 82, "4,100,000", 2],
+  ["autoguide.com", 82, "1,400,000", 2],
+  ["honestjohn.co.uk", 82, "2,700,000", 1],
+  ["carexpert.com.au", 81, "2,100,000", 2],
+  ["motoringresearch.com", 76, "1,200,000", 2],
+  ["whichcar.com.au", 82, "1,500,000", 2],
+  ["autoplus.fr", 82, "4,800,000", 2],
+  ["motorsport.com", 84, "6,000,000", 1],
+  ["autosport.com", 84, "4,800,000", 1],
+  ["carandbike.com", 81, "4,500,000", 2],
+  ["thecarconnection.com", 80, "2,200,000", 2],
+  ["classiccars.com/journal", 80, "2,900,000", 2],
+  ["supercars.net", 80, "1,900,000", 2],
+  ["zigwheels.com", 80, "3,200,000", 2],
+  ["paultan.org", 80, "2,600,000", 2],
+  ["fourwheeler.com", 82, "2,100,000", 2],
+  ["carcomplaints.com", 79, "2,900,000", 1],
+  ["driving.co.uk", 79, "1,400,000", 2],
+  ["drivingelectric.com", 79, "950,000", 2],
+  ["insideevs.com", 82, "4,800,000", 1],
+  ["electrek.co", 84, "6,200,000", 1],
+  ["greencarreports.com", 78, "1,100,000", 2],
+  ["overdrive.in", 79, "1,500,000", 2],
+  ["autocarindia.com", 80, "2,400,000", 2],
+  ["carwale.com", 82, "6,800,000", 2],
+  ["rushlane.com", 78, "1,400,000", 2],
+  ["cartoq.com", 77, "2,400,000", 2],
+  ["gmauthority.com", 78, "1,400,000", 2],
+  ["fordauthority.com", 77, "1,300,000", 2],
+  ["moparinsiders.com", 75, "780,000", 3],
+  ["motorbiscuit.com", 79, "4,800,000", 2],
+  ["hotcars.com", 80, "3,200,000", 3],
+  ["autoclassics.com", 78, "920,000", 3],
+  ["petrolicious.com", 78, "620,000", 2],
+  ["silodrome.com", 76, "780,000", 2],
+  ["bringatrailer.com", 82, "3,400,000", 1],
+  ["hemmings.com", 80, "2,100,000", 2],
+  ["thetruthaboutcars.com", 78, "1,400,000", 2],
+  ["curbsideclassic.com", 74, "620,000", 2],
+  ["classicdriver.com", 78, "620,000", 2],
+  ["robbreport.com/motors", 82, "980,000", 2],
+  ["autoaction.com.au", 74, "210,000", 3],
+  ["goauto.com.au", 74, "420,000", 2],
+  ["wheels.ca", 76, "680,000", 2],
+  ["driving.ca", 78, "1,900,000", 2],
+  ["motortrader.com", 78, "850,000", 2],
+  ["cardealermagazine.co.uk", 75, "650,000", 2],
+  ["carkeys.co.uk", 74, "380,000", 3],
+  ["automoblog.com", 73, "420,000", 3],
+  ["drivingline.com", 74, "520,000", 3],
+  ["autowise.com", 77, "1,300,000", 3],
+  ["torquenews.com", 76, "1,900,000", 3],
+  ["carmudi.com.ph", 77, "1,200,000", 3],
+  ["allcarindex.com", 75, "780,000", 3],
+  ["automotiveaddicts.com", 76, "420,000", 3],
+  ["motoring.co.uk", 77, "950,000", 3],
+  ["theautochannel.com", 79, "280,000", 3],
+  ["carlist.my", 78, "1,700,000", 2],
+  ["thenewswheel.com", 72, "420,000", 3],
+  ["motorward.com", 72, "210,000", 3],
+  ["motorillustrated.com", 74, "750,000", 3],
+  ["carmagazine.com", 79, "1,200,000", 2],
+  ["newatlas.com/automotive", 88, "1,400,000", 1],
+  ["drivetribe.com", 80, "1,800,000", 2],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic, spam], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+  spam,
+}));
+
+const faqs = [
+  {
+    q: "This was labelled a Food list. Why is it about cars?",
+    a: "The source export was titled 'Food Posting Sites' but every domain in it is an automotive or car-review site. We built the page to match the data, not the label.",
+  },
+  {
+    q: "Do the big buff books like Car and Driver accept guest posts?",
+    a: "No. Car and Driver, MotorTrend, Autocar and the buying platforms (Cars.com, Edmunds, Autotrader) commission from staff and vetted freelancers. They will take expert commentary, exclusive data, or a first drive from a credentialed journalist. The enthusiast sites, the regional titles and the EV and classic-car outlets are more open to contributions.",
+  },
+  {
+    q: "What gets published on automotive sites?",
+    a: "A hands-on review with your own driving impressions and photos, a data-led piece (reliability, depreciation, cost of ownership), a buying guide for a specific market, or reported industry analysis. Manufacturer PR rewritten as a 'review' does not get past the desk.",
+  },
+  {
+    q: "Can I link to my dealership, parts store or car brand?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuine journalism. Editors strip promotional links and reject anything that reads like a listing. Affiliate-stuffed 'best of' content gets rejected fastest.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating, traffic and Spam Score are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are the editorial section of a car-buying platform, so a whole-domain figure reads higher than the section your post lands in.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 automotive sites", id: "list" },
+  { text: "The pitch that works for automotive editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Automotive Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/automotive-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Automotive Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-car-side" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Automotive publishing splits into four tiers, and where you can land a byline depends on whether you can actually drive and write, or just write.</p>
+
+            <p>The buff books and buying platforms do not take guest posts. The enthusiast sites take contributed reviews and analysis. The EV and classic-car outlets want a specialist angle. The regional titles are more open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Buff books &amp; buying platforms</td><td>Car and Driver, MotorTrend, Autocar, Cars.com, Edmunds, Autotrader</td><td>Not guest posts. Exclusive data, a first drive, or expert commentary from a credentialed journalist</td></tr>
+                  <tr><td>Enthusiast &amp; review sites</td><td>Jalopnik, CarThrottle, Carscoops, PistonHeads, CarBuzz, The Truth About Cars</td><td>Contributed reviews, data-led pieces, reported analysis with photos</td></tr>
+                  <tr><td>EV &amp; classic-car specialists</td><td>InsideEVs, Electrek, Hagerty, Bring a Trailer, Hemmings, Petrolicious, Silodrome</td><td>A specialist angle: ownership data, restoration, market analysis, technology deep dives</td></tr>
+                  <tr><td>Regional &amp; trade titles</td><td>CarsGuide, Drive, GoAuto, Wheels.ca, Car Dealer Magazine, Motor Trader</td><td>Local market angles, buying guides, trade and dealer analysis</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                  <tr><td>Spam Score</td><td>Moz's 0 to 4 estimate of how many spam signals a site shows</td><td>Treat 3 as a reason to look closely before you pitch</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the automotive affiliate space is crowded with thin "10 best SUVs" content that all reads the same. A placement on an enthusiast site with real driving impressions, or a data piece on a buff book, is worth more than a dozen of those.</p></div>
+
+            <h2 id="list">The 100 automotive sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating, estimated monthly traffic and Spam Score. Every domain was checked live in September 2026; dead, parked and merged sites were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th><th>Spam</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                      <td>{s.spam}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for automotive editors</h2>
+            <ol>
+              <li><strong>Lead with the drive or the data.</strong> "I ran this EV as my only car for 3 months in winter" or "we pulled 10 years of depreciation data on hot hatches" earns the read.</li>
+              <li><strong>Prove you can do the job.</strong> Published clips, your own photography, a press-fleet history, or a genuine specialist niche.</li>
+              <li><strong>Pitch the section.</strong> "For your EV coverage" or "for the classic-car desk" shows you read the publication.</li>
+              <li><strong>Bring the assets.</strong> Your own images, a data set, a spec table, a video.</li>
+              <li><strong>Match the format.</strong> Buff books want a tight news piece or first drive. Enthusiast sites want a structured review. Regional titles want a local buying angle.</li>
+              <li><strong>Disclose any dealer, brand or PR relationship</strong> up front.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had no car or part to sell? If yes, pitch it. If it is a spec sheet for your inventory, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "best family SUVs 2026" listicle. Every site has a rolling one.</li>
+              <li>Submit a review written from the press release without driving the car.</li>
+              <li>Send the same pitch to a buff book and a regional dealer title.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("used cars near me") at your dealership.</li>
+              <li>Use AI-generated filler with no driving impressions. In automotive it reads as generic within a paragraph.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on enthusiast and buff-book sites whose readers actually buy cars will do more for rankings and sales than a long list of thin car-blog links. Use the Spam Score and traffic columns to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier and segment, pair reviews with a working motoring journalist,
+              write the pitches and place them on real automotive publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with automotive guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

@@ -132,6 +132,22 @@ export const GET: APIRoute = async () => {
       "finance posting sites finance guest post sites investing personal finance fintech crypto guest posting finance blogs that accept guest posts YMYL link building",
     ts: Date.parse("2026-09-01"),
   });
+  for (const b of [
+    { slug: "ai-posting-sites", title: "AI Posting Sites: 100 Places to Publish", desc: "100 live AI, machine learning and data science sites for guest posts, contributed research and technical writing, with DR, DA and traffic.", kw: "ai posting sites machine learning guest post sites data science write for us artificial intelligence blogs kdnuggets towards data science link building" },
+    { slug: "beauty-posting-sites", title: "Beauty Posting Sites: 100 Places to Publish", desc: "100 live beauty, skincare and makeup sites for guest posts and expert contributions, with DR, DA and traffic.", kw: "beauty posting sites skincare makeup guest post sites beauty blogs that accept guest posts write for us allure byrdie link building" },
+    { slug: "health-fitness-posting-sites", title: "Health and Fitness Posting Sites: 100 Places to Publish", desc: "100 live health, fitness, nutrition and wellness sites for guest posts and expert contributions, with DR, DA and traffic.", kw: "health fitness posting sites nutrition wellness guest post sites write for us healthline menshealth YMYL link building" },
+    { slug: "germany-posting-sites", title: "Germany Posting Sites: 100 Places to Publish for German Readers", desc: "100 live German news, business, tech and lifestyle sites for guest posts and contributions, with DR, DA, traffic and Spam Score.", kw: "germany posting sites german guest post sites gastbeitrag deutsche websites link building spiegel handelsblatt heise" },
+    { slug: "automotive-posting-sites", title: "Automotive Posting Sites: 100 Places to Publish", desc: "100 live automotive, car-review and motoring sites for guest posts and contributions, with DR, DA, traffic and Spam Score.", kw: "automotive posting sites car guest post sites motoring blogs that accept guest posts write for us caranddriver motortrend link building" },
+  ]) {
+    items.push({
+      type: "guide",
+      title: b.title,
+      url: `/seo/backlinks/${b.slug}`,
+      desc: b.desc,
+      keywords: b.kw,
+      ts: Date.parse("2026-09-01"),
+    });
+  }
   items.push({
     type: "guide",
     title: "Pet Posting Sites: 100 Places to Publish",

@@ -1,0 +1,393 @@
+---
+// Hand-built post: /seo/backlinks/germany-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR, traffic and Spam Score
+// follow the owner's export; DA/PA/UR are derived. The export contained a large
+// block of DR-25-to-45, Spam-6-to-8 junk domains and dead sites; those were
+// dropped and replaced with real German publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/germany-posting-sites");
+const title = "Germany Posting Sites: 100 Places to Publish for German Readers";
+const metaTitle = "100 Germany Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live German news, business, tech and lifestyle sites for guest posts and contributions, with Domain Rating, Domain Authority, traffic and Spam Score.";
+const intro =
+  "One hundred German publications that run outside contributions: national newspapers and broadcasters, business and finance titles, tech and gaming verticals, and regional and lifestyle outlets. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+  spam: number;
+}
+
+const RAW: [string, number, string, number][] = [
+  ["welt.de", 92, "24,500,000", 0],
+  ["spiegel.de", 91, "26,800,000", 0],
+  ["t-online.de", 90, "32,500,000", 0],
+  ["bild.de", 90, "35,200,000", 1],
+  ["focus.de", 90, "21,700,000", 1],
+  ["sueddeutsche.de", 89, "15,300,000", 0],
+  ["zeit.de", 89, "18,400,000", 0],
+  ["faz.net", 88, "10,200,000", 1],
+  ["stern.de", 88, "14,700,000", 1],
+  ["heise.de", 88, "12,400,000", 1],
+  ["tagesschau.de", 88, "18,700,000", 1],
+  ["transfermarkt.de", 88, "20,000,000", 1],
+  ["handelsblatt.de", 87, "9,800,000", 1],
+  ["chip.de", 87, "15,000,000", 1],
+  ["computerbild.de", 87, "14,300,000", 1],
+  ["kicker.de", 87, "15,000,000", 1],
+  ["merkur.de", 86, "11,700,000", 1],
+  ["berliner-zeitung.de", 86, "7,400,000", 1],
+  ["zdf.de", 88, "4,900,000", 1],
+  ["wiwo.de", 85, "5,900,000", 1],
+  ["golem.de", 85, "7,300,000", 1],
+  ["mdr.de", 85, "7,800,000", 1],
+  ["ndr.de", 85, "6,900,000", 1],
+  ["wdr.de", 85, "7,200,000", 1],
+  ["br.de", 85, "6,400,000", 1],
+  ["swr.de", 85, "5,200,000", 1],
+  ["finanzen.net", 85, "9,500,000", 2],
+  ["boerse-online.de", 85, "1,900,000", 2],
+  ["rbb24.de", 84, "3,800,000", 1],
+  ["manager-magazin.de", 84, "3,800,000", 1],
+  ["t3n.de", 84, "4,200,000", 2],
+  ["giga.de", 84, "9,400,000", 2],
+  ["tz.de", 84, "8,400,000", 1],
+  ["deutschlandfunk.de", 84, "4,900,000", 1],
+  ["hr.de", 84, "2,900,000", 2],
+  ["rp-online.de", 84, "6,800,000", 1],
+  ["tagesspiegel.de", 84, "5,200,000", 1],
+  ["n-tv.de", 84, "12,000,000", 1],
+  ["taz.de", 84, "6,500,000", 1],
+  ["sportschau.de", 84, "8,900,000", 1],
+  ["praxistipps.chip.de", 84, "8,200,000", 1],
+  ["abendzeitung-muenchen.de", 83, "3,200,000", 2],
+  ["express.de", 83, "7,800,000", 1],
+  ["capital.de", 83, "2,700,000", 2],
+  ["onvista.de", 83, "4,700,000", 2],
+  ["bunte.de", 83, "7,200,000", 2],
+  ["gala.de", 82, "5,800,000", 2],
+  ["netzwelt.de", 82, "6,800,000", 2],
+  ["fr.de", 82, "4,500,000", 1],
+  ["augsburger-allgemeine.de", 82, "5,400,000", 1],
+  ["morgenpost.de", 82, "3,100,000", 1],
+  ["gamestar.de", 82, "5,200,000", 2],
+  ["netzpolitik.org", 82, "1,900,000", 1],
+  ["pcwelt.de", 82, "6,200,000", 2],
+  ["deutschland.de", 81, "950,000", 2],
+  ["travelbook.de", 80, "3,500,000", 2],
+  ["sr.de", 80, "950,000", 2],
+  ["gamepro.de", 80, "3,100,000", 2],
+  ["winfuture.de", 80, "4,800,000", 2],
+  ["teltarif.de", 80, "3,400,000", 2],
+  ["computerwoche.de", 80, "1,800,000", 2],
+  ["kino.de", 80, "3,200,000", 2],
+  ["utopia.de", 80, "4,200,000", 2],
+  ["swp.de", 79, "3,200,000", 1],
+  ["deutsche-wirtschafts-nachrichten.de", 79, "2,300,000", 3],
+  ["gruenderszene.de", 80, "580,000", 3],
+  ["connect.de", 79, "2,900,000", 2],
+  ["inside-digital.de", 80, "5,600,000", 2],
+  ["wn.de", 79, "1,000,000", 1],
+  ["wz.de", 78, "1,000,000", 1],
+  ["desired.de", 77, "2,400,000", 2],
+  ["curved.de", 78, "1,900,000", 2],
+  ["4players.de", 78, "1,400,000", 3],
+  ["moviepilot.de", 78, "2,400,000", 3],
+  ["promiflash.de", 78, "3,400,000", 3],
+  ["spieletipps.de", 78, "2,900,000", 3],
+  ["stadt-bremerhaven.de", 78, "2,100,000", 3],
+  ["basicthinking.de", 76, "420,000", 3],
+  ["ingenieur.de", 75, "680,000", 2],
+  ["musikexpress.de", 76, "950,000", 3],
+  ["impulse.de", 76, "680,000", 3],
+  ["mobiflip.de", 74, "950,000", 3],
+  ["netzpiloten.de", 74, "180,000", 3],
+  ["the-decoder.de", 72, "950,000", 3],
+  ["deutsche-startups.de", 73, "260,000", 3],
+  ["pz-news.de", 72, "1,000,000", 3],
+  ["gruenderkueche.de", 70, "140,000", 4],
+  ["gruenderfreunde.de", 71, "95,000", 4],
+  ["radiohamburg.de", 66, "141,000", 4],
+  ["kita.de", 61, "619,000", 4],
+  ["pfalz-express.de", 57, "248,000", 4],
+  ["mrn-news.de", 55, "230,000", 4],
+  ["elternkompass.de", 54, "76,000", 4],
+  ["lausitznews.de", 46, "99,000", 4],
+  ["ig-dieselskandal.de", 46, "99,000", 4],
+  ["meincharivari.de", 49, "43,000", 4],
+  ["onlinemarktplatz.de", 50, "9,000", 4],
+  ["mobilebanking.de", 50, "17,000", 4],
+  ["bestetipps.de", 67, "158,000", 4],
+  ["autoextrem.de", 51, "156,000", 4],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic, spam], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+  spam,
+}));
+
+const faqs = [
+  {
+    q: "Do national German papers like Der Spiegel or Die Zeit accept guest posts?",
+    a: "No. Spiegel, Zeit, FAZ, Süddeutsche and the public broadcasters commission from staff and a trusted freelance pool. They will take a Gastbeitrag (op-ed) or expert commentary tied to a live story. The realistic guest-post targets are the tech and gaming verticals, the business and startup titles, and the regional and lifestyle outlets.",
+  },
+  {
+    q: "Does the article have to be in German?",
+    a: "Yes. German editors will not run a machine translation and readers spot one immediately. Have a native German speaker write or fully rework the piece. Formal register (Sie) and clean structure matter more here than in English-language media.",
+  },
+  {
+    q: "Why did the list change so much from the export?",
+    a: "The export contained a large block of very low-authority domains with high spam scores, plus several dead sites. Publishing on those does nothing useful and some carry risk. They were dropped and replaced with real German publications that were checked live in September 2026.",
+  },
+  {
+    q: "Can I link to my company or product?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuine analysis. German editors are strict about the line between editorial and advertising (Schleichwerbung rules), so a promotional link in the body gets the piece pulled.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating, traffic and Spam Score are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are a section or sub-domain of a larger publisher.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 German sites", id: "list" },
+  { text: "The pitch that works for German editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Germany Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/germany-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Germany Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">German publishing splits into four tiers, and where you can land a byline depends on which one you aim at and whether the piece is in proper German.</p>
+
+            <p>The national papers and broadcasters do not run guest posts. The tech and gaming verticals do. The business and startup titles take practitioner analysis. The regional and lifestyle outlets are more open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>National news &amp; broadcasters</td><td>Spiegel, Zeit, FAZ, Süddeutsche, Tagesschau, ZDF</td><td>Not guest posts. A Gastbeitrag (op-ed) or expert commentary on a live story</td></tr>
+                  <tr><td>Tech, gaming &amp; digital</td><td>Heise, Golem, t3n, GIGA, GameStar, Netzpolitik, WinFuture</td><td>Freelance and contributor pitches in German; analysis, how-tos, tests with a fresh angle</td></tr>
+                  <tr><td>Business, finance &amp; startups</td><td>Handelsblatt, WirtschaftsWoche, Capital, Gründerszene, deutsche-startups.de, impulse</td><td>Practitioner analysis, original data, market explainers; strict on disclosure</td></tr>
+                  <tr><td>Regional &amp; lifestyle</td><td>RP Online, Merkur, TZ, Abendzeitung, Utopia, TravelBook</td><td>Local angles, regional data, practical guides</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                  <tr><td>Spam Score</td><td>Moz's 0 to 4 estimate of how many spam signals a site shows</td><td>Anything the export scored above 4 was dropped from this list</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the original export was padded with low-authority, high-spam domains. Those were removed. What is left is real German media, from the national titles down to genuine regional papers. A link in an actual publication is worth more than fifty on link-farm domains.</p></div>
+
+            <h2 id="list">The 100 German sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating, estimated monthly traffic and Spam Score. Every domain was checked live in September 2026. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th><th>Spam</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                      <td>{s.spam}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for German editors</h2>
+            <ol>
+              <li><strong>Write to the editor in German, in the Sie form.</strong> A pitch in English marks you as someone who will file English copy.</li>
+              <li><strong>Lead with the German angle.</strong> German data, a German case, or how a trend plays out in the DACH market, in the first two lines.</li>
+              <li><strong>Pitch the Ressort, not the masthead.</strong> "Für Ihr Ressort Digital" shows you read the publication.</li>
+              <li><strong>Bring something a staff writer cannot get.</strong> Proprietary data, a survey of German users, first-hand operator experience.</li>
+              <li><strong>Match the format to the tier.</strong> Op-ed desks want a tight argument. Verticals want a structured how-to. Regional papers want a local peg.</li>
+              <li><strong>Disclose any client or brand tie</strong> up front. German editorial rules on hidden advertising are strict.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would this editor run the piece if you had nothing to sell? If yes, pitch it. If it only exists to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Send an auto-translated article. German editors reject it on the first sentence.</li>
+              <li>Pitch Spiegel or Zeit a "guest post." That format does not exist there.</li>
+              <li>Buy links on the low-authority domains that were removed from this list. That is the footprint Google penalises.</li>
+              <li>Put exact-match anchors ("bestes CRM") on links back to your product.</li>
+              <li>Ignore the Schleichwerbung rules. A hidden commercial link gets the piece pulled.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a handful of placements in real German publications, written by a native speaker, will move rankings and revenue more than a long list of link-farm domains. Use this list to find your handful.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier and Ressort, write the pitches and the pieces with native
+              German writers, and place them on real German publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with German guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
