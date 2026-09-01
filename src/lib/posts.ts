@@ -101,7 +101,14 @@ export function primaryCategory(post: WPPost): WPCategory {
 }
 
 export function featuredImage(post: WPPost): WPImage | null {
-  return post.featuredImage?.node ?? null;
+  if (post.featuredImage?.node) return post.featuredImage.node;
+  // Hand-built "…posting sites" lists ship a branded illustration in
+  // /public/images/posting/{slug}.png even when the WordPress post (if one
+  // exists) has no featured image set.
+  if (post.slug?.endsWith("-posting-sites") && BACKLINKS_STATIC_SLUGS.has(post.slug)) {
+    return { sourceUrl: `/images/posting/${post.slug}.png`, altText: post.title };
+  }
+  return null;
 }
 
 /**
