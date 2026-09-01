@@ -4921,20 +4921,20 @@ h6 {
   }
 }
 
-/* posting-site featured image (hand-built /seo/backlinks/*-posting-sites pages) */
-.posting-feature {
-  margin: 28px 0 0;
-  max-width: 640px;
+/* posting-site featured illustration (hand-built /seo/backlinks/*-posting-sites) */
+.posting-hero-figure {
+  align-self: center;
 }
-.posting-feature img {
+.posting-hero-figure img {
   width: 100%;
-  height: auto;
-  aspect-ratio: 1200 / 630;
-  border: 1px solid var(--hairline, #e0e1e9);
-  border-radius: 12px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   display: block;
-  background: #fff;
+  border: 1px solid var(--line, #e0e1e9);
+  border-radius: var(--r-lg, 14px);
+  background: #ffffff;
+  box-shadow: 0 20px 50px rgba(24, 30, 45, 0.10);
 }
-@media (max-width: 640px) {
-  .posting-feature { margin-top: 20px; }
+@media (max-width: 860px) {
+  .posting-hero-figure { margin-top: 1.4rem; max-width: 520px; }
 }

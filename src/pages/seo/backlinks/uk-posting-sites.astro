@@ -224,7 +224,7 @@ const graph = [
     <meta property="og:description" content={metaDescription} />
     <meta property="og:image" content={abs("/images/posting/uk-posting-sites.png")} />
     <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:height" content="675" />
     <meta property="og:image:alt" content={title} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={metaTitle} />
@@ -237,10 +237,11 @@ const graph = [
 
     <main>
       <section
-        class="page-header pillar-hero"
+        class="page-header page-header-split pillar-hero"
         style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
       >
         <div class="container">
+          <div>
           <div class="breadcrumbs">
             <a href="/">Home</a>
             <span>›</span>
@@ -256,9 +257,10 @@ const graph = [
           <h1>{title}</h1>
           <p class="pillar-intro">{intro}</p>
           <PageByline />
-          <figure class="posting-feature">
-            <img src="/images/posting/uk-posting-sites.png" width="1200" height="630" alt={title} loading="eager" />
-          </figure>
+          </div>
+          <div class="posting-hero-figure">
+            <img src="/images/posting/uk-posting-sites.png" width="1200" height="675" alt={title} loading="eager" decoding="async" />
+          </div>
         </div>
       </section>
 

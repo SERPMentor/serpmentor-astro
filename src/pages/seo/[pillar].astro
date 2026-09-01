@@ -265,6 +265,9 @@ if (pillar.slug === "backlinks") {
       date: "2026-09-01T09:00:00Z",
       excerpt: h.excerpt,
       categories: { nodes: [{ slug: "seo-backlinks", name: "SEO Backlinks" }] },
+      featuredImage: {
+        node: { sourceUrl: `/images/posting/${h.slug}.png`, altText: h.title },
+      },
     } as WPPost);
   }
   // fold in any hand-picked backlink guides that sit in the general SEO category
