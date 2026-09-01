@@ -105,6 +105,15 @@ export const GET: APIRoute = async () => {
       "dating posting sites dating guest post sites relationship guest posting dating blogs that accept guest posts dating niche link building relationship advice sites backlink",
     ts: Date.parse("2026-09-01"),
   });
+  items.push({
+    type: "guide",
+    title: "Lifestyle Posting Sites: 100 Places to Publish",
+    url: "/seo/backlinks/lifestyle-posting-sites",
+    desc: "100 live lifestyle, fashion, home, food and travel sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to pitch each type.",
+    keywords:
+      "lifestyle posting sites lifestyle guest post sites fashion beauty home food travel wellness parenting guest posting lifestyle blogs that accept guest posts contributor link building",
+    ts: Date.parse("2026-09-01"),
+  });
 
   // --- category archives ---------------------------------------
   for (const c of await getCategories()) {

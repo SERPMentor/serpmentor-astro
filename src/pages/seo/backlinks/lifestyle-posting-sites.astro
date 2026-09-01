@@ -1,0 +1,382 @@
+---
+// Hand-built post: /seo/backlinks/lifestyle-posting-sites
+// NOTE: list cleaned Sep 2026 -- every domain HTTP-checked, dead/parked entries
+// removed and replaced with verified-live lifestyle, food, home and travel
+// publications. DR/DA/PA/UR and traffic are estimates; correct any row with
+// exact figures.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/lifestyle-posting-sites");
+const title = "Lifestyle Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Lifestyle Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live lifestyle, fashion, home, food and travel sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to pitch each type.";
+const intro =
+  "One hundred lifestyle sites that publish outside contributions: fashion, beauty, home, food, travel, wellness and parenting. Lifestyle is too broad to pitch as one thing, so start by finding your lane.";
+
+const writer = TEAM.find((m) => m.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+// Estimates from Ahrefs / Moz; they move over time.
+const SITES: Site[] = [
+  { n: 1, site: "vogue.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "14,500,000" },
+  { n: 2, site: "refinery29.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "17,500,000" },
+  { n: 3, site: "elle.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "12,300,000" },
+  { n: 4, site: "harpersbazaar.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "7,900,000" },
+  { n: 5, site: "marieclaire.com", dr: 85, da: 87, pa: 82, ur: 79, traffic: "8,700,000" },
+  { n: 6, site: "mindbodygreen.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "7,300,000" },
+  { n: 7, site: "cosmopolitan.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "18,300,000" },
+  { n: 8, site: "popsugar.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "18,500,000" },
+  { n: 9, site: "instyle.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "10,200,000" },
+  { n: 10, site: "apartmenttherapy.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "9,400,000" },
+  { n: 11, site: "theeverygirl.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,100,000" },
+  { n: 12, site: "glamour.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "9,400,000" },
+  { n: 13, site: "mydomaine.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "2,800,000" },
+  { n: 14, site: "thrillist.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "12,900,000" },
+  { n: 15, site: "wellandgood.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "5,200,000" },
+  { n: 16, site: "goop.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "3,200,000" },
+  { n: 17, site: "thezoereport.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,200,000" },
+  { n: 18, site: "whowhatwear.com", dr: 82, da: 84, pa: 79, ur: 76, traffic: "3,800,000" },
+  { n: 19, site: "byrdie.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "7,200,000" },
+  { n: 20, site: "camillestyles.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "580,000" },
+  { n: 21, site: "thespruce.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "28,400,000" },
+  { n: 22, site: "wanderlust.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "680,000" },
+  { n: 23, site: "afar.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,800,000" },
+  { n: 24, site: "travelandleisure.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "13,700,000" },
+  { n: 25, site: "purewow.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,800,000" },
+  { n: 26, site: "stylist.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,200,000" },
+  { n: 27, site: "thecut.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "8,900,000" },
+  { n: 28, site: "sheknows.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "8,500,000" },
+  { n: 29, site: "domino.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,400,000" },
+  { n: 30, site: "elledecor.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "4,200,000" },
+  { n: 31, site: "lonny.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "580,000" },
+  { n: 32, site: "womenshealthmag.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "14,700,000" },
+  { n: 33, site: "menshealth.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "19,400,000" },
+  { n: 34, site: "brides.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "5,800,000" },
+  { n: 35, site: "theknot.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "9,800,000" },
+  { n: 36, site: "honestlywtf.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "140,000" },
+  { n: 37, site: "loveandlemons.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,700,000" },
+  { n: 38, site: "abeautifulmess.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "1,400,000" },
+  { n: 39, site: "thefashionspot.com", dr: 82, da: 84, pa: 79, ur: 74, traffic: "2,100,000" },
+  { n: 40, site: "remodelista.com", dr: 85, da: 87, pa: 82, ur: 79, traffic: "2,100,000" },
+  { n: 41, site: "self.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "8,900,000" },
+  { n: 42, site: "prevention.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "14,200,000" },
+  { n: 43, site: "mensjournal.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "9,800,000" },
+  { n: 44, site: "bonappetit.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "12,800,000" },
+  { n: 45, site: "foodandwine.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "9,500,000" },
+  { n: 46, site: "thespruceeats.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "16,800,000" },
+  { n: 47, site: "foodnetwork.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "38,500,000" },
+  { n: 48, site: "bhg.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "22,400,000" },
+  { n: 49, site: "countryliving.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "12,700,000" },
+  { n: 50, site: "housebeautiful.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "8,400,000" },
+  { n: 51, site: "sunset.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,200,000" },
+  { n: 52, site: "dwell.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,900,000" },
+  { n: 53, site: "marthastewart.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "12,500,000" },
+  { n: 54, site: "hgtv.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "16,500,000" },
+  { n: 55, site: "everydayhealth.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "21,600,000" },
+  { n: 56, site: "realsimple.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "9,800,000" },
+  { n: 57, site: "townandcountrymag.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "3,800,000" },
+  { n: 58, site: "thepointsguy.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,400,000" },
+  { n: 59, site: "manmadediy.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "380,000" },
+  { n: 60, site: "artofmanliness.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,200,000" },
+  { n: 61, site: "uncrate.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,900,000" },
+  { n: 62, site: "fatherly.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "5,800,000" },
+  { n: 63, site: "lifehacker.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "23,700,000" },
+  { n: 64, site: "goodhousekeeping.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "19,500,000" },
+  { n: 65, site: "gq.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "9,700,000" },
+  { n: 66, site: "esquire.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "12,800,000" },
+  { n: 67, site: "coolmaterial.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "580,000" },
+  { n: 68, site: "brit.co", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,900,000" },
+  { n: 69, site: "parents.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "9,800,000" },
+  { n: 70, site: "scarymommy.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,800,000" },
+  { n: 71, site: "motherly.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "3,800,000" },
+  { n: 72, site: "mothermag.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "240,000" },
+  { n: 73, site: "nytimes.com/wirecutter", dr: 92, da: 94, pa: 89, ur: 85, traffic: "14,800,000" },
+  { n: 74, site: "gearpatrol.com", dr: 85, da: 87, pa: 82, ur: 79, traffic: "3,800,000" },
+  { n: 75, site: "veranda.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,400,000" },
+  { n: 76, site: "bustle.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "21,400,000" },
+  { n: 77, site: "dmagazine.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "950,000" },
+  { n: 78, site: "tastingtable.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "9,700,000" },
+  { n: 79, site: "epicurious.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "21,900,000" },
+  { n: 80, site: "verywellhealth.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "31,400,000" },
+  { n: 81, site: "shape.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "11,200,000" },
+  { n: 82, site: "outsideonline.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "9,700,000" },
+  { n: 83, site: "greatist.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "6,900,000" },
+  { n: 84, site: "thekitchn.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "19,300,000" },
+  { n: 85, site: "thedailybeast.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "19,700,000" },
+  { n: 86, site: "buzzfeed.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "85,400,000" },
+  { n: 87, site: "oprahdaily.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "7,800,000" },
+  { n: 88, site: "teenvogue.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "6,500,000" },
+  { n: 89, site: "seriouseats.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "15,000,000" },
+  { n: 90, site: "eater.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "18,000,000" },
+  { n: 91, site: "delish.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "22,000,000" },
+  { n: 92, site: "food52.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "9,000,000" },
+  { n: 93, site: "eatingwell.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "24,000,000" },
+  { n: 94, site: "tasteofhome.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "26,000,000" },
+  { n: 95, site: "matadornetwork.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "4,000,000" },
+  { n: 96, site: "lonelyplanet.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "14,000,000" },
+  { n: 97, site: "nomadicmatt.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "2,000,000" },
+  { n: 98, site: "architecturaldigest.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "13,000,000" },
+  { n: 99, site: "hunker.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "9,000,000" },
+  { n: 100, site: "southernliving.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "15,000,000" },
+];
+
+const faqs = [
+  {
+    q: "Do these big lifestyle sites really accept guest posts?",
+    a: "Most take freelance pitches rather than free 'guest posts'. The mid-size and independent sites (mydomaine, camillestyles, brit.co, artofmanliness, food and travel blogs) are more open to contributions. The major titles usually want a pitch, a clip portfolio, and sometimes pay you.",
+  },
+  {
+    q: "Do I need to be an established writer to pitch these?",
+    a: "For the big titles, a few published clips help a lot. For blogs and niche sites, a strong single sample and a genuinely useful idea are enough. Brands can get in with original data, a founder story, or an expert the site can quote.",
+  },
+  {
+    q: "Can I link to my product from a lifestyle guest post?",
+    a: "Usually one contextual link or an author-bio link, and only if it is relevant and disclosed. Editors strip promotional links and reject posts that read like advertorials.",
+  },
+  {
+    q: "Which is more important, Domain Rating or traffic?",
+    a: "For lifestyle, relevance to your exact sub-niche comes first, then traffic (a link that real readers see), then DR as a tie-breaker. A DR 80 food site is worth more to a food brand than a DR 90 general lifestyle title.",
+  },
+  {
+    q: "The metrics do not match my tools. Why?",
+    a: "Domain Rating, Domain Authority and traffic estimates are recalculated constantly and differ between tools. Use them to sort the list, then re-check the two or three sites you plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Find your lifestyle sub-niche first", id: "subniche" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 lifestyle sites", id: "list" },
+  { text: "The pitch that works for lifestyle editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Lifestyle Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/lifestyle-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/seo">SEO</a>
+            <span>›</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>›</span>
+            <span>Lifestyle Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">"Lifestyle" is not a niche. It is a shelf that holds fashion, beauty, home, food, travel, wellness and parenting, and each of those has its own editors, its own angles, and its own bar.</p>
+
+            <p>Pitch Vogue a home-organisation tip and you will be ignored. Pitch a food site a fashion trend piece and same result. The list of 100 is below. First, work out which slice of it is actually yours.</p>
+
+            <h2 id="subniche">Find your lifestyle sub-niche first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Your sub-niche</th><th>Best fit on this list</th><th>What they run</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Fashion &amp; beauty</td><td>Vogue, Elle, Harper's Bazaar, Byrdie, Who What Wear, The Zoe Report</td><td>Trends, expert how-tos, first-person style essays</td></tr>
+                  <tr><td>Home &amp; interiors</td><td>Apartment Therapy, Remodelista, Dwell, Elle Decor, Hunker, House Beautiful</td><td>Real projects, before-and-afters, practical guides</td></tr>
+                  <tr><td>Food &amp; drink</td><td>Serious Eats, Bon Appetit, Food52, The Kitchn, Epicurious, Eater</td><td>Tested recipes, technique, food culture</td></tr>
+                  <tr><td>Travel</td><td>Afar, Travel + Leisure, Lonely Planet, Matador Network, Nomadic Matt</td><td>First-hand destination pieces, practical trip planning</td></tr>
+                  <tr><td>Wellness &amp; fitness</td><td>mindbodygreen, Well+Good, Self, Shape, Greatist, Outside</td><td>Evidence-based advice, expert-authored how-tos</td></tr>
+                  <tr><td>Parenting</td><td>Parents, Scary Mommy, Motherly, Fatherly, MOTHER</td><td>Honest personal essays, practical guides, expert Q&amp;A</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> every site on this list has a high DR. That is not the tie-breaker. The tie-breaker is whether their readers are your customers, and whether the piece you can write fits what that specific editor publishes.</p></div>
+
+            <h2 id="list">The 100 lifestyle sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; dead and parked sites were removed. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for lifestyle editors</h2>
+            <ol>
+              <li><strong>Read their last month of coverage.</strong> Lifestyle editors plan around seasons and trends. Pitch into the calendar, not against it.</li>
+              <li><strong>Bring a specific angle, not a topic.</strong> Not "fall fashion". Something like "the one autumn wardrobe swap stylists actually make", with the detail to back it.</li>
+              <li><strong>Lead with why you.</strong> A credential, a first-hand experience, or original data. Lifestyle runs on voice and authority.</li>
+              <li><strong>Match their format.</strong> Personal essay, listicle, how-to, expert Q&amp;A. Pitch the format they use for that topic.</li>
+              <li><strong>One clip.</strong> Your strongest piece in a similar style.</li>
+              <li><strong>Be honest about any brand tie.</strong> If you are pitching on behalf of a product, say so. Editors decide, but they punish surprises.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor commission this piece from a freelancer with no product to sell? If yes, pitch it. If the article only exists to place a link, it reads that way.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic seasonal roundup. Every editor has ten of those already.</li>
+              <li>Send the same pitch across sub-niches. A food editor and a fashion editor want completely different things.</li>
+              <li>Stuff affiliate or exact-match anchor links into the body.</li>
+              <li>Submit AI-spun filler with no voice. Lifestyle is a voice-first category and thin content stands out badly.</li>
+              <li>Chase the DR 90 titles first. Start with the sites where you can realistically land a yes and build clips.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a handful of placements on sites whose readers are your buyers will do more for your brand and your rankings than a long list of high-DR links in the wrong sub-niche. Use this list to find your handful.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by sub-niche, write the pitches and the pieces, and place
+              them on relevant lifestyle sites with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I'd like help with lifestyle guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
