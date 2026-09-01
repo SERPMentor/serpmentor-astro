@@ -5,9 +5,14 @@ import PostArticle from "../../../components/PostArticle.astro";
 import { getAllPosts, primaryCategory, isBacklinksCategory } from "../../../lib/posts";
 
 export async function getStaticPaths() {
+  // slugs under /seo/backlinks/ that have a dedicated hand-built .astro page
+  const staticSlugs = new Set(["uk-posting-sites"]);
   const posts = await getAllPosts();
   return posts
-    .filter((post) => isBacklinksCategory(primaryCategory(post).slug))
+    .filter(
+      (post) =>
+        isBacklinksCategory(primaryCategory(post).slug) && !staticSlugs.has(post.slug),
+    )
     .map((post) => ({ params: { slug: post.slug }, props: { listPost: post } }));
 }
 

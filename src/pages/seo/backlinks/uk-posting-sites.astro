@@ -1,0 +1,396 @@
+---
+// Hand-built post: /seo/backlinks/uk-posting-sites
+// Content by SERP Mentor; site metrics table supplied by the owner.
+// NOTE: the DR/DA/PA/UR/traffic figures in SITES were transcribed from the
+// owner's spreadsheet screenshot. Re-check against the source and correct any
+// row here if a number is off.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/uk-posting-sites");
+const title = "UK Posting Sites: 100 Places to Publish (and How to Get In)";
+const metaTitle = "100 UK Posting Sites for Guest Posts (2026) | SERP Mentor";
+const metaDescription =
+  "100 UK sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to shortlist them and pitch so you get a yes.";
+const intro =
+  "One hundred UK sites for guest posts and contributions, with the metrics that matter. The list is the easy part. Below it is how to shortlist the ones worth your time and write a pitch that actually gets a reply.";
+
+const writer = TEAM.find((m) => m.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+// Metrics from the owner's dataset. Estimates from Ahrefs / Moz; they move over time.
+const SITES: Site[] = [
+  { n: 1, site: "bbc.co.uk", dr: 94, da: 94, pa: 91, ur: 87, traffic: "186,400,000" },
+  { n: 2, site: "theguardian.com", dr: 92, da: 94, pa: 89, ur: 87, traffic: "124,700,000" },
+  { n: 3, site: "independent.co.uk", dr: 90, da: 92, pa: 87, ur: 83, traffic: "65,800,000" },
+  { n: 4, site: "telegraph.co.uk", dr: 91, da: 93, pa: 88, ur: 84, traffic: "42,500,000" },
+  { n: 5, site: "dailymail.co.uk", dr: 93, da: 95, pa: 90, ur: 86, traffic: "124,500,000" },
+  { n: 6, site: "mirror.co.uk", dr: 90, da: 92, pa: 87, ur: 83, traffic: "67,800,000" },
+  { n: 7, site: "thesun.co.uk", dr: 91, da: 93, pa: 88, ur: 84, traffic: "89,400,000" },
+  { n: 8, site: "express.co.uk", dr: 89, da: 91, pa: 86, ur: 82, traffic: "58,700,000" },
+  { n: 9, site: "standard.co.uk", dr: 88, da: 90, pa: 85, ur: 81, traffic: "32,400,000" },
+  { n: 10, site: "ft.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "24,800,000" },
+  { n: 11, site: "metro.co.uk", dr: 89, da: 91, pa: 86, ur: 82, traffic: "47,800,000" },
+  { n: 12, site: "economist.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "14,700,000" },
+  { n: 13, site: "huffingtonpost.co.uk", dr: 87, da: 89, pa: 84, ur: 80, traffic: "12,400,000" },
+  { n: 14, site: "spectator.co.uk", dr: 86, da: 88, pa: 83, ur: 79, traffic: "5,800,000" },
+  { n: 15, site: "newstatesman.com", dr: 86, da: 87, pa: 82, ur: 78, traffic: "4,200,000" },
+  { n: 16, site: "timeout.com/london", dr: 87, da: 89, pa: 84, ur: 80, traffic: "17,400,000" },
+  { n: 17, site: "techradar.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "47,500,000" },
+  { n: 18, site: "wired.co.uk", dr: 86, da: 88, pa: 83, ur: 79, traffic: "4,800,000" },
+  { n: 19, site: "thisismoney.co.uk", dr: 86, da: 88, pa: 83, ur: 79, traffic: "12,400,000" },
+  { n: 20, site: "moneysavingexpert.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,700,000" },
+  { n: 21, site: "cityam.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "3,800,000" },
+  { n: 22, site: "theconversation.com/uk", dr: 87, da: 89, pa: 84, ur: 80, traffic: "18,700,000" },
+  { n: 23, site: "thedebrief.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000" },
+  { n: 24, site: "stylist.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,200,000" },
+  { n: 25, site: "digitalspy.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "13,500,000" },
+  { n: 26, site: "techadvisor.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "5,900,000" },
+  { n: 27, site: "t3.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,800,000" },
+  { n: 28, site: "expertreviews.co.uk", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,200,000" },
+  { n: 29, site: "trustedreviews.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,800,000" },
+  { n: 30, site: "inews.co.uk", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,700,000" },
+  { n: 31, site: "countrylife.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,900,000" },
+  { n: 32, site: "idealhome.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,250,000" },
+  { n: 33, site: "homesandgardens.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "3,400,000" },
+  { n: 34, site: "realhomes.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,950,000" },
+  { n: 35, site: "marieclaire.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,900,000" },
+  { n: 36, site: "cosmopolitan.com/uk", dr: 84, da: 86, pa: 81, ur: 77, traffic: "4,800,000" },
+  { n: 37, site: "gq-magazine.co.uk", dr: 84, da: 86, pa: 81, ur: 77, traffic: "2,800,000" },
+  { n: 38, site: "esquire.com/uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,900,000" },
+  { n: 39, site: "glamourmagazine.co.uk", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,400,000" },
+  { n: 40, site: "menshealth.com/uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,900,000" },
+  { n: 41, site: "coach-magazine.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "480,000" },
+  { n: 42, site: "goodhousekeeping.com/uk", dr: 84, da: 86, pa: 81, ur: 77, traffic: "5,800,000" },
+  { n: 43, site: "womanandhome.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,800,000" },
+  { n: 44, site: "housebeautiful.com/uk", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,900,000" },
+  { n: 45, site: "harpersbazaar.com/uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,400,000" },
+  { n: 46, site: "livingetc.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,100,000" },
+  { n: 47, site: "delicious.com.au", dr: 80, da: 82, pa: 77, ur: 73, traffic: "950,000" },
+  { n: 48, site: "olivemagazine.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,800,000" },
+  { n: 49, site: "bbcgoodfood.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "19,700,000" },
+  { n: 50, site: "deliciousmagazine.co.uk", dr: 83, da: 85, pa: 80, ur: 76, traffic: "4,200,000" },
+  { n: 51, site: "greatbritishchefs.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,200,000" },
+  { n: 52, site: "jamieoliver.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "7,800,000" },
+  { n: 53, site: "amateurphotographer.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "580,000" },
+  { n: 54, site: "digitalcameraworld.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,800,000" },
+  { n: 55, site: "pcgamer.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "27,400,000" },
+  { n: 56, site: "eurogamer.net", dr: 84, da: 86, pa: 81, ur: 77, traffic: "14,200,000" },
+  { n: 57, site: "rockpapershotgun.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "8,700,000" },
+  { n: 58, site: "techuk.org", dr: 78, da: 80, pa: 75, ur: 71, traffic: "180,000" },
+  { n: 59, site: "ukbusinessforums.co.uk", dr: 79, da: 81, pa: 76, ur: 72, traffic: "280,000" },
+  { n: 60, site: "startups.co.uk", dr: 80, da: 82, pa: 77, ur: 73, traffic: "950,000" },
+  { n: 61, site: "bmmagazine.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "280,000" },
+  { n: 62, site: "freshbusinessthinking.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "180,000" },
+  { n: 63, site: "realbusiness.co.uk", dr: 78, da: 80, pa: 75, ur: 71, traffic: "380,000" },
+  { n: 64, site: "businessleader.co.uk", dr: 74, da: 76, pa: 71, ur: 67, traffic: "140,000" },
+  { n: 65, site: "businesscloud.co.uk", dr: 73, da: 75, pa: 70, ur: 66, traffic: "120,000" },
+  { n: 66, site: "smallbusiness.co.uk", dr: 79, da: 81, pa: 76, ur: 72, traffic: "580,000" },
+  { n: 67, site: "uktech.news", dr: 75, da: 77, pa: 72, ur: 68, traffic: "280,000" },
+  { n: 68, site: "techround.co.uk", dr: 74, da: 72, pa: 69, ur: 65, traffic: "140,000" },
+  { n: 69, site: "ukstartups.org", dr: 71, da: 73, pa: 68, ur: 64, traffic: "95,000" },
+  { n: 70, site: "businessdaily.co.uk", dr: 74, da: 76, pa: 71, ur: 67, traffic: "180,000" },
+  { n: 71, site: "londonlovesbusiness.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "380,000" },
+  { n: 72, site: "growthbusiness.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "180,000" },
+  { n: 73, site: "smeweb.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "140,000" },
+  { n: 74, site: "elitefranchisemagazine.co.uk", dr: 70, da: 72, pa: 67, ur: 63, traffic: "95,000" },
+  { n: 75, site: "bdaily.co.uk", dr: 74, da: 76, pa: 71, ur: 67, traffic: "210,000" },
+  { n: 76, site: "business-reporter.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "210,000" },
+  { n: 77, site: "ukbusiness.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "140,000" },
+  { n: 78, site: "businesssupnorth.co.uk", dr: 69, da: 71, pa: 66, ur: 62, traffic: "95,000" },
+  { n: 79, site: "businessadvice.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "280,000" },
+  { n: 80, site: "londonbusinessnews.com", dr: 65, da: 67, pa: 62, ur: 58, traffic: "85,000" },
+  { n: 81, site: "techbullion.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "380,000" },
+  { n: 82, site: "bdmagazine.co.uk", dr: 67, da: 69, pa: 64, ur: 60, traffic: "55,000" },
+  { n: 83, site: "techblog.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
+  { n: 84, site: "techraptors.co.uk", dr: 65, da: 67, pa: 62, ur: 58, traffic: "45,000" },
+  { n: 85, site: "techweekeurope.co.uk", dr: 76, da: 78, pa: 73, ur: 69, traffic: "580,000" },
+  { n: 86, site: "techgeekwithtea.co.uk", dr: 64, da: 66, pa: 61, ur: 57, traffic: "35,000" },
+  { n: 87, site: "ukbizz.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
+  { n: 88, site: "entrepreneuruk.net", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
+  { n: 89, site: "startupbusiness.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
+  { n: 90, site: "ukbiztoday.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
+  { n: 91, site: "webwire.co.uk", dr: 63, da: 65, pa: 60, ur: 56, traffic: "25,000" },
+  { n: 92, site: "mediafeed.co.uk", dr: 65, da: 67, pa: 62, ur: 58, traffic: "35,000" },
+  { n: 93, site: "techinsider.co.uk", dr: 64, da: 66, pa: 61, ur: 57, traffic: "35,000" },
+  { n: 94, site: "uktechnews.co.uk", dr: 67, da: 69, pa: 64, ur: 60, traffic: "65,000" },
+  { n: 95, site: "techpreneur.co.uk", dr: 65, da: 67, pa: 62, ur: 58, traffic: "45,000" },
+  { n: 96, site: "ukstartup.org", dr: 68, da: 65, pa: 62, ur: 58, traffic: "45,000" },
+  { n: 97, site: "entrepreneurlife.co.uk", dr: 66, da: 68, pa: 63, ur: 59, traffic: "55,000" },
+  { n: 98, site: "startupdonut.co.uk", dr: 75, da: 77, pa: 72, ur: 68, traffic: "380,000" },
+  { n: 99, site: "startupnation.com", dr: 67, da: 69, pa: 64, ur: 60, traffic: "65,000" },
+  { n: 100, site: "digitalcitizen.uk", dr: 68, da: 70, pa: 65, ur: 61, traffic: "75,000" },
+];
+
+const faqs = [
+  {
+    q: "Are all 100 of these sites accepting guest posts?",
+    a: "No. Many of the national titles near the top take PR pitches and expert commentary, not open guest contributions. Check each site's editorial or 'write for us' page before you pitch.",
+  },
+  {
+    q: "Do links from these sites have to be dofollow to be worth it?",
+    a: "A dofollow link passes more direct SEO value, but a nofollow link from a high-traffic, relevant UK site still drives referral traffic, builds brand awareness, and often leads to follow links elsewhere. Do not turn down a strong placement over the link attribute alone.",
+  },
+  {
+    q: "How many UK guest posts do I need to move my rankings?",
+    a: "Fewer than you would think. Five to ten relevant, editorial placements over a few months do more than fifty low-quality ones, and carry none of the risk.",
+  },
+  {
+    q: "Should I use a paid guest-posting service?",
+    a: "Be careful. Many sell placements on low-quality sites or undisclosed paid links. If you use one, insist on seeing the exact target sites in advance and check they have real traffic and genuine editorial standards.",
+  },
+  {
+    q: "The metrics do not match what I see in my tools. Why?",
+    a: "Domain Rating, Domain Authority and traffic estimates are recalculated constantly and differ between tools. Treat the numbers here as a snapshot for sorting the list, and re-check the two or three sites you actually plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "How to pick your shortlist", id: "shortlist" },
+  { text: "The 100 UK sites", id: "list" },
+  { text: "The pitch that gets a reply", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "What to realistically expect", id: "expect" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "UK Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/uk-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/seo">SEO</a>
+            <span>›</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>›</span>
+            <span>UK Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Here is the thing about a list like this: 100 sites is about 90 more than you need.</p>
+
+            <p>You are not going to pitch all of them, and you should not try. The goal is not "get a link from every UK site with a high Domain Rating". The goal is a handful of relevant placements on sites your actual customers read.</p>
+
+            <p>This list is the raw material. Below the table you will find how to filter it to a shortlist, write a pitch that gets a reply, and avoid the mistakes that get you ignored or blocked.</p>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <p>Every site in the table has five numbers next to it. Here is how to read them, and how much each one actually matters.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR; if the two disagree, trust neither blindly</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits to the site per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> a DR 90 site in a niche unrelated to yours does almost nothing for you. A DR 65 site your buyers genuinely read is worth chasing. Sort by relevance first. Use the metrics to break ties.</p></div>
+
+            <h2 id="shortlist">How to pick your shortlist</h2>
+            <p>Work down the table in this order:</p>
+            <ol>
+              <li><strong>Relevance.</strong> Cross out every site with nothing to do with your industry or audience. For most businesses that removes 70 to 80 of the 100.</li>
+              <li><strong>Real traffic.</strong> Of what is left, keep the sites with meaningful monthly traffic. A link on a page nobody visits is a vanity link.</li>
+              <li><strong>Contribution policy.</strong> Check each remaining site for a "write for us", "contribute" or "editorial guidelines" page. Several national titles near the top only take PR pitches, not open guest posts.</li>
+              <li><strong>Reachability.</strong> Can you find a named editor or a clear submission route? A faceless contact form usually means a low reply rate.</li>
+            </ol>
+            <p>You should end with 8 to 15 genuine targets. That is your list.</p>
+
+            <h2 id="list">The 100 UK sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. These are third-party estimates and shift over time, so re-check the two or three you plan to pitch.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that gets a reply</h2>
+            <p>Most guest-post pitches fail for the same reason. They lead with the ask instead of the idea.</p>
+            <p>Do this instead:</p>
+            <ol>
+              <li><strong>Read three of their recent articles.</strong> Note the angle, the length and the tone.</li>
+              <li><strong>Find the gap.</strong> What have they not covered, or covered badly, that you can genuinely add to?</li>
+              <li><strong>Pitch the specific piece,</strong> not "I would like to write for you". Give the working headline, a two-line summary, and why their readers would care.</li>
+              <li><strong>Prove you can write.</strong> Link to one article you are proud of. One, not five.</li>
+              <li><strong>Keep it short.</strong> Four or five sentences. Editors skim.</li>
+              <li><strong>Follow up once,</strong> about a week later. Then move on.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would this pitch still make sense if you removed the link you want entirely? If yes, send it. If the whole email only exists to get a backlink, the editor can tell.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Send the same pitch to all 100 sites. Editors talk, and tools flag it.</li>
+              <li>Pay for a "guest post" that is really a link placement, without a <code>sponsored</code> tag. That is a paid link and it is a risk.</li>
+              <li>Stuff the post with exact-match anchor text pointing at your money pages.</li>
+              <li>Submit thin or AI-spun filler. A bad guest post damages your brand on someone else's site.</li>
+              <li>Chase Domain Rating at the expense of relevance. It is the number one mistake people make with lists like this.</li>
+            </ul>
+
+            <h2 id="expect">What to realistically expect</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Question</th><th>Realistic answer</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Reply rate on a good, personalised pitch</td><td>15 to 30 percent</td></tr>
+                  <tr><td>Time from pitch to published</td><td>2 to 8 weeks</td></tr>
+                  <tr><td>Links from the national news sites at the top</td><td>Usually only through digital PR or a genuine expert-comment request</td></tr>
+                  <tr><td>Where most achievable placements are</td><td>The mid-list trade, business and industry sites</td></tr>
+                </tbody>
+              </table>
+            </figure>
+            <div class="callout"><p><strong>Bottom line:</strong> five to ten relevant, editorial placements over a few months will do more for your rankings than fifty low-quality ones, and carry none of the risk. Use this list to find those five to ten.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist, write the pitches and the posts, and place them on relevant
+              UK sites with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I'd like help with UK guest posting and link building.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

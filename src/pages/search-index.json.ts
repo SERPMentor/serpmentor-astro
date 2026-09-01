@@ -86,6 +86,17 @@ export const GET: APIRoute = async () => {
     });
   }
 
+  // --- hand-built link-building posts --------------------------
+  items.push({
+    type: "guide",
+    title: "UK Posting Sites: 100 Places to Publish",
+    url: "/seo/backlinks/uk-posting-sites",
+    desc: "100 UK sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to shortlist and pitch them.",
+    keywords:
+      "uk posting sites uk guest posting sites uk guest post opportunities backlink sites domain rating domain authority link building outreach guest blogging",
+    ts: Date.parse("2026-09-01"),
+  });
+
   // --- category archives ---------------------------------------
   for (const c of await getCategories()) {
     const meta = categoryMeta(c.slug, c.name);
