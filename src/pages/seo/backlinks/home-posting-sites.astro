@@ -1,0 +1,390 @@
+---
+// Hand-built post: /seo/backlinks/home-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead,
+// parked and merged domains from the export (DIY Network, Design*Sponge,
+// Homepolish, SF Girl by Bay, Dering Hall, homeimprovement.com, etc.) were
+// swapped for live home & interior publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/home-posting-sites");
+const title = "Home Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Home Decor & Improvement Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live home decor, interior design, DIY and real-estate sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred home sites that publish outside contributions: shelter magazines, DIY and improvement brands, interior-design and decor blogs, and real-estate and home-services platforms. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["houzz.com", 91, "28,500,000"],
+  ["bhg.com", 90, "22,400,000"],
+  ["homedepot.com", 90, "75,500,000"],
+  ["zillow.com", 90, "95,400,000"],
+  ["lowes.com", 89, "63,800,000"],
+  ["apartmenttherapy.com", 89, "7,800,000"],
+  ["hgtv.com", 88, "16,500,000"],
+  ["wayfair.com", 88, "48,200,000"],
+  ["realtor.com", 88, "60,000,000"],
+  ["thisoldhouse.com", 87, "8,700,000"],
+  ["architecturaldigest.com", 87, "6,400,000"],
+  ["marthastewart.com", 87, "8,400,000"],
+  ["southernliving.com", 87, "12,000,000"],
+  ["thespruce.com", 86, "12,800,000"],
+  ["bobvila.com", 86, "9,450,000"],
+  ["homeadvisor.com", 86, "7,200,000"],
+  ["familyhandyman.com", 85, "14,200,000"],
+  ["designboom.com", 85, "2,400,000"],
+  ["housebeautiful.com", 84, "4,500,000"],
+  ["countryliving.com", 84, "19,500,000"],
+  ["goodhousekeeping.com", 86, "12,500,000"],
+  ["homes.com", 84, "7,850,000"],
+  ["angi.com", 84, "5,400,000"],
+  ["inhabitat.com", 84, "1,950,000"],
+  ["kitchn.com", 83, "8,400,000"],
+  ["elledecor.com", 83, "2,100,000"],
+  ["gardeningknowhow.com", 83, "5,800,000"],
+  ["idealhome.co.uk", 83, "2,850,000"],
+  ["remodelista.com", 83, "2,100,000"],
+  ["porch.com", 82, "2,400,000"],
+  ["hometalk.com", 82, "1,950,000"],
+  ["bhgre.com", 82, "3,200,000"],
+  ["homedit.com", 82, "1,400,000"],
+  ["dwell.com", 81, "1,780,000"],
+  ["homedesigning.com", 81, "2,860,000"],
+  ["livingetc.com", 82, "3,100,000"],
+  ["homebuilding.co.uk", 79, "1,850,000"],
+  ["build.com", 80, "3,200,000"],
+  ["homestratosphere.com", 80, "3,400,000"],
+  ["housedigest.com", 78, "3,200,000"],
+  ["mansionglobal.com", 80, "1,900,000"],
+  ["realhomes.com", 79, "2,950,000"],
+  ["apartmentguide.com", 79, "1,850,000"],
+  ["mydomaine.com", 79, "2,350,000"],
+  ["domino.com", 79, "1,250,000"],
+  ["apartmentlist.com", 79, "3,400,000"],
+  ["loveproperty.com", 79, "1,350,000"],
+  ["houselogic.com", 78, "1,150,000"],
+  ["mymove.com", 78, "1,240,000"],
+  ["insteading.com", 78, "620,000"],
+  ["trendir.com", 78, "580,000"],
+  ["houseandhome.com", 81, "2,400,000"],
+  ["rent.com", 78, "1,600,000"],
+  ["theownerbuildernetwork.co", 77, "720,000"],
+  ["houseplans.com", 77, "920,000"],
+  ["onekindesign.com", 77, "950,000"],
+  ["digsdigs.com", 77, "1,100,000"],
+  ["decorilla.com", 76, "1,230,000"],
+  ["contemporist.com", 77, "1,050,000"],
+  ["homesthetics.net", 76, "850,000"],
+  ["decoraid.com", 76, "420,000"],
+  ["homedesignlover.com", 73, "410,000"],
+  ["hookedonhouses.net", 74, "620,000"],
+  ["decoist.com", 75, "1,050,000"],
+  ["curbly.com", 74, "520,000"],
+  ["decorpad.com", 74, "650,000"],
+  ["askthebuilder.com", 75, "780,000"],
+  ["homebnc.com", 74, "680,000"],
+  ["design-milk.com", 79, "1,400,000"],
+  ["thedesignfiles.net", 78, "780,000"],
+  ["younghouselove.com", 76, "850,000"],
+  ["centsationalstyle.com", 70, "180,000"],
+  ["stylebyemilyhenderson.com", 78, "1,200,000"],
+  ["remodelaholic.com", 78, "480,000"],
+  ["theinspiredroom.net", 76, "850,000"],
+  ["apieceofrainbow.com", 74, "780,000"],
+  ["homedecorbliss.com", 68, "210,000"],
+  ["thehomesihavemade.com", 70, "420,000"],
+  ["diyshowoff.com", 71, "210,000"],
+  ["inspiredbycharm.com", 68, "95,000"],
+  ["simplifiedbee.com", 70, "180,000"],
+  ["interiorzine.com", 73, "390,000"],
+  ["freshpatio.com", 66, "180,000"],
+  ["dwellingdecor.com", 65, "95,000"],
+  ["familyhomeplans.com", 70, "320,000"],
+  ["beautifulhomes.asianpaints.com", 75, "520,000"],
+  ["homify.com", 80, "1,350,000"],
+  ["freshome.com", 78, "1,350,000"],
+  ["chairish.com/blog", 78, "1,900,000"],
+  ["housetrends.com", 71, "190,000"],
+  ["homeimprovementmagazine.com", 73, "240,000"],
+  ["decoratingideas.org", 70, "140,000"],
+  ["themerex.net", 78, "313,000"],
+  ["hunker.com", 82, "9,000,000"],
+  ["homesandgardens.com", 82, "3,400,000"],
+  ["realsimple.com/home-organizing", 84, "3,800,000"],
+  ["thepioneerwoman.com/home-lifestyle", 84, "2,600,000"],
+  ["mydecorative.com", 68, "180,000"],
+  ["thespruceeats.com/kitchen", 82, "2,400,000"],
+  ["housingwire.com", 80, "1,900,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do shelter magazines like Architectural Digest or House Beautiful accept guest posts?",
+    a: "No. They commission from staff and a trusted freelance pool. They will take a contribution from a working interior designer, architect or licensed contractor with a portfolio. The DIY and improvement brands take how-tos from experienced trades and makers, and the decor blogs are open to contributions.",
+  },
+  {
+    q: "What do I need to pitch a home site?",
+    a: "For design pieces, a portfolio of real projects and your own photography. For DIY and improvement, hands-on experience and step-by-step images or video. For real-estate and market pieces, data. Editors reject render-only projects and posts written from a catalogue.",
+  },
+  {
+    q: "Can I link to my studio, product or store?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuinely useful. Editors strip promotional links from the body and reject anything that reads like a product listing.",
+  },
+  {
+    q: "Which matters more, Domain Rating or relevance?",
+    a: "Relevance to the exact sub-niche (kitchens, small-space, budget renos, luxury interiors) first, then traffic, then DR. A mid-DR site read by people renovating right now beats a higher-DR general site that buries your post.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are a section of a larger publisher, and a few big names (DIY Network, Design*Sponge, Homepolish) have shut down since older lists were compiled.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 home sites", id: "list" },
+  { text: "The pitch that works for home editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Home Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/home-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Home Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Home publishing splits into four tiers, and where you can land a byline depends on whether you have real projects or just opinions.</p>
+
+            <p>The shelter magazines do not take guest posts. The DIY and improvement brands take how-tos from experienced trades. The decor blogs are open. The real-estate platforms want data. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Shelter magazines</td><td>Architectural Digest, House Beautiful, Elle Decor, Dwell, Livingetc</td><td>Not guest posts. A contribution from a working designer or architect with a portfolio</td></tr>
+                  <tr><td>DIY &amp; improvement brands</td><td>This Old House, Bob Vila, Family Handyman, The Spruce, Bower &amp; Branch</td><td>How-tos from experienced trades and makers, with step-by-step images or video</td></tr>
+                  <tr><td>Decor &amp; design blogs</td><td>Apartment Therapy, Remodelista, Design Milk, Hooked on Houses, Young House Love</td><td>Open to contributions; real projects, before-and-after, styling with your own photos</td></tr>
+                  <tr><td>Real estate &amp; home services</td><td>Zillow, Realtor.com, Homes.com, Angi, HomeAdvisor, HousingWire</td><td>Market data, cost breakdowns, buyer and renovation analysis</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> home content lives or dies on the imagery. A placement on a site whose readers are mid-renovation, with your own project photos, is worth more than a link from a general lifestyle site that runs stock.</p></div>
+
+            <h2 id="list">The 100 home sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and merged sites were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for home editors</h2>
+            <ol>
+              <li><strong>Lead with the project or the data.</strong> "We renovated a 1930s galley kitchen for GBP 9k, here is the breakdown" earns the read.</li>
+              <li><strong>Bring your own photography.</strong> Wide shots, detail shots, before-and-after. Home editors will not run a project without real images.</li>
+              <li><strong>Pitch the section.</strong> "For your small-space coverage" or "for the budget-reno series" shows you read the site.</li>
+              <li><strong>Match the format.</strong> Magazines want a finished project story. Improvement brands want a clear how-to. Real-estate platforms want a data piece.</li>
+              <li><strong>Bring the assets.</strong> A source list, a cost table, a floor plan, a materials breakdown.</li>
+              <li><strong>Disclose any brand, product or client</strong> involved in the project.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you sold nothing? If yes, pitch it. If it is a styled shot of your product range, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a "top 10 paint colours 2026" listicle. Every site has a rolling one.</li>
+              <li>Submit a project with renders instead of photos of the finished space.</li>
+              <li>Send the same pitch to a shelter magazine and a budget-DIY blog.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best cordless drill") at your store.</li>
+              <li>Use AI-generated decor copy with no real project behind it.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on sites whose readers are actively renovating, with your own project imagery, will do more for rankings and leads than a long list of thin home-blog links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by sub-niche, package your projects with real photography and cost data,
+              write the pitches and place them on real home publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with home, decor and improvement guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

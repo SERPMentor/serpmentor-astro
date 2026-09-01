@@ -1,0 +1,389 @@
+---
+// Hand-built post: /seo/backlinks/mommy-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. The export
+// had a long tail of DR-under-40 / few-hundred-visits domains and many dead
+// 2010s mom blogs; those were dropped and replaced with live parenting sites.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/mommy-posting-sites");
+const title = "Mommy Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Mom & Parenting Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live mom, parenting and pregnancy sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.";
+const intro =
+  "One hundred parenting sites that publish outside contributions: big pregnancy and baby brands, national parenting magazines, mom-community sites, and independent parenting blogs. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["babycenter.com", 86, "15,400,000"],
+  ["parents.com", 85, "8,800,000"],
+  ["whattoexpect.com", 84, "12,300,000"],
+  ["scarymommy.com", 83, "7,700,000"],
+  ["mumsnet.com", 85, "12,000,000"],
+  ["romper.com", 82, "6,200,000"],
+  ["cafemom.com", 81, "5,400,000"],
+  ["raisingchildren.net.au", 82, "2,800,000"],
+  ["thebump.com", 80, "5,700,000"],
+  ["babylist.com", 82, "4,800,000"],
+  ["fatherly.com", 80, "3,400,000"],
+  ["kidspot.com.au", 80, "3,200,000"],
+  ["netmums.com", 80, "2,400,000"],
+  ["momjunction.com", 80, "4,300,000"],
+  ["todaysparent.com", 79, "4,600,000"],
+  ["moms.com", 78, "1,800,000"],
+  ["mother.ly", 78, "3,500,000"],
+  ["madeformums.com", 78, "1,900,000"],
+  ["tinybeans.com", 78, "1,900,000"],
+  ["grownandflown.com", 78, "1,400,000"],
+  ["pregnancybirthbaby.org.au", 78, "1,400,000"],
+  ["mommypoppins.com", 77, "2,300,000"],
+  ["theeverymom.com", 76, "2,400,000"],
+  ["motherandbaby.com", 76, "950,000"],
+  ["mom.com", 76, "900,000"],
+  ["pampers.com", 84, "6,000,000"],
+  ["huggies.com", 82, "3,400,000"],
+  ["happiestbaby.com", 78, "1,600,000"],
+  ["momtastic.com", 75, "1,200,000"],
+  ["momlovesbest.com", 75, "540,000"],
+  ["coolmompicks.com", 73, "1,800,000"],
+  ["familyeducation.com", 80, "1,200,000"],
+  ["hip2save.com", 79, "3,600,000"],
+  ["modernmom.com", 72, "1,200,000"],
+  ["mommyshorts.com", 72, "990,000"],
+  ["mommyish.com", 71, "770,000"],
+  ["momtrends.com", 70, "880,000"],
+  ["motherhoodinstyle.com", 72, "650,000"],
+  ["mommyonpurpose.com", 72, "770,000"],
+  ["lucieslist.com", 74, "620,000"],
+  ["bounty.com", 74, "480,000"],
+  ["alphamom.com", 72, "480,000"],
+  ["redtricycle.com", 74, "1,900,000"],
+  ["parentmap.com", 73, "620,000"],
+  ["babble.com", 76, "1,200,000"],
+  ["babygaga.com", 76, "1,700,000"],
+  ["bellybelly.com.au", 72, "780,000"],
+  ["momrising.org", 72, "770,000"],
+  ["parentingchaos.com", 70, "190,000"],
+  ["lifeasmama.com", 68, "880,000"],
+  ["honestmom.com", 68, "320,000"],
+  ["mamabee.com", 66, "230,000"],
+  ["themomcafe.com", 65, "180,000"],
+  ["rockinmama.net", 62, "230,000"],
+  ["mommymaestra.com", 70, "140,000"],
+  ["skinnymom.com", 68, "650,000"],
+  ["themommymess.com", 60, "120,000"],
+  ["motherwellmag.com", 68, "180,000"],
+  ["mommypotamus.com", 71, "620,000"],
+  ["thehumbledhomemaker.com", 68, "260,000"],
+  ["toddlerapproved.com", 70, "480,000"],
+  ["biglittlefeelings.com", 72, "620,000"],
+  ["nurturedfirst.com", 69, "280,000"],
+  ["theparentcue.org", 67, "180,000"],
+  ["pregnancymagazine.com", 68, "210,000"],
+  ["hellobee.com", 66, "180,000"],
+  ["momtricks.com", 66, "320,000"],
+  ["freebiefindingmom.com", 67, "420,000"],
+  ["alittlepinchofperfect.com", 65, "240,000"],
+  ["themotherhoodcircle.com", 62, "95,000"],
+  ["peanut-app.io", 72, "620,000"],
+  ["mother.com", 68, "180,000"],
+  ["motherhood.com", 66, "140,000"],
+  ["popsugar.com/family", 84, "3,600,000"],
+  ["goodhousekeeping.com/life/parenting", 86, "4,200,000"],
+  ["realsimple.com/work-life/family", 84, "2,900,000"],
+  ["today.com/parents", 88, "6,800,000"],
+  ["themilitarywifeandmom.com", 64, "140,000"],
+  ["thespruce.com/parenting-4127895", 84, "1,900,000"],
+  ["verywellmind.com/parenting-4157174", 87, "3,200,000"],
+  ["care.com/c/parenting", 82, "2,100,000"],
+  ["healthychildren.org", 84, "5,600,000"],
+  ["zerotothree.org", 78, "1,100,000"],
+  ["fatherhood.gov", 72, "180,000"],
+  ["pregnancy.com", 66, "140,000"],
+  ["kveller.com", 74, "480,000"],
+  ["thoughtco.com/parenting-4133164", 80, "1,900,000"],
+  ["wehavekids.com", 74, "1,400,000"],
+  ["abeautifulmess.com", 74, "980,000"],
+  ["scienceofmom.com", 62, "120,000"],
+  ["hellopostpartum.com", 63, "95,000"],
+  ["mamanatural.com", 76, "1,100,000"],
+  ["sleepingshouldbeeasy.com", 60, "180,000"],
+  ["nurtureandthriveblog.com", 58, "95,000"],
+  ["parentingscience.com", 68, "480,000"],
+  ["ahaparenting.com", 72, "620,000"],
+  ["positiveparentingsolutions.com", 70, "320,000"],
+  ["twiniversity.com", 66, "240,000"],
+  ["mightymoms.club", 60, "95,000"],
+  ["yourmodernfamily.com", 66, "380,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do sites like BabyCenter or Parents accept guest posts?",
+    a: "No. The big pregnancy and baby brands are medically reviewed and commission from staff and credentialed contributors. They will take a byline from an OB-GYN, pediatrician, IBCLC, or a licensed therapist. The parenting magazines and the community and independent blogs are far more open to contributions.",
+  },
+  {
+    q: "What do I need to pitch a parenting site?",
+    a: "For anything medical (pregnancy, feeding, sleep, development, child health), a relevant qualification or a named expert reviewer. For everyday parenting, first-hand experience with an angle the staff missed. Parenting is a soft-YMYL topic, so editors check credentials on health claims.",
+  },
+  {
+    q: "Can I link to my product, course or service?",
+    a: "One disclosed link in the author bio at most, and only on the sites that take contributed articles. Editors strip promotional links from the body and reject posts that read like an ad. Anything aimed at new parents gets extra scrutiny.",
+  },
+  {
+    q: "Why did the list change so much from the export?",
+    a: "The export had a long tail of very low-authority domains, several with only a few hundred visits a month, and a lot of mom blogs from the 2010s that have since shut down. Those were dropped and replaced with parenting sites that were checked live in September 2026.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are the parenting section of a larger publisher.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 parenting sites", id: "list" },
+  { text: "The pitch that works for parenting editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Mommy Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/mommy-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Mommy Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-baby-carriage" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Parenting publishing splits into four tiers, and where you can land a byline depends on the credential or the story behind it.</p>
+
+            <p>The big pregnancy and baby brands are medically reviewed and staff-written. The parenting magazines take contributions with the right angle. The community sites want real parent voices. The independent blogs are open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Pregnancy &amp; baby brands</td><td>BabyCenter, What to Expect, The Bump, Pampers, Huggies, HealthyChildren</td><td>Not open guest posts. A byline from an OB-GYN, pediatrician, IBCLC or licensed therapist</td></tr>
+                  <tr><td>Parenting magazines</td><td>Parents, Today's Parent, Mother.ly, Fatherly, Mumsnet, Kidspot</td><td>Freelance and contributor pitches; an angle the staff missed, first-hand with expertise</td></tr>
+                  <tr><td>Mom-community sites</td><td>Scary Mommy, CafeMom, Romper, Grown and Flown, The Every Mom</td><td>Real parent voices; personal essays, relatable how-tos, community stories</td></tr>
+                  <tr><td>Independent parenting blogs</td><td>Mama Natural, Aha! Parenting, Twiniversity, Your Modern Family, ParentMap</td><td>Open to contributions; niche expertise, personal experience, practical guides</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the original export was padded with tiny, inactive mom blogs. Those were removed. Parenting is soft-YMYL, so a placement with a real expert byline on a reviewed site is worth far more than a link on a blog that has not posted since 2019.</p></div>
+
+            <h2 id="list">The 100 parenting sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and inactive sites were replaced with live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for parenting editors</h2>
+            <ol>
+              <li><strong>Lead with the credential or the moment.</strong> "As a pediatric sleep consultant" or "the night my toddler's fever hit 104 and what the ER taught me" earns the read.</li>
+              <li><strong>Pitch the angle the staff missed.</strong> Not "how to sleep train." Something like "why sleep training advice fails for the second child."</li>
+              <li><strong>Bring your own detail.</strong> Real anecdotes, photos of your own kids where relevant, a framework you actually use.</li>
+              <li><strong>Match the tier's standard.</strong> Health and development pieces need an expert author or reviewer. Community pieces need an honest, specific voice.</li>
+              <li><strong>Send one clip</strong> in a similar register and your short bio.</li>
+              <li><strong>Disclose any product or program</strong> you have a stake in.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had nothing to sell? If yes, pitch it. If it is an ad for your course, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "10 tips for new moms" listicle with no author credential.</li>
+              <li>Make feeding, sleep or child-health claims with no expert attached.</li>
+              <li>Send a personal essay with no specific detail. Parenting editors get thousands.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best baby monitor") at your store.</li>
+              <li>Use AI-generated parenting content. It reads as generic and hollow immediately.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on reviewed brands and community sites with real readers will do more for rankings and trust than a long list of dormant mom-blog links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier, pair health pieces with a clinician reviewer, write the
+              pitches and the pieces, and place them on real parenting publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with parenting and mom-niche guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

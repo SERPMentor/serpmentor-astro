@@ -34,7 +34,9 @@ const BACKLINKS_STATIC_SLUGS = new Set([
   "igaming-posting-sites", "pet-posting-sites",
   "ai-posting-sites", "beauty-posting-sites",
   "health-fitness-posting-sites", "germany-posting-sites",
-  "automotive-posting-sites",
+  "automotive-posting-sites", "mommy-posting-sites",
+  "home-posting-sites", "celebrity-posting-sites",
+  "canada-posting-sites",
 ]);
 
 // Routes that exist on the new site. Their /path/ form should 301 to /path.

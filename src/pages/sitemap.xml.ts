@@ -41,6 +41,10 @@ const STATIC_PATHS = [
   { path: "/seo/backlinks/health-fitness-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/seo/backlinks/germany-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/seo/backlinks/automotive-posting-sites", priority: "0.7", changefreq: "monthly" },
+  { path: "/seo/backlinks/mommy-posting-sites", priority: "0.7", changefreq: "monthly" },
+  { path: "/seo/backlinks/home-posting-sites", priority: "0.7", changefreq: "monthly" },
+  { path: "/seo/backlinks/celebrity-posting-sites", priority: "0.7", changefreq: "monthly" },
+  { path: "/seo/backlinks/canada-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/about", priority: "0.6", changefreq: "monthly" },
   { path: "/contact", priority: "0.6", changefreq: "yearly" },
 ];

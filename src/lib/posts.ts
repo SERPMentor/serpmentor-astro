@@ -141,6 +141,10 @@ export const BACKLINKS_STATIC_SLUGS = new Set([
   "health-fitness-posting-sites",
   "germany-posting-sites",
   "automotive-posting-sites",
+  "mommy-posting-sites",
+  "home-posting-sites",
+  "celebrity-posting-sites",
+  "canada-posting-sites",
 ]);
 
 /** Canonical path for a single post, e.g. "/seo/best-ai-seo-tools". */

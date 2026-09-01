@@ -1,0 +1,390 @@
+---
+// Hand-built post: /seo/backlinks/canada-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export where the site is still live; DA/PA/UR are derived. Dead or
+// closed domains (HuffPost Canada, FLARE, Food Network Canada, Elle Canada,
+// Canadian Traveller, canadaone, ProfitGuide, etc.) were swapped for live
+// Canadian publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/canada-posting-sites");
+const title = "Canada Posting Sites: 100 Places to Publish for Canadian Readers";
+const metaTitle = "100 Canada Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live Canadian news, business, city and lifestyle sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred Canadian publications that run outside contributions: national news and broadcasters, business and finance titles, city and regional outlets, and lifestyle and culture magazines. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const RAW: [string, number, string][] = [
+  ["cbc.ca", 91, "32,400,000"],
+  ["globalnews.ca", 90, "28,700,000"],
+  ["theglobeandmail.com", 90, "17,600,000"],
+  ["thestar.com", 89, "15,700,000"],
+  ["nationalpost.com", 88, "9,400,000"],
+  ["ctvnews.ca", 89, "18,300,000"],
+  ["macleans.ca", 87, "3,900,000"],
+  ["financialpost.com", 86, "5,800,000"],
+  ["dailyhive.com", 84, "6,400,000"],
+  ["narcity.com", 85, "7,800,000"],
+  ["thespec.com", 85, "3,200,000"],
+  ["therecord.com", 85, "3,100,000"],
+  ["torontosun.com", 85, "6,000,000"],
+  ["theprovince.com", 85, "6,000,000"],
+  ["montrealgazette.com", 84, "2,900,000"],
+  ["ottawacitizen.com", 84, "2,100,000"],
+  ["calgaryherald.com", 84, "1,700,000"],
+  ["edmontonjournal.com", 84, "2,500,000"],
+  ["edmonton.ca", 84, "1,700,000"],
+  ["chatelaine.com", 85, "2,800,000"],
+  ["canadianliving.com", 83, "800,000"],
+  ["mtlblog.com", 83, "5,200,000"],
+  ["blogto.com", 82, "4,800,000"],
+  ["canadianbusiness.com", 83, "1,800,000"],
+  ["canadiangeographic.ca", 84, "1,300,000"],
+  ["moneysense.ca", 82, "2,100,000"],
+  ["canoe.com", 85, "6,200,000"],
+  ["straight.com", 82, "1,900,000"],
+  ["castanet.net", 82, "2,900,000"],
+  ["thewalrus.ca", 81, "950,000"],
+  ["thetyee.ca", 81, "950,000"],
+  ["slice.ca", 81, "400,000"],
+  ["yellowpages.ca", 82, "1,200,000"],
+  ["curiocity.com", 80, "3,200,000"],
+  ["rabble.ca", 80, "780,000"],
+  ["iheartradio.ca", 85, "5,000,000"],
+  ["cottagelife.com", 80, "1,100,000"],
+  ["viarail.ca", 83, "980,000"],
+  ["destinationcanada.com", 82, "770,000"],
+  ["destinationtoronto.com", 81, "820,000"],
+  ["yorkregion.com", 79, "850,000"],
+  ["nsnews.com", 78, "540,000"],
+  ["insidehalton.com", 78, "540,000"],
+  ["saultstar.com", 79, "780,000"],
+  ["strategyonline.ca", 74, "380,000"],
+  ["thelogic.ca", 75, "350,000"],
+  ["betakit.com", 76, "420,000"],
+  ["canadianunderwriter.ca", 76, "420,000"],
+  ["canadianmanufacturing.com", 76, "520,000"],
+  ["retail-insider.com", 75, "380,000"],
+  ["vancouverisawesome.com", 78, "1,700,000"],
+  ["insauga.com", 75, "920,000"],
+  ["inbrampton.com", 74, "920,000"],
+  ["sootoday.com", 76, "980,000"],
+  ["orilliamatters.com", 73, "420,000"],
+  ["barrietoday.com", 73, "580,000"],
+  ["guelphtoday.com", 72, "320,000"],
+  ["timminstoday.com", 71, "280,000"],
+  ["bradfordtoday.ca", 68, "180,000"],
+  ["newmarkettoday.ca", 69, "210,000"],
+  ["collingwoodtoday.ca", 69, "210,000"],
+  ["villagemedia.ca", 72, "180,000"],
+  ["604now.com", 72, "480,000"],
+  ["victoriabuzz.com", 74, "480,000"],
+  ["kelownanow.com", 76, "640,000"],
+  ["kamloopsmatters.com", 71, "210,000"],
+  ["techcouver.com", 70, "120,000"],
+  ["canadaland.com", 78, "500,000"],
+  ["thepeak.ca", 75, "260,000"],
+  ["torontoguardian.com", 75, "640,000"],
+  ["lowestrates.ca", 78, "940,000"],
+  ["zoocasa.com/blog", 80, "1,100,000"],
+  ["foodism.ca", 78, "420,000"],
+  ["exclaim.ca", 80, "780,000"],
+  ["sharpmagazine.com", 77, "420,000"],
+  ["thecoast.ca", 76, "420,000"],
+  ["thelinknewspaper.ca", 72, "180,000"],
+  ["newcanadianmedia.ca", 74, "210,000"],
+  ["canadiansme.ca", 69, "120,000"],
+  ["smallbusinessbc.ca", 77, "420,000"],
+  ["styledemocracy.com", 76, "320,000"],
+  ["readersdigest.ca", 82, "1,900,000"],
+  ["nowtoronto.com", 78, "1,100,000"],
+  ["destinationvancouver.com", 82, "720,000"],
+  ["corporateknights.com", 76, "380,000"],
+  ["policyoptions.irpp.org", 78, "620,000"],
+  ["thenarwhal.ca", 78, "980,000"],
+  ["nationalobserver.com", 78, "1,100,000"],
+  ["ricochet.media", 74, "320,000"],
+  ["pressprogress.ca", 73, "280,000"],
+  ["westernstandard.news", 76, "1,400,000"],
+  ["toronto.com", 78, "1,200,000"],
+  ["canadianbeats.ca", 68, "180,000"],
+  ["postcity.com", 72, "280,000"],
+  ["bnnbloomberg.ca", 82, "3,200,000"],
+  ["thehockeynews.com", 82, "4,600,000"],
+  ["theconversation.com/ca", 84, "2,100,000"],
+  ["ratehub.ca/blog", 80, "1,400,000"],
+  ["wealthsimple.com/en-ca/magazine", 84, "3,800,000"],
+  ["hellosafe.ca", 72, "620,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Do national Canadian outlets like CBC or The Globe and Mail accept guest posts?",
+    a: "No. CBC, The Globe and Mail, the Toronto Star and the Postmedia papers commission from staff and a trusted freelance pool. They will take an op-ed submission or expert commentary tied to a live story. The realistic guest-post targets are the city and regional outlets (BlogTO, Daily Hive, the Village Media network), the business and startup titles, and the lifestyle and culture magazines.",
+  },
+  {
+    q: "Does the story have to be Canadian?",
+    a: "Yes. Canadian editors want a Canadian angle: Canadian data, a Canadian case, a provincial or federal policy hook, or a city-specific story. A US-centric pitch with 'Canada' swapped in gets passed over.",
+  },
+  {
+    q: "Can I link to my company or product?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuine analysis. Editors strip promotional links from the body. Business and finance pieces get the most scrutiny.",
+  },
+  {
+    q: "Why did the list change from the export?",
+    a: "Several well-known Canadian titles have closed or been folded into other brands since older lists were compiled: HuffPost Canada, FLARE, Food Network Canada, Elle Canada, ET Canada and Canadian Traveller among them. Those were replaced with Canadian publications that were checked live in September 2026.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are a section of a larger publisher, and the Village Media local titles share infrastructure so their metrics move together.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 Canadian sites", id: "list" },
+  { text: "The pitch that works for Canadian editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Canada Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/canada-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Canada Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-maple-leaf" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Canadian publishing splits into four tiers, and where you can land a byline depends on which one you aim at and whether the story is genuinely Canadian.</p>
+
+            <p>The national papers and broadcasters do not run guest posts. The city and regional outlets do. The business and startup titles take practitioner analysis. The lifestyle and culture magazines are more open. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>National news &amp; broadcasters</td><td>CBC, Globe and Mail, Toronto Star, National Post, CTV News, Global News</td><td>Not guest posts. An op-ed submission or expert commentary on a live story</td></tr>
+                  <tr><td>City &amp; regional outlets</td><td>BlogTO, Daily Hive, Narcity, MTL Blog, the Village Media local network, insauga</td><td>Freelance and contributor pitches; city-specific stories, local data, guides</td></tr>
+                  <tr><td>Business, finance &amp; startups</td><td>Financial Post, Canadian Business, MoneySense, BetaKit, Strategy, Retail Insider</td><td>Practitioner analysis, Canadian market data, sector explainers</td></tr>
+                  <tr><td>Lifestyle, culture &amp; policy</td><td>Chatelaine, The Walrus, The Tyee, Cottage Life, Sharp, Policy Options</td><td>Reported features and essays with a Canadian angle</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the Canadian market is smaller and its media has consolidated hard. A placement on a city outlet or a business title read by Canadians is worth more than a link buried in a national archive, and far more than a link on a title that has since shut down.</p></div>
+
+            <h2 id="list">The 100 Canadian sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; closed and merged titles were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for Canadian editors</h2>
+            <ol>
+              <li><strong>Lead with the Canadian angle.</strong> Canadian data, a provincial or federal policy hook, or a city-specific story in the first two lines.</li>
+              <li><strong>Pitch the section or the city.</strong> "For your Toronto coverage" or "for the personal-finance desk" shows you read the outlet.</li>
+              <li><strong>Bring something a staff writer cannot get.</strong> Proprietary Canadian data, a survey of Canadian users, first-hand operator experience here.</li>
+              <li><strong>Match the format to the tier.</strong> Op-ed desks want a tight argument. City outlets want a local story. Business titles want a structured analysis.</li>
+              <li><strong>Send one clip</strong> in a similar style.</li>
+              <li><strong>Disclose any client or brand tie</strong> up front.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would this editor run the piece if you had nothing to sell? If yes, pitch it. If it only exists to place a link, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch CBC or the Globe a "guest post." That format does not exist there.</li>
+              <li>Send a US-centric piece with "Canada" swapped in.</li>
+              <li>Use the same pitch for a national title and a small-city outlet.</li>
+              <li>Put exact-match anchors ("best mortgage rates Canada") on links back to your product.</li>
+              <li>Chase titles that have already closed. Check the site is still publishing before you pitch.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a handful of placements on active Canadian outlets your buyers actually read will move rankings and revenue more than a long list of links, some of which point at sites that no longer exist. Use this list to find your handful.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier and city, write the pitches and the pieces with a Canadian angle,
+              and place them on active Canadian publications. No link farms, no dead titles, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with Canadian guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

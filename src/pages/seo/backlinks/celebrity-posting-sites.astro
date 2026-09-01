@@ -1,0 +1,394 @@
+---
+// Hand-built post: /seo/backlinks/celebrity-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR, traffic and Spam Score
+// follow the owner's export where the site is still live; DA/PA/UR are derived.
+// Dead or merged domains (Gossip Cop -> Snopes, Buzznet, Closer Weekly, Inquisitr,
+// TooFab -> TMZ, ET Canada, Us Weekly -> usmagazine, TheTalko) were swapped for
+// live entertainment publications.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/celebrity-posting-sites");
+const title = "Celebrity Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Celebrity & Entertainment Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live celebrity, entertainment and pop-culture sites for guest posts and contributions, with Domain Rating, Domain Authority, traffic and Spam Score.";
+const intro =
+  "One hundred entertainment sites that publish outside contributions: celebrity news brands, pop-culture and film outlets, music publications, and lifestyle titles with a celebrity desk. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+  spam: number;
+}
+
+const RAW: [string, number, string, number][] = [
+  ["dailymail.co.uk", 93, "124,500,000", 0],
+  ["buzzfeed.com", 92, "85,400,000", 0],
+  ["thesun.co.uk", 91, "89,400,000", 1],
+  ["people.com", 91, "35,200,000", 1],
+  ["popsugar.com", 90, "18,500,000", 1],
+  ["variety.com", 90, "16,200,000", 0],
+  ["vogue.com", 90, "15,800,000", 0],
+  ["rollingstone.com", 90, "18,200,000", 1],
+  ["billboard.com", 90, "19,700,000", 1],
+  ["mirror.co.uk", 92, "67,800,000", 1],
+  ["eonline.com", 89, "22,700,000", 1],
+  ["usmagazine.com", 89, "19,800,000", 1],
+  ["hollywoodreporter.com", 89, "14,600,000", 1],
+  ["cosmopolitan.com", 89, "28,300,000", 0],
+  ["vanityfair.com", 89, "12,700,000", 0],
+  ["gq.com", 89, "9,700,000", 1],
+  ["refinery29.com", 89, "17,500,000", 1],
+  ["deadline.com", 88, "15,300,000", 1],
+  ["ew.com", 88, "13,500,000", 1],
+  ["glamour.com", 88, "10,200,000", 1],
+  ["thedailybeast.com", 89, "19,700,000", 1],
+  ["hellomagazine.com", 88, "14,200,000", 1],
+  ["complex.com", 88, "14,700,000", 1],
+  ["ibtimes.com", 89, "25,300,000", 2],
+  ["tmz.com", 88, "27,400,000", 1],
+  ["instyle.com", 88, "9,500,000", 1],
+  ["metacritic.com", 89, "18,200,000", 1],
+  ["nme.com", 89, "16,200,000", 1],
+  ["harpersbazaar.com", 87, "8,500,000", 1],
+  ["allure.com", 87, "7,400,000", 1],
+  ["indiewire.com", 87, "9,800,000", 1],
+  ["marieclaire.com", 87, "9,200,000", 1],
+  ["digitalspy.com", 85, "13,500,000", 1],
+  ["vulture.com", 87, "10,500,000", 1],
+  ["pitchfork.com", 87, "8,900,000", 1],
+  ["thecut.com", 86, "8,900,000", 1],
+  ["screendaily.com", 82, "1,900,000", 1],
+  ["screenrant.com", 85, "23,700,000", 1],
+  ["etonline.com", 86, "12,900,000", 1],
+  ["self.com", 86, "7,900,000", 1],
+  ["teenvogue.com", 86, "6,500,000", 1],
+  ["sheknows.com", 85, "8,600,000", 2],
+  ["tvguide.com", 86, "12,400,000", 1],
+  ["parade.com", 85, "8,200,000", 2],
+  ["dailystar.co.uk", 87, "32,600,000", 1],
+  ["cinemablend.com", 85, "9,600,000", 1],
+  ["tvline.com", 85, "10,700,000", 1],
+  ["collider.com", 84, "11,400,000", 2],
+  ["hollywoodlife.com", 84, "9,800,000", 2],
+  ["wonderwall.com", 84, "8,300,000", 2],
+  ["yourtango.com", 84, "6,800,000", 2],
+  ["justjared.com", 85, "10,700,000", 2],
+  ["wmagazine.com", 84, "4,700,000", 2],
+  ["movieweb.com", 84, "9,200,000", 2],
+  ["looper.com", 85, "7,800,000", 2],
+  ["slashfilm.com", 84, "5,400,000", 2],
+  ["thewrap.com", 84, "5,600,000", 1],
+  ["accessonline.com", 82, "5,800,000", 2],
+  ["spin.com", 85, "4,800,000", 2],
+  ["moviefone.com", 83, "3,200,000", 2],
+  ["joblo.com", 83, "4,500,000", 2],
+  ["radaronline.com", 82, "4,900,000", 3],
+  ["papermag.com", 83, "3,200,000", 2],
+  ["stereogum.com", 84, "3,500,000", 2],
+  ["perezhilton.com", 82, "7,400,000", 3],
+  ["wegotthiscovered.com", 81, "8,500,000", 2],
+  ["comingsoon.net", 80, "6,700,000", 2],
+  ["lifeandstylemag.com", 82, "5,200,000", 3],
+  ["intouchweekly.com", 83, "5,900,000", 3],
+  ["okmagazine.com", 83, "6,800,000", 3],
+  ["decider.com", 82, "6,200,000", 1],
+  ["uproxx.com", 84, "5,400,000", 1],
+  ["avclub.com", 85, "6,900,000", 1],
+  ["consequence.net", 82, "3,400,000", 1],
+  ["pagesix.com", 87, "18,000,000", 2],
+  ["goldderby.com", 80, "3,900,000", 2],
+  ["primetimer.com", 76, "1,900,000", 2],
+  ["tvinsider.com", 80, "3,400,000", 2],
+  ["nickiswift.com", 80, "4,200,000", 2],
+  ["thethings.com", 78, "3,100,000", 3],
+  ["theblast.com", 79, "2,800,000", 3],
+  ["thehollywoodgossip.com", 80, "3,800,000", 3],
+  ["celebitchy.com", 77, "2,900,000", 3],
+  ["laineygossip.com", 78, "1,700,000", 3],
+  ["celebuzz.com", 79, "2,500,000", 3],
+  ["extratv.com", 82, "3,800,000", 2],
+  ["whats-on-netflix.com", 78, "3,600,000", 2],
+  ["theboot.com", 80, "2,100,000", 2],
+  ["loudwire.com", 80, "3,200,000", 2],
+  ["ultimateclassicrock.com", 80, "2,900,000", 2],
+  ["popcrush.com", 78, "1,900,000", 3],
+  ["theplaylist.net", 79, "1,900,000", 3],
+  ["firstshowing.net", 80, "1,900,000", 2],
+  ["darkhorizons.com", 79, "2,100,000", 3],
+  ["dlisted.com", 74, "980,000", 3],
+  ["enstarz.com", 78, "2,100,000", 3],
+  ["famousfix.com", 75, "1,200,000", 3],
+  ["uinterview.com", 76, "1,100,000", 3],
+  ["thatgrapejuice.net", 76, "1,400,000", 3],
+  ["justjaredjr.com", 80, "2,200,000", 2],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic, spam], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+  spam,
+}));
+
+const faqs = [
+  {
+    q: "Do the big celebrity brands like People or TMZ accept guest posts?",
+    a: "No. People, TMZ, E! Online, Us Weekly and the tabloids run their own reporting and commission from staff. What they will take is a verifiable exclusive, or expert commentary tied to a live story (a stylist, a publicist, an entertainment lawyer). The pop-culture, film and music outlets take contributed criticism and analysis from named writers.",
+  },
+  {
+    q: "What gets published on entertainment sites?",
+    a: "Reported analysis with a fresh angle, criticism from a writer with a track record, an interview you can actually land, or data journalism (box office, streaming, chart trends). Fan-fiction-grade opinion pieces and press-release rewrites do not get past the desk.",
+  },
+  {
+    q: "Can I link to my client, project or brand?",
+    a: "One disclosed link in the author bio at most, and only where the piece is genuine editorial. This niche has a strong line between coverage and promotion, and a hidden commercial link gets the piece pulled.",
+  },
+  {
+    q: "Is this a safe niche for link building?",
+    a: "The reputable outlets on this list are fine. Be careful with the low-end celebrity-gossip sites: parts of the space trade and sell links, and Google has suppressed thin celebrity content in updates. Use the Spam Score and traffic columns and stick to the sites with real editorial teams.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating, traffic and Spam Score are recalculated constantly and differ between Ahrefs, Moz and Semrush. Several entries are a section of a larger publisher, and some names from older lists (Gossip Cop, Buzznet, Closer Weekly) have since closed or merged.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 celebrity sites", id: "list" },
+  { text: "The pitch that works for entertainment editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Celebrity Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/celebrity-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Celebrity Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-star" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Entertainment publishing splits into four tiers, and where you can land a byline depends on whether you have reporting, criticism or just an opinion.</p>
+
+            <p>The celebrity news brands do not take guest posts. The pop-culture and film outlets take contributed criticism. The music publications want writers with a track record. The lifestyle titles have a celebrity desk that takes expert commentary. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Celebrity news brands</td><td>People, TMZ, E! Online, Us Weekly, Page Six, the tabloids</td><td>Not guest posts. A verifiable exclusive, or expert commentary from a stylist, publicist or entertainment lawyer</td></tr>
+                  <tr><td>Pop-culture &amp; film</td><td>Vulture, IndieWire, Collider, ScreenRant, Slashfilm, The Playlist</td><td>Contributed criticism and analysis from writers with published clips</td></tr>
+                  <tr><td>Music publications</td><td>Rolling Stone, Billboard, Pitchfork, NME, Stereogum, Consequence, Loudwire</td><td>Reviews, features and data pieces from writers with a music-journalism track record</td></tr>
+                  <tr><td>Lifestyle titles with a celeb desk</td><td>Cosmopolitan, Glamour, Marie Claire, InStyle, Refinery29, PopSugar</td><td>Expert commentary tied to a celebrity moment; styling, wellness, culture angles</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                  <tr><td>Spam Score</td><td>Moz's 0 to 4 estimate of how many spam signals a site shows</td><td>The celebrity-gossip end of this niche runs hot; treat 3 as a warning</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the top of this list is genuine national media. The bottom is thin gossip content that Google has hit in updates and that trades links freely. A placement on Vulture or The Wrap is worth more than fifty on gossip aggregators, and the fifty carry risk.</p></div>
+
+            <h2 id="list">The 100 celebrity sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating, estimated monthly traffic and Spam Score. Every domain was checked live in September 2026; closed and merged sites were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th><th>Spam</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                      <td>{s.spam}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for entertainment editors</h2>
+            <ol>
+              <li><strong>Lead with the reporting or the angle.</strong> "I have three sources on the reshoots" or "why this casting says something about the whole franchise" earns the read.</li>
+              <li><strong>Show your clips.</strong> Published criticism or reporting. Entertainment editors will not take an unknown for a byline.</li>
+              <li><strong>Pitch the section.</strong> "For your TV criticism" or "for the music features desk" shows you read the publication.</li>
+              <li><strong>Match the format.</strong> News wants a tight, sourced story. Culture sites want an argued essay. Music sites want a review or a data feature.</li>
+              <li><strong>Bring the assets.</strong> Box-office or streaming data, chart analysis, an interview transcript.</li>
+              <li><strong>Disclose any client, studio or PR relationship</strong> up front.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you were not promoting anyone? If yes, pitch it. If it exists to push a client, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch People or TMZ a "guest post." That format does not exist there.</li>
+              <li>Buy placements on gossip aggregators that quote a per-post price.</li>
+              <li>Send a press release dressed as a "feature."</li>
+              <li>Put exact-match anchors ("celebrity news") on links back to your client's site.</li>
+              <li>Submit AI-generated hot takes with no reporting and no named writer.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a short list of placements on real entertainment media beats a long list of gossip-site links every time, and it is the only approach that does not put the domain at risk. Use this list to find the ones that count.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We shortlist the entertainment outlets that carry weight, shape the angle or data with your team,
+              write the pitches and place them on real publications. No link farms, no gossip aggregators, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with entertainment and celebrity guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
