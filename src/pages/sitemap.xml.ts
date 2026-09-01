@@ -28,6 +28,7 @@ const STATIC_PATHS = [
   { path: "/seo/backlinks/uk-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/seo/backlinks/dating-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/seo/backlinks/lifestyle-posting-sites", priority: "0.7", changefreq: "monthly" },
+  { path: "/seo/backlinks/finance-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/about", priority: "0.6", changefreq: "monthly" },
   { path: "/contact", priority: "0.6", changefreq: "yearly" },
 ];

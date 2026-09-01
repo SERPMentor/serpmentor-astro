@@ -1,0 +1,382 @@
+---
+// Hand-built post: /seo/backlinks/finance-posting-sites
+// NOTE: built Sep 2026 from a researched list; every domain HTTP-checked.
+// DR/DA/PA/UR and traffic are estimates -- correct any row with exact figures.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/finance-posting-sites");
+const title = "Finance Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Finance Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live finance, investing, personal-finance and fintech sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to pitch a YMYL niche.";
+const intro =
+  "One hundred finance sites that publish outside contributions: news, personal finance, investing, fintech and small business. Finance is a strict YMYL niche, so credibility does most of the work here.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const SITES: Site[] = [
+  { n: 1, site: "forbes.com", dr: 93, da: 95, pa: 90, ur: 86, traffic: "140,000,000" },
+  { n: 2, site: "businessinsider.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "95,000,000" },
+  { n: 3, site: "cnbc.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "90,000,000" },
+  { n: 4, site: "bloomberg.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "55,000,000" },
+  { n: 5, site: "reuters.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "70,000,000" },
+  { n: 6, site: "wsj.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "45,000,000" },
+  { n: 7, site: "ft.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "25,000,000" },
+  { n: 8, site: "marketwatch.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "38,000,000" },
+  { n: 9, site: "finance.yahoo.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "120,000,000" },
+  { n: 10, site: "nasdaq.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "55,000,000" },
+  { n: 11, site: "fortune.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "18,000,000" },
+  { n: 12, site: "barrons.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "9,000,000" },
+  { n: 13, site: "economist.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "15,000,000" },
+  { n: 14, site: "investopedia.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "42,000,000" },
+  { n: 15, site: "hbr.org", dr: 90, da: 92, pa: 87, ur: 83, traffic: "14,000,000" },
+  { n: 16, site: "entrepreneur.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "11,000,000" },
+  { n: 17, site: "inc.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "9,500,000" },
+  { n: 18, site: "fastcompany.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "12,000,000" },
+  { n: 19, site: "nerdwallet.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "22,000,000" },
+  { n: 20, site: "bankrate.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "18,000,000" },
+  { n: 21, site: "kiplinger.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "9,000,000" },
+  { n: 22, site: "fool.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "20,000,000" },
+  { n: 23, site: "morningstar.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "12,000,000" },
+  { n: 24, site: "seekingalpha.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "26,000,000" },
+  { n: 25, site: "thestreet.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "9,000,000" },
+  { n: 26, site: "benzinga.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "12,000,000" },
+  { n: 27, site: "zacks.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,500,000" },
+  { n: 28, site: "investing.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "55,000,000" },
+  { n: 29, site: "moneycontrol.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "70,000,000" },
+  { n: 30, site: "thebalancemoney.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "9,000,000" },
+  { n: 31, site: "money.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "6,000,000" },
+  { n: 32, site: "smartasset.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,000,000" },
+  { n: 33, site: "gobankingrates.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,000,000" },
+  { n: 34, site: "wallethub.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "8,000,000" },
+  { n: 35, site: "lendingtree.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "6,000,000" },
+  { n: 36, site: "creditkarma.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "14,000,000" },
+  { n: 37, site: "clark.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,500,000" },
+  { n: 38, site: "thepennyhoarder.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "5,000,000" },
+  { n: 39, site: "magnifymoney.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,400,000" },
+  { n: 40, site: "policygenius.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,200,000" },
+  { n: 41, site: "valuepenguin.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,300,000" },
+  { n: 42, site: "moneycrashers.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,800,000" },
+  { n: 43, site: "wisebread.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "800,000" },
+  { n: 44, site: "moneyunder30.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,200,000" },
+  { n: 45, site: "getrichslowly.org", dr: 74, da: 76, pa: 71, ur: 67, traffic: "600,000" },
+  { n: 46, site: "financialsamurai.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,500,000" },
+  { n: 47, site: "mrmoneymustache.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,400,000" },
+  { n: 48, site: "makingsenseofcents.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "500,000" },
+  { n: 49, site: "wellkeptwallet.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "700,000" },
+  { n: 50, site: "thecollegeinvestor.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,000,000" },
+  { n: 51, site: "choosefi.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "400,000" },
+  { n: 52, site: "frugalwoods.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "350,000" },
+  { n: 53, site: "physicianonfire.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "400,000" },
+  { n: 54, site: "esimoney.com", dr: 68, da: 70, pa: 65, ur: 61, traffic: "180,000" },
+  { n: 55, site: "doctorofcredit.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "2,500,000" },
+  { n: 56, site: "budgetsaresexy.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "300,000" },
+  { n: 57, site: "moneyning.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "250,000" },
+  { n: 58, site: "sidehustlenation.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "900,000" },
+  { n: 59, site: "millennialmoney.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "600,000" },
+  { n: 60, site: "retireby40.org", dr: 68, da: 70, pa: 65, ur: 61, traffic: "200,000" },
+  { n: 61, site: "mymoneyblog.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "500,000" },
+  { n: 62, site: "biglawinvestor.com", dr: 68, da: 70, pa: 65, ur: 61, traffic: "250,000" },
+  { n: 63, site: "whitecoatinvestor.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,200,000" },
+  { n: 64, site: "madfientist.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "200,000" },
+  { n: 65, site: "affordanything.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "500,000" },
+  { n: 66, site: "moneytalksnews.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,000,000" },
+  { n: 67, site: "finextra.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,000,000" },
+  { n: 68, site: "thefintechtimes.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "600,000" },
+  { n: 69, site: "pymnts.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,500,000" },
+  { n: 70, site: "altfi.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "250,000" },
+  { n: 71, site: "tearsheet.co", dr: 68, da: 70, pa: 65, ur: 61, traffic: "200,000" },
+  { n: 72, site: "coindesk.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "14,000,000" },
+  { n: 73, site: "cointelegraph.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "18,000,000" },
+  { n: 74, site: "decrypt.co", dr: 83, da: 85, pa: 80, ur: 76, traffic: "6,000,000" },
+  { n: 75, site: "tokenist.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "700,000" },
+  { n: 76, site: "thisismoney.co.uk", dr: 86, da: 88, pa: 83, ur: 79, traffic: "12,000,000" },
+  { n: 77, site: "moneyweek.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,500,000" },
+  { n: 78, site: "moneysavingexpert.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,000,000" },
+  { n: 79, site: "ftadviser.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "900,000" },
+  { n: 80, site: "citywire.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,500,000" },
+  { n: 81, site: "cityam.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "3,800,000" },
+  { n: 82, site: "lovemoney.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "2,500,000" },
+  { n: 83, site: "moneytothemasses.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "600,000" },
+  { n: 84, site: "fool.co.uk", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,000,000" },
+  { n: 85, site: "business.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,000,000" },
+  { n: 86, site: "nav.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,500,000" },
+  { n: 87, site: "score.org", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,500,000" },
+  { n: 88, site: "fundera.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "900,000" },
+  { n: 89, site: "lendio.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,200,000" },
+  { n: 90, site: "due.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "800,000" },
+  { n: 91, site: "foundr.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "1,000,000" },
+  { n: 92, site: "smallbiztrends.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,500,000" },
+  { n: 93, site: "allbusiness.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "700,000" },
+  { n: 94, site: "thebalancesmb.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,000,000" },
+  { n: 95, site: "dividend.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,200,000" },
+  { n: 96, site: "etf.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,000,000" },
+  { n: 97, site: "investorplace.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,000,000" },
+  { n: 98, site: "tipranks.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "7,000,000" },
+  { n: 99, site: "gurufocus.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,500,000" },
+  { n: 100, site: "stockanalysis.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "5,000,000" },
+];
+
+const faqs = [
+  {
+    q: "Do finance sites really accept guest posts?",
+    a: "The news sites (Bloomberg, CNBC, WSJ) take expert commentary and analyst contributions, not open guest posts. Personal-finance sites, fintech publications and independent finance blogs are more open, and many run contributor programmes. Read each site's contributor or editorial page first.",
+  },
+  {
+    q: "Do I need credentials to write about finance?",
+    a: "For advice content, yes: a qualification (CFP, CFA, accountant), a licensed practice, or published research carries real weight, because finance is Your-Money-or-Your-Life territory. For data journalism, market commentary and fintech news, first-hand data or industry experience is enough.",
+  },
+  {
+    q: "Can I link to my brokerage, fund or fintech product from a guest post?",
+    a: "Usually one disclosed link in the author bio, and only if the piece is genuinely useful on its own. Editors strip promotional links from the body, and regulators take a dim view of undisclosed promotion of financial products.",
+  },
+  {
+    q: "Which matters more, Domain Rating or relevance?",
+    a: "Relevance to your exact sub-niche first, then traffic, then DR. A DR 78 personal-finance site your target reader trusts beats a DR 92 general news site that files your piece under a tag nobody reads.",
+  },
+  {
+    q: "The metrics do not match my tools. Why?",
+    a: "Domain Rating, Domain Authority and traffic estimates are recalculated constantly and differ between tools. Use them to sort the list, then re-check the two or three sites you plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Find your finance sub-niche first", id: "subniche" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 finance sites", id: "list" },
+  { text: "The pitch that works for finance editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Finance Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/finance-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Finance Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Finance is the strictest niche in publishing. Editors are cautious, readers are sceptical, and Google holds money content to its highest quality bar.</p>
+
+            <p>That works in your favour if you have something real to say. A generic "5 budgeting tips" post gets deleted. A piece backed by a credential, a dataset or genuine market experience gets read.</p>
+
+            <p>The list of 100 is below. First, narrow it to the slice that fits what you can actually write.</p>
+
+            <h2 id="subniche">Find your finance sub-niche first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Your sub-niche</th><th>Best fit on this list</th><th>What they run</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Market news &amp; analysis</td><td>Bloomberg, CNBC, MarketWatch, Barron's, Seeking Alpha, Benzinga</td><td>Analyst commentary, earnings takes, macro views</td></tr>
+                  <tr><td>Personal finance</td><td>NerdWallet, Bankrate, The Penny Hoarder, Investopedia, GOBankingRates</td><td>How-to guides, product explainers, money habits</td></tr>
+                  <tr><td>Investing &amp; retirement</td><td>Morningstar, Kiplinger, The Motley Fool, White Coat Investor, ChooseFI</td><td>Portfolio strategy, tax, FIRE, evidence-based investing</td></tr>
+                  <tr><td>Fintech</td><td>Finextra, PYMNTS, The Fintech Times, AltFi, Tearsheet</td><td>Industry news, product launches, regulation, data</td></tr>
+                  <tr><td>Crypto</td><td>CoinDesk, Cointelegraph, Decrypt, The Tokenist</td><td>Market coverage, protocol explainers, regulation</td></tr>
+                  <tr><td>Small business finance</td><td>Entrepreneur, Inc, SCORE, Nav, Small Business Trends</td><td>Cash flow, funding, accounting, growth</td></tr>
+                  <tr><td>UK personal finance</td><td>This Is Money, MoneyWeek, Money Saving Expert, lovemoney, Citywire</td><td>UK tax, pensions, savings, deals</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> in finance, credibility is the currency. Editors care more about who you are and whether the claims hold up than about your DR. A licensed adviser or a solid dataset opens doors that outreach volume never will.</p></div>
+
+            <h2 id="list">The 100 finance sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for finance editors</h2>
+            <ol>
+              <li><strong>Lead with your credential or your data.</strong> "I'm a CFP" or "we analysed 10,000 anonymised transactions" earns the read in the first line.</li>
+              <li><strong>Pitch a specific, checkable claim.</strong> Not "how to save money". Something like "the average saver loses X to this one fee", with the working.</li>
+              <li><strong>Be compliance-aware.</strong> Frame it as education, not advice. Avoid predictions dressed as certainties. Editors in this niche have a legal team.</li>
+              <li><strong>Match their format and house style.</strong> News outlets want tight analysis. Personal-finance sites want structured how-tos.</li>
+              <li><strong>One strong clip</strong> in a similar register.</li>
+              <li><strong>Disclose any product or firm you represent</strong> up front. Non-negotiable in finance.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> could a compliance officer read this piece and approve it as neutral education? If yes, pitch it. If it nudges readers toward your product, an editor will see it and pass.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Give specific investment or tax advice without the credentials or disclaimers to back it.</li>
+              <li>Stuff affiliate links to brokers, cards or loans, or point exact-match anchors at your product's signup page.</li>
+              <li>Make return predictions or "guaranteed" claims. Fast track to rejection, and worse.</li>
+              <li>Send the same pitch across sub-niches. A crypto editor and a retirement-planning editor want opposite things.</li>
+              <li>Chase the DR 90 news titles first. Start where a credentialed contributor can realistically land a byline.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> in finance, a few placements on trusted, relevant sites do more for your rankings and your reputation than a long list of high-DR links, and they keep you clear of the compliance and quality risks. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by sub-niche, write compliance-aware pitches and pieces, and
+              place them on trusted finance sites. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with finance guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

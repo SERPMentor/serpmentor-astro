@@ -107,6 +107,15 @@ export const GET: APIRoute = async () => {
   });
   items.push({
     type: "guide",
+    title: "Finance Posting Sites: 100 Places to Publish",
+    url: "/seo/backlinks/finance-posting-sites",
+    desc: "100 live finance, investing, personal-finance and fintech sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to pitch a YMYL niche.",
+    keywords:
+      "finance posting sites finance guest post sites investing personal finance fintech crypto guest posting finance blogs that accept guest posts YMYL link building",
+    ts: Date.parse("2026-09-01"),
+  });
+  items.push({
+    type: "guide",
     title: "Lifestyle Posting Sites: 100 Places to Publish",
     url: "/seo/backlinks/lifestyle-posting-sites",
     desc: "100 live lifestyle, fashion, home, food and travel sites for guest posts, with Domain Rating, Domain Authority and traffic, plus how to pitch each type.",
