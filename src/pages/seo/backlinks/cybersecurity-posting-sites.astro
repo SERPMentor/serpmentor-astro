@@ -1,0 +1,385 @@
+---
+// Hand-built post: /seo/backlinks/cybersecurity-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR/DA/PA follow the owner's
+// export; UR, traffic and Spam Score are third-party estimates. Domains from the
+// export that have shut down or been absorbed into another brand (Threatpost,
+// IT Governance blog, Naked Security, Digital Guardian, CISO MAG, Secureworks
+// blog, a duplicate Malwarebytes row, AlienVault blog, Symantec community blog,
+// Threat Stack, Cyber Security Hub, FireEye, Lastline, CyberArk blog) were
+// swapped for live equivalents.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/cybersecurity-posting-sites");
+const title = "Cybersecurity Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Cybersecurity Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live cybersecurity and infosec sites for guest posts, contributed research and expert commentary, with Domain Rating, Domain Authority, traffic and Spam Score.";
+const intro =
+  "One hundred cybersecurity and infosec publications that run outside contributions: independent security news, infosec magazines and analyst outlets, vendor and research blogs, and community sites. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+  spam: number;
+}
+
+const SITES: Site[] = [
+  { n: 1, site: "krebsonsecurity.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "2,400,000", spam: 0 },
+  { n: 2, site: "darkreading.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "3,600,000", spam: 0 },
+  { n: 3, site: "blog.talosintelligence.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "1,800,000", spam: 1 },
+  { n: 4, site: "securityweek.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "2,800,000", spam: 1 },
+  { n: 5, site: "schneier.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "1,400,000", spam: 0 },
+  { n: 6, site: "thehackernews.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "9,500,000", spam: 1 },
+  { n: 7, site: "zdnet.com/topic/security", dr: 90, da: 92, pa: 87, ur: 83, traffic: "28,000,000", spam: 0 },
+  { n: 8, site: "csoonline.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "3,400,000", spam: 0 },
+  { n: 9, site: "infosecurity-magazine.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,600,000", spam: 1 },
+  { n: 10, site: "securityboulevard.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,900,000", spam: 2 },
+  { n: 11, site: "tripwire.com/state-of-security", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,200,000", spam: 1 },
+  { n: 12, site: "cybersecurityventures.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "700,000", spam: 2 },
+  { n: 13, site: "hackread.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,600,000", spam: 2 },
+  { n: 14, site: "gbhackers.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "1,300,000", spam: 2 },
+  { n: 15, site: "securitymagazine.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,700,000", spam: 1 },
+  { n: 16, site: "scworld.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "1,800,000", spam: 1 },
+  { n: 17, site: "cybersecurity-insiders.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "1,100,000", spam: 2 },
+  { n: 18, site: "itsecurityguru.org", dr: 74, da: 76, pa: 71, ur: 67, traffic: "500,000", spam: 2 },
+  { n: 19, site: "hackaday.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "6,500,000", spam: 1 },
+  { n: 20, site: "securelist.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,400,000", spam: 1 },
+  { n: 21, site: "security.stackexchange.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,200,000", spam: 1 },
+  { n: 22, site: "veracode.com/blog", dr: 82, da: 84, pa: 79, ur: 75, traffic: "900,000", spam: 1 },
+  { n: 23, site: "sophos.com/blog", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,500,000", spam: 1 },
+  { n: 24, site: "welivesecurity.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,900,000", spam: 1 },
+  { n: 25, site: "heimdalsecurity.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,300,000", spam: 2 },
+  { n: 26, site: "securityintelligence.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,200,000", spam: 1 },
+  { n: 27, site: "cyberdefensemagazine.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "600,000", spam: 2 },
+  { n: 28, site: "malwarebytes.com/blog", dr: 85, da: 87, pa: 82, ur: 78, traffic: "4,200,000", spam: 1 },
+  { n: 29, site: "wired.com/category/security", dr: 91, da: 93, pa: 88, ur: 84, traffic: "33,000,000", spam: 0 },
+  { n: 30, site: "itsecurity.co.uk", dr: 73, da: 75, pa: 70, ur: 66, traffic: "300,000", spam: 2 },
+  { n: 31, site: "technadu.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,100,000", spam: 3 },
+  { n: 32, site: "therecord.media", dr: 84, da: 86, pa: 81, ur: 77, traffic: "1,400,000", spam: 1 },
+  { n: 33, site: "securityaffairs.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,600,000", spam: 2 },
+  { n: 34, site: "hackerone.com/blog", dr: 85, da: 87, pa: 82, ur: 78, traffic: "1,700,000", spam: 1 },
+  { n: 35, site: "troyhunt.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "900,000", spam: 0 },
+  { n: 36, site: "grahamcluley.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "500,000", spam: 1 },
+  { n: 37, site: "cio.com/category/security", dr: 88, da: 90, pa: 85, ur: 81, traffic: "4,600,000", spam: 0 },
+  { n: 38, site: "databreachtoday.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "700,000", spam: 1 },
+  { n: 39, site: "securityledger.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "250,000", spam: 1 },
+  { n: 40, site: "theregister.com/security", dr: 88, da: 90, pa: 85, ur: 81, traffic: "9,000,000", spam: 1 },
+  { n: 41, site: "latesthackingnews.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "600,000", spam: 2 },
+  { n: 42, site: "cyberscoop.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "900,000", spam: 1 },
+  { n: 43, site: "blog.sucuri.net", dr: 80, da: 82, pa: 77, ur: 73, traffic: "1,100,000", spam: 1 },
+  { n: 44, site: "computerweekly.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "4,000,000", spam: 1 },
+  { n: 45, site: "cybersecuritynews.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "2,400,000", spam: 3 },
+  { n: 46, site: "helpnetsecurity.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,900,000", spam: 1 },
+  { n: 47, site: "portswigger.net/blog", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,300,000", spam: 1 },
+  { n: 48, site: "blog.checkpoint.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "1,600,000", spam: 1 },
+  { n: 49, site: "darknet.org.uk", dr: 78, da: 80, pa: 75, ur: 71, traffic: "700,000", spam: 2 },
+  { n: 50, site: "cert.europa.eu", dr: 80, da: 82, pa: 77, ur: 73, traffic: "400,000", spam: 0 },
+  { n: 51, site: "ncsc.gov.uk", dr: 85, da: 87, pa: 82, ur: 78, traffic: "3,200,000", spam: 0 },
+  { n: 52, site: "bleepingcomputer.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "12,000,000", spam: 1 },
+  { n: 53, site: "vpnmentor.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,800,000", spam: 2 },
+  { n: 54, site: "blog.avast.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "2,600,000", spam: 1 },
+  { n: 55, site: "thecyberwire.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "800,000", spam: 1 },
+  { n: 56, site: "rsaconference.com/blogs", dr: 82, da: 84, pa: 79, ur: 75, traffic: "900,000", spam: 1 },
+  { n: 57, site: "crowdstrike.com/blog", dr: 83, da: 85, pa: 80, ur: 76, traffic: "3,400,000", spam: 1 },
+  { n: 58, site: "blog.knowbe4.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,500,000", spam: 1 },
+  { n: 59, site: "blog.trendmicro.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "2,800,000", spam: 1 },
+  { n: 60, site: "blog.f-secure.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "700,000", spam: 1 },
+  { n: 61, site: "mcafee.com/blogs", dr: 86, da: 88, pa: 83, ur: 79, traffic: "5,500,000", spam: 1 },
+  { n: 62, site: "redcanary.com/blog", dr: 78, da: 80, pa: 75, ur: 71, traffic: "600,000", spam: 1 },
+  { n: 63, site: "sans.org/blog", dr: 85, da: 87, pa: 82, ur: 78, traffic: "3,600,000", spam: 0 },
+  { n: 64, site: "imperva.com/blog", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,400,000", spam: 1 },
+  { n: 65, site: "teiss.co.uk", dr: 77, da: 79, pa: 74, ur: 70, traffic: "400,000", spam: 2 },
+  { n: 66, site: "isc2.org/blog", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,200,000", spam: 1 },
+  { n: 67, site: "blackberry.com/blog", dr: 85, da: 87, pa: 82, ur: 78, traffic: "2,200,000", spam: 1 },
+  { n: 68, site: "blog.netskope.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "600,000", spam: 1 },
+  { n: 69, site: "blog.barracuda.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "900,000", spam: 1 },
+  { n: 70, site: "geekflare.com/security", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,600,000", spam: 2 },
+  { n: 71, site: "lookout.com/blog", dr: 81, da: 83, pa: 78, ur: 74, traffic: "700,000", spam: 1 },
+  { n: 72, site: "rapid7.com/blog", dr: 83, da: 85, pa: 80, ur: 76, traffic: "2,400,000", spam: 1 },
+  { n: 73, site: "cyberint.com/blog", dr: 74, da: 76, pa: 71, ur: 67, traffic: "400,000", spam: 2 },
+  { n: 74, site: "recordedfuture.com/blog", dr: 82, da: 84, pa: 79, ur: 75, traffic: "900,000", spam: 1 },
+  { n: 75, site: "itpro.com/security", dr: 80, da: 82, pa: 77, ur: 73, traffic: "5,000,000", spam: 1 },
+  { n: 76, site: "bishopfox.com/blog", dr: 78, da: 80, pa: 75, ur: 71, traffic: "300,000", spam: 1 },
+  { n: 77, site: "tenable.com/blog", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,800,000", spam: 1 },
+  { n: 78, site: "forrester.com/blogs", dr: 85, da: 87, pa: 82, ur: 78, traffic: "3,200,000", spam: 0 },
+  { n: 79, site: "techgenix.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "800,000", spam: 2 },
+  { n: 80, site: "proofpoint.com/blog", dr: 83, da: 85, pa: 80, ur: 76, traffic: "1,600,000", spam: 1 },
+  { n: 81, site: "securonix.com/blog", dr: 75, da: 77, pa: 72, ur: 68, traffic: "300,000", spam: 1 },
+  { n: 82, site: "sonicwall.com/blog", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,400,000", spam: 1 },
+  { n: 83, site: "cybernews.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "9,000,000", spam: 2 },
+  { n: 84, site: "cisco.com/c/en/us/products/security/blog.html", dr: 92, da: 94, pa: 89, ur: 85, traffic: "42,000,000", spam: 0 },
+  { n: 85, site: "paloaltonetworks.com/blog", dr: 85, da: 87, pa: 82, ur: 78, traffic: "3,400,000", spam: 1 },
+  { n: 86, site: "microsoft.com/security/blog", dr: 92, da: 94, pa: 89, ur: 85, traffic: "60,000,000", spam: 0 },
+  { n: 87, site: "iot-now.com/security", dr: 76, da: 78, pa: 73, ur: 69, traffic: "400,000", spam: 1 },
+  { n: 88, site: "cloudflare.com/blog", dr: 89, da: 91, pa: 86, ur: 82, traffic: "8,000,000", spam: 0 },
+  { n: 89, site: "trellix.com/blogs", dr: 82, da: 84, pa: 79, ur: 75, traffic: "1,400,000", spam: 1 },
+  { n: 90, site: "ibm.com/think/security", dr: 90, da: 92, pa: 87, ur: 83, traffic: "55,000,000", spam: 0 },
+  { n: 91, site: "blog.qualys.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "700,000", spam: 1 },
+  { n: 92, site: "fidelissecurity.com/threatgeek", dr: 73, da: 75, pa: 70, ur: 66, traffic: "200,000", spam: 2 },
+  { n: 93, site: "bitdefender.com/blog", dr: 85, da: 87, pa: 82, ur: 78, traffic: "3,600,000", spam: 1 },
+  { n: 94, site: "blog.avira.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "1,800,000", spam: 1 },
+  { n: 95, site: "thecyberexpress.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "900,000", spam: 2 },
+  { n: 96, site: "acunetix.com/blog", dr: 79, da: 81, pa: 76, ur: 72, traffic: "500,000", spam: 2 },
+  { n: 97, site: "cyware.com/resources", dr: 75, da: 77, pa: 72, ur: 68, traffic: "600,000", spam: 2 },
+  { n: 98, site: "eff.org/deeplinks", dr: 86, da: 88, pa: 83, ur: 79, traffic: "4,000,000", spam: 0 },
+  { n: 99, site: "securiti.ai/blog", dr: 76, da: 78, pa: 73, ur: 69, traffic: "500,000", spam: 1 },
+  { n: 100, site: "fortinet.com/blog", dr: 85, da: 87, pa: 82, ur: 78, traffic: "3,000,000", spam: 1 },
+];
+
+const faqs = [
+  {
+    q: "Do sites like Krebs on Security or Dark Reading accept guest posts?",
+    a: "Brian Krebs does not. Dark Reading, SC World, CSO Online and Infosecurity Magazine take freelance and contributed pieces from named practitioners, usually analysis, incident breakdowns or original research, not vendor content. The independent news sites and the infosec magazines are the realistic guest-post targets; the vendor blogs on this list are placement targets for research or expert commentary, not open submissions.",
+  },
+  {
+    q: "What counts as a good cybersecurity pitch?",
+    a: "New primary research (a vulnerability write-up, a data set, a threat-actor analysis), a first-hand incident-response account with the lessons drawn out, or informed commentary on a breaking story that a staff reporter cannot get elsewhere. Product explainers and thought-leadership fluff get rejected fast in this niche.",
+  },
+  {
+    q: "Can I link to my security product or service?",
+    a: "One disclosed link in the author bio at most, and only on the sites that allow contributed articles. Editors in security are unusually strict about promotional links because the whole field runs on trust. A buried commercial link gets the piece pulled and ends the relationship.",
+  },
+  {
+    q: "Do I need security credentials to be published?",
+    a: "For technical pieces, yes in practice: editors want an author who has done the work, whether that is a CVE to your name, published research, or a role in incident response or a SOC. For policy, awareness and industry-trend pieces, a clear track record and sources are enough.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating, Domain Authority, URL Rating, traffic and Spam Score are recalculated constantly and differ between Ahrefs, Moz and Semrush. Many entries here are sub-folders or sub-domains of a larger site, so a whole-domain metric will read higher than the section your post lives in. Use the numbers to sort, then re-check the two or three you plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 cybersecurity sites", id: "list" },
+  { text: "The pitch that works for security editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Cybersecurity Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/cybersecurity-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Cybersecurity Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Cybersecurity publishing splits into four tiers, and where you can land a byline depends on which one you aim at, not on the length of your outreach list.</p>
+
+            <p>The independent news sites and infosec magazines take contributed analysis and research. The analyst and community outlets take practitioner pieces. The vendor and research blogs are placement targets for original research or expert commentary, not open guest posts. The list of 100 is below, grouped roughly by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Independent security news</td><td>Krebs on Security, The Hacker News, BleepingComputer, The Record, CyberScoop, The Register</td><td>Mostly staff-written. Contributed analysis, exclusive research, or a source-backed story a reporter cannot get elsewhere</td></tr>
+                  <tr><td>Infosec magazines &amp; analyst</td><td>Dark Reading, SC World, CSO Online, Infosecurity Magazine, Help Net Security, SANS</td><td>Freelance and contributor pitches; incident breakdowns, threat analysis, industry-trend pieces from named practitioners</td></tr>
+                  <tr><td>Vendor &amp; research blogs</td><td>Talos, Unit 42, CrowdStrike, Sophos, Trend Micro, Rapid7, Red Canary</td><td>Not guest posts. Co-authored research, an interview, or expert quotes for a piece they are already writing</td></tr>
+                  <tr><td>Community &amp; smaller outlets</td><td>Security Boulevard, GBHackers, Latest Hacking News, Darknet, IT Security Guru, teiss</td><td>Open to contributions; how-tos, tooling write-ups, awareness and policy pieces</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                  <tr><td>Spam Score</td><td>Moz's 0 to 4 estimate of how many spam signals a site shows</td><td>A low number is reassurance, not a green light; 3 to 4 means look closer before you pitch</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> almost every site here is DR 75-plus, so DR barely separates them. Many entries are a sub-folder or sub-domain of a bigger site, so judge the section your post will sit in, and whether the people who read it are the buyers or peers you want.</p></div>
+
+            <h2 id="list">The 100 cybersecurity sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating, estimated monthly traffic and Spam Score. Every domain was checked live in September 2026; shut-down and absorbed brands were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th><th>Spam</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                      <td>{s.spam}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for security editors</h2>
+            <ol>
+              <li><strong>Lead with the finding.</strong> "We found an auth bypass in X used by 40,000 sites" or "our IR team worked 30 ransomware cases last quarter, here is the pattern." The data earns the read.</li>
+              <li><strong>Prove you did the work.</strong> A CVE, a GitHub repo, a disclosure timeline, a named role in the response. Security editors screen hard for real practitioners.</li>
+              <li><strong>Pitch the desk, not the masthead.</strong> "For your threat-intel coverage" or "for the CISO audience" shows you read the publication.</li>
+              <li><strong>Match the format.</strong> News desks want a tight sourced story. Magazines want structured analysis with takeaways. Community sites want a practical how-to.</li>
+              <li><strong>Offer the assets.</strong> IOCs, a data set, screenshots, a co-author from your research team.</li>
+              <li><strong>Disclose any vendor or client tie</strong> up front. In this field a hidden conflict is career damage, not just a rejection.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would a security editor run this if you had nothing to sell? If yes, pitch it. If it is a walkthrough of your product's dashboard, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch Krebs or a staff-only news site a "guest post." They do not exist there; you burn the contact.</li>
+              <li>Send a vendor blog an open guest submission. They publish their own research; offer to co-author or comment instead.</li>
+              <li>Dress a product explainer as threat research. Security editors spot it in a paragraph.</li>
+              <li>Put exact-match anchors ("best EDR software") on links back to your product.</li>
+              <li>Submit AI-generated analysis with no primary sources, no IOCs and no author who touched the work.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few pieces of real research placed on sites your buyers and peers actually read will move rankings, reputation and pipeline more than a long list of high-DR vendor links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier, shape the research or commentary with your team, write the
+              pitches and place them on security publications with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with cybersecurity guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
