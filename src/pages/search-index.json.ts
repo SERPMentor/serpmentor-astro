@@ -134,6 +134,15 @@ export const GET: APIRoute = async () => {
   });
   items.push({
     type: "guide",
+    title: "iGaming Posting Sites: 100 Places to Publish",
+    url: "/seo/backlinks/igaming-posting-sites",
+    desc: "100 live iGaming, casino, poker and betting sites for guest posts, contributed analysis and industry news, with Domain Rating, Domain Authority and traffic.",
+    keywords:
+      "igaming posting sites casino guest post sites gambling blogs that accept guest posts poker betting guest posting igaming trade press sbc egr igaming business link building YMYL",
+    ts: Date.parse("2026-09-01"),
+  });
+  items.push({
+    type: "guide",
     title: "Italy Posting Sites: 100 Places to Publish for Italian Readers",
     url: "/seo/backlinks/italy-posting-sites",
     desc: "100 live Italian news, business and lifestyle sites for guest posts and contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.",

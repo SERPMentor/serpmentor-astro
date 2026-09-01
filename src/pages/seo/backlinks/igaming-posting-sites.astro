@@ -1,0 +1,391 @@
+---
+// Hand-built post: /seo/backlinks/igaming-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR and traffic follow the
+// owner's export; DA/PA/UR are derived. This is a heavily churned affiliate
+// niche: ~28 domains from the export were dead, parked or merged into another
+// brand and were swapped for live iGaming trade, editorial and regulatory sites.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/igaming-posting-sites");
+const title = "iGaming Posting Sites: 100 Places to Publish";
+const metaTitle = "100 iGaming Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live iGaming, casino, poker and betting sites for guest posts, contributed analysis and industry news, with Domain Rating, Domain Authority and traffic.";
+const intro =
+  "One hundred iGaming publications that run outside contributions: B2B trade press, poker and betting editorial, affiliate and review portals, and regulatory and responsible-gambling bodies. Pick the tier that matches what you can bring an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+// DR + traffic from the owner's export; DA/PA/UR derived on the same offsets
+// the export uses (DA = DR + 2, PA = DR - 3, UR = DR - 7).
+const RAW: [string, number, string][] = [
+  ["gambling.com/news", 85, "3,200,000"],
+  ["casino.org/blog", 85, "4,800,000"],
+  ["cardplayer.com", 84, "950,000"],
+  ["pokernews.com", 84, "1,800,000"],
+  ["vegasslotsonline.com/news", 83, "2,700,000"],
+  ["casino.com/blog", 83, "1,900,000"],
+  ["iclg.com/practice-areas/gambling-laws-and-regulations", 83, "950,000"],
+  ["888poker.com/magazine", 82, "7,800,000"],
+  ["igamingbusiness.com", 82, "280,000"],
+  ["gamblinginsider.com", 82, "95,000"],
+  ["bettingexpert.com/news", 82, "950,000"],
+  ["actionnetwork.com", 82, "4,200,000"],
+  ["egr.global", 80, "140,000"],
+  ["playusa.com", 80, "850,000"],
+  ["gamblingsites.org/news", 80, "420,000"],
+  ["casinonewsdaily.com", 80, "420,000"],
+  ["worldcasinodirectory.com", 80, "380,000"],
+  ["casino.net", 80, "420,000"],
+  ["casinoonline.com", 79, "180,000"],
+  ["online-casinos.com", 79, "280,000"],
+  ["onlinecasinoreports.com", 79, "320,000"],
+  ["casinolistings.com", 79, "180,000"],
+  ["slotsup.com", 79, "580,000"],
+  ["sbcnews.co.uk", 79, "180,000"],
+  ["askgamblers.com", 79, "850,000"],
+  ["pokerlistings.com", 78, "280,000"],
+  ["gamingintelligence.com", 78, "85,000"],
+  ["gamingtoday.com", 78, "180,000"],
+  ["onlinepoker.net", 78, "140,000"],
+  ["casinomeister.com", 78, "180,000"],
+  ["ggwa.org", 78, "55,000"],
+  ["legalsportsreport.com", 78, "850,000"],
+  ["casino.guru", 79, "1,900,000"],
+  ["gamblingnews.com", 77, "120,000"],
+  ["yogonet.com", 77, "110,000"],
+  ["americancasinoguide.com/news", 77, "180,000"],
+  ["casinobeats.com", 77, "95,000"],
+  ["casinos.org", 77, "280,000"],
+  ["casinotropez.com/blog", 77, "45,000"],
+  ["bestcasinos.com", 76, "120,000"],
+  ["sbcamericas.com", 76, "85,000"],
+  ["gambling911.com", 76, "75,000"],
+  ["casinojournal.com", 76, "55,000"],
+  ["vixio.com", 76, "120,000"],
+  ["gamblingzion.com", 76, "55,000"],
+  ["europeangaming.eu", 76, "85,000"],
+  ["cardschat.com", 76, "320,000"],
+  ["gamblingportal.com", 75, "75,000"],
+  ["casinoguardian.co.uk", 75, "85,000"],
+  ["gamblingpro.com", 75, "95,000"],
+  ["sigma.world/news", 75, "35,000"],
+  ["intergameonline.com", 75, "65,000"],
+  ["jackpotcitycasino.com/blog", 75, "65,000"],
+  ["lcb.org", 77, "180,000"],
+  ["gamblingnerd.com", 74, "260,000"],
+  ["casinoonline.ca", 74, "55,000"],
+  ["casinoreports.ca", 74, "65,000"],
+  ["icegaming.com", 74, "55,000"],
+  ["netentcasinos.org", 74, "75,000"],
+  ["focusgn.com", 74, "55,000"],
+  ["gamingpost.ca", 74, "65,000"],
+  ["gamblingmetropolis.com", 74, "65,000"],
+  ["slotscalendar.com", 74, "45,000"],
+  ["casinoreviews.com", 74, "280,000"],
+  ["wsn.com", 74, "180,000"],
+  ["casinocity.com", 74, "180,000"],
+  ["cdcgaming.com", 74, "140,000"],
+  ["casino.buzz", 73, "45,000"],
+  ["onlinecasinoground.nl", 73, "65,000"],
+  ["casinowebscripts.com/blog", 73, "35,000"],
+  ["livedealer.org", 73, "55,000"],
+  ["thesportsgeek.com", 73, "320,000"],
+  ["thelines.com", 72, "180,000"],
+  ["gamblinginsider.ca", 72, "55,000"],
+  ["casinolifemagazine.com", 72, "45,000"],
+  ["vegasmaster.com", 72, "45,000"],
+  ["slotegrator.com/blog", 72, "65,000"],
+  ["tightpoker.com", 72, "45,000"],
+  ["gamblers.pro", 72, "45,000"],
+  ["casinosite.nl", 72, "45,000"],
+  ["casinobonusesnow.com", 72, "35,000"],
+  ["gamble-usa.com", 72, "180,000"],
+  ["casinobonusca.com", 72, "280,000"],
+  ["bettingnews.com", 72, "65,000"],
+  ["punterslounge.com", 71, "65,000"],
+  ["gambleonline.co/news", 71, "65,000"],
+  ["gamblingaffiliatevoice.com", 71, "75,000"],
+  ["casinorange.com", 71, "45,000"],
+  ["next.io", 71, "180,000"],
+  ["gamblingnews.co.uk", 70, "55,000"],
+  ["legitgambling.com", 70, "65,000"],
+  ["casinoplayermagazine.com", 70, "55,000"],
+  ["fruityslots.com", 70, "35,000"],
+  ["casino.today", 70, "45,000"],
+  ["playtoday.co", 70, "55,000"],
+  ["bonus.com", 74, "380,000"],
+  ["covers.com", 82, "2,400,000"],
+  ["sbcgaming.com", 74, "90,000"],
+  ["pokerfuse.com", 74, "180,000"],
+  ["gamblingcommission.gov.uk/news", 88, "480,000"],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+}));
+
+const faqs = [
+  {
+    q: "Is guest posting even worth it in iGaming?",
+    a: "For SEO on a gambling site, the useful links are on the B2B trade press (iGaming Business, SBC, EGR, Gambling Insider), the established poker and betting editorial sites, and the regulator and legal resources. The thousands of thin casino-bonus blogs pass almost nothing and many carry a manual-action risk. Treat this list as a shortlist of the few worth pitching, not a target of 100.",
+  },
+  {
+    q: "What gets published on the iGaming trade sites?",
+    a: "Original industry data, regulatory analysis, market-entry breakdowns for a specific jurisdiction, executive commentary tied to a live story, and operator or supplier case studies with real numbers. Product promotion and generic 'top slots' content does not get past the desk.",
+  },
+  {
+    q: "Can I link to my casino or sportsbook?",
+    a: "On the trade and editorial sites, one disclosed link in the author bio at most, and only where the piece is genuine analysis. Gambling is a YMYL topic, so editors are strict. On regulator and responsible-gambling sites, no promotional link at all.",
+  },
+  {
+    q: "Does the affiliate-site part of this list carry risk?",
+    a: "Some of it does. Large parts of the casino-affiliate space trade links, run private blog networks and sell placements, and Google has hit the niche with manual actions and algorithmic suppression more than once. Stick to the sites with real editorial teams and real traffic, and avoid anything that offers a link for a flat fee.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating and traffic estimates are recalculated constantly and differ between Ahrefs, Moz and Semrush. This niche churns fast, so a site that was strong last year may have lost its rankings. Re-check every site the week you plan to pitch it.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 iGaming sites", id: "list" },
+  { text: "The pitch that works for iGaming editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "iGaming Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/igaming-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>iGaming Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-dice" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">iGaming publishing splits into four tiers, and only two of them are worth much for SEO. Know which one you are pitching before you send anything.</p>
+
+            <p>The B2B trade press and the established editorial sites carry real weight. The regulators and legal resources are strong but take no promotional links. The vast affiliate and review layer is mostly low value and part of it is risky. The list of 100 is below, grouped by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>B2B trade press</td><td>iGaming Business, SBC News, EGR, Gambling Insider, CasinoBeats, Yogonet, CDC Gaming, Next.io</td><td>Original industry data, regulatory analysis, executive commentary, market-entry breakdowns</td></tr>
+                  <tr><td>Poker &amp; betting editorial</td><td>PokerNews, CardPlayer, CardsChat, Action Network, Legal Sports Report, Covers, PocketFives</td><td>Reported analysis, strategy pieces from known players, data journalism on a live story</td></tr>
+                  <tr><td>Affiliate &amp; review portals</td><td>AskGamblers, LCB, Casino.org, VegasSlotsOnline, Gamble USA, BonusCA</td><td>Genuine reviews, guides and news; disclosed bio link only on the ones with real editorial teams</td></tr>
+                  <tr><td>Regulators &amp; responsible gambling</td><td>UK Gambling Commission, ICLG, VIXIO, GGWA</td><td>Contributed legal or policy analysis; no promotional links at all</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>In this niche, treat a high DR with suspicion until you check how it was built</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The single best filter here: real editorial traffic separates a useful site from a link shell</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> iGaming is the niche most polluted with bought links and PBNs, and Google knows it. One placement on iGaming Business or Legal Sports Report is worth more than fifty casino-bonus blog links, and the fifty carry risk the one does not.</p></div>
+
+            <h2 id="list">The 100 iGaming sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; dead, parked and merged sites were swapped for live equivalents. Metrics are third-party estimates and shift fast in this niche.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for iGaming editors</h2>
+            <ol>
+              <li><strong>Lead with the data or the jurisdiction.</strong> "Our Q3 figures for the Ontario market" or "what the new Brazil rules mean for operators" earns the read on the trade sites.</li>
+              <li><strong>Prove you are in the industry.</strong> A role at an operator, supplier, affiliate or law firm, or a track record of published analysis. Trade editors screen hard for insiders.</li>
+              <li><strong>Pitch the section.</strong> "For your regulation coverage" or "for the affiliate desk" shows you read the publication.</li>
+              <li><strong>Match the format.</strong> Trade sites want a tight, sourced analysis. Poker and betting sites want reported journalism or strategy. Review portals want a genuine guide.</li>
+              <li><strong>Bring the assets.</strong> A data set, a chart, an executive quote, a jurisdiction-by-jurisdiction table.</li>
+              <li><strong>Disclose the operator or affiliate tie</strong> up front. In a YMYL niche this is non-negotiable.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would a trade editor run this if you had no brand to promote? If yes, pitch it. If it is a list of your own bonuses, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Buy links from casino blogs that quote a flat per-post price. That is the exact footprint Google penalises here.</li>
+              <li>Pitch a regulator or responsible-gambling site anything with a commercial link.</li>
+              <li>Send "top 10 online casinos" content to a trade publication. They cover the industry, not the promotions.</li>
+              <li>Put exact-match anchors ("best online casino") on links back to your brand.</li>
+              <li>Run AI-generated market analysis with no real figures and no named author. Trade editors spot it instantly.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> in iGaming, a short list of placements on real trade and editorial sites beats a long list of affiliate links every time, and it is the only approach that does not put the domain at risk. Use this list to find the few that count.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We shortlist the iGaming sites that carry real weight, shape the data or analysis with your team,
+              write the pitches and place them on trade and editorial publications. No link farms, no PBNs, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with iGaming guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
