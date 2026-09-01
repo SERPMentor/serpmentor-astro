@@ -1,0 +1,378 @@
+---
+// Hand-built post: /seo/backlinks/gadget-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. Removed shut-down/redirected
+// sites (AnandTech editorial, The Inquirer, TechnoBuffalo, MobileBurn,
+// MobileGeeks). DR/DA/PA/UR and traffic are estimates.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/gadget-posting-sites");
+const title = "Smartphone & Gadget Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Smartphone & Gadget Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live tech, smartphone and gadget sites for guest posts and expert contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each type.";
+const intro =
+  "One hundred smartphone and gadget sites that publish outside contributions: major tech news, phone-focused outlets, reviews sites and regional publications. Pick the tier that fits what you can offer.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+}
+
+const SITES: Site[] = [
+  { n: 1, site: "techcrunch.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "27,500,000" },
+  { n: 2, site: "theverge.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "32,400,000" },
+  { n: 3, site: "engadget.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "29,800,000" },
+  { n: 4, site: "cnet.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "59,700,000" },
+  { n: 5, site: "wired.com", dr: 92, da: 94, pa: 89, ur: 85, traffic: "33,200,000" },
+  { n: 6, site: "gizmodo.com", dr: 91, da: 93, pa: 88, ur: 84, traffic: "42,700,000" },
+  { n: 7, site: "arstechnica.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "21,400,000" },
+  { n: 8, site: "mashable.com/tech", dr: 90, da: 92, pa: 87, ur: 83, traffic: "15,200,000" },
+  { n: 9, site: "thenextweb.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "8,900,000" },
+  { n: 10, site: "techradar.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "47,500,000" },
+  { n: 11, site: "digitaltrends.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "29,800,000" },
+  { n: 12, site: "zdnet.com", dr: 90, da: 92, pa: 87, ur: 83, traffic: "28,500,000" },
+  { n: 13, site: "pcmag.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "28,500,000" },
+  { n: 14, site: "theregister.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "9,000,000" },
+  { n: 15, site: "venturebeat.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "6,000,000" },
+  { n: 16, site: "techrepublic.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "6,500,000" },
+  { n: 17, site: "tomshardware.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "32,100,000" },
+  { n: 18, site: "tomsguide.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "42,300,000" },
+  { n: 19, site: "pcworld.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "18,000,000" },
+  { n: 20, site: "howtogeek.com", dr: 89, da: 91, pa: 86, ur: 82, traffic: "22,400,000" },
+  { n: 21, site: "lifewire.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "14,200,000" },
+  { n: 22, site: "makeuseof.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "13,600,000" },
+  { n: 23, site: "androidauthority.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "18,700,000" },
+  { n: 24, site: "androidcentral.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "13,600,000" },
+  { n: 25, site: "9to5mac.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "8,700,000" },
+  { n: 26, site: "9to5google.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,400,000" },
+  { n: 27, site: "androidpolice.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,400,000" },
+  { n: 28, site: "appleinsider.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "7,800,000" },
+  { n: 29, site: "macrumors.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "11,900,000" },
+  { n: 30, site: "phonearena.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "12,700,000" },
+  { n: 31, site: "xda-developers.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "18,900,000" },
+  { n: 32, site: "gsmarena.com", dr: 86, da: 88, pa: 83, ur: 79, traffic: "67,800,000" },
+  { n: 33, site: "slashgear.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "18,700,000" },
+  { n: 34, site: "techspot.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "9,500,000" },
+  { n: 35, site: "idownloadblog.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "3,800,000" },
+  { n: 36, site: "imore.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "6,700,000" },
+  { n: 37, site: "bgr.com", dr: 87, da: 89, pa: 84, ur: 80, traffic: "14,700,000" },
+  { n: 38, site: "techadvisor.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "5,900,000" },
+  { n: 39, site: "beebom.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,800,000" },
+  { n: 40, site: "gadgets360.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "32,400,000" },
+  { n: 41, site: "windowscentral.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "14,000,000" },
+  { n: 42, site: "androidheadlines.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "4,200,000" },
+  { n: 43, site: "phandroid.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,400,000" },
+  { n: 44, site: "gadgethacks.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "3,900,000" },
+  { n: 45, site: "notebookcheck.net", dr: 82, da: 84, pa: 79, ur: 75, traffic: "14,200,000" },
+  { n: 46, site: "91mobiles.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "18,700,000" },
+  { n: 47, site: "ubergizmo.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "2,100,000" },
+  { n: 48, site: "trustedreviews.com", dr: 83, da: 85, pa: 80, ur: 76, traffic: "7,800,000" },
+  { n: 49, site: "knowyourmobile.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,900,000" },
+  { n: 50, site: "pocketnow.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "1,900,000" },
+  { n: 51, site: "geeky-gadgets.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "1,200,000" },
+  { n: 52, site: "laptopmag.com", dr: 84, da: 86, pa: 81, ur: 77, traffic: "9,000,000" },
+  { n: 53, site: "talkandroid.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "580,000" },
+  { n: 54, site: "cultofmac.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,800,000" },
+  { n: 55, site: "cultofandroid.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "280,000" },
+  { n: 56, site: "techaeris.com", dr: 76, da: 78, pa: 73, ur: 69, traffic: "480,000" },
+  { n: 57, site: "fonearena.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "5,200,000" },
+  { n: 58, site: "mobilesyrup.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "9,400,000" },
+  { n: 59, site: "nextpit.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "3,200,000" },
+  { n: 60, site: "mobiles.co.uk/blog", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000" },
+  { n: 61, site: "ilounge.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "1,400,000" },
+  { n: 62, site: "droid-life.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "1,900,000" },
+  { n: 63, site: "gizchina.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,100,000" },
+  { n: 64, site: "gearbrain.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "280,000" },
+  { n: 65, site: "igyaan.in", dr: 74, da: 76, pa: 71, ur: 67, traffic: "680,000" },
+  { n: 66, site: "gizmochina.com", dr: 79, da: 81, pa: 76, ur: 72, traffic: "4,800,000" },
+  { n: 67, site: "smartprix.com/bytes", dr: 77, da: 79, pa: 74, ur: 70, traffic: "9,400,000" },
+  { n: 68, site: "sammobile.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "3,800,000" },
+  { n: 69, site: "techhive.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,500,000" },
+  { n: 70, site: "mspoweruser.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "1,900,000" },
+  { n: 71, site: "androidguys.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "950,000" },
+  { n: 72, site: "gadgetbridge.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "1,200,000" },
+  { n: 73, site: "techthelead.com", dr: 74, da: 76, pa: 71, ur: 67, traffic: "320,000" },
+  { n: 74, site: "gadgetmatch.com", dr: 75, da: 77, pa: 72, ur: 68, traffic: "580,000" },
+  { n: 75, site: "mysmartprice.com", dr: 80, da: 82, pa: 77, ur: 73, traffic: "12,800,000" },
+  { n: 76, site: "technadu.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "2,100,000" },
+  { n: 77, site: "technewstoday.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "680,000" },
+  { n: 78, site: "gadgetsnow.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "7,800,000" },
+  { n: 79, site: "valuewalk.com/tech", dr: 74, da: 76, pa: 71, ur: 67, traffic: "1,400,000" },
+  { n: 80, site: "techgenyz.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "580,000" },
+  { n: 81, site: "mobileworldlive.com", dr: 81, da: 83, pa: 78, ur: 74, traffic: "1,900,000" },
+  { n: 82, site: "techtimes.com", dr: 82, da: 84, pa: 79, ur: 75, traffic: "4,200,000" },
+  { n: 83, site: "stuff.tv", dr: 82, da: 84, pa: 79, ur: 75, traffic: "3,000,000" },
+  { n: 84, site: "techweez.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "420,000" },
+  { n: 85, site: "devicedaily.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "180,000" },
+  { n: 86, site: "techviral.net", dr: 75, da: 77, pa: 72, ur: 68, traffic: "1,900,000" },
+  { n: 87, site: "gadgetreview.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "950,000" },
+  { n: 88, site: "techsmartest.com", dr: 70, da: 72, pa: 67, ur: 63, traffic: "140,000" },
+  { n: 89, site: "thegadgetflow.com", dr: 77, da: 79, pa: 74, ur: 70, traffic: "950,000" },
+  { n: 90, site: "coolsmartphone.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "210,000" },
+  { n: 91, site: "techdirt.com", dr: 88, da: 90, pa: 85, ur: 81, traffic: "8,900,000" },
+  { n: 92, site: "hothardware.com", dr: 78, da: 80, pa: 75, ur: 71, traffic: "2,800,000" },
+  { n: 93, site: "techbuzzireland.com", dr: 69, da: 71, pa: 66, ur: 62, traffic: "95,000" },
+  { n: 94, site: "techulator.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "280,000" },
+  { n: 95, site: "smartworldtoday.com", dr: 67, da: 69, pa: 64, ur: 60, traffic: "140,000" },
+  { n: 96, site: "thetechedvocate.org", dr: 75, da: 77, pa: 72, ur: 68, traffic: "480,000" },
+  { n: 97, site: "androidsoul.com", dr: 73, da: 75, pa: 70, ur: 66, traffic: "600,000" },
+  { n: 98, site: "phonescoop.com", dr: 72, da: 74, pa: 69, ur: 65, traffic: "400,000" },
+  { n: 99, site: "techgadgetscanada.com", dr: 71, da: 73, pa: 68, ur: 64, traffic: "210,000" },
+  { n: 100, site: "pocket-lint.com", dr: 85, da: 87, pa: 82, ur: 78, traffic: "12,000,000" },
+];
+
+const faqs = [
+  {
+    q: "Do the big tech sites accept guest posts?",
+    a: "TechCrunch, The Verge, Wired and the rest commission from staff and vetted freelancers; they do not take open guest submissions. They will take expert commentary, exclusive data, or a founder story on a genuine news hook. The mid-tier phone and gadget sites are far more open to contributions.",
+  },
+  {
+    q: "What do I need to pitch a smartphone or gadget site?",
+    a: "For reviews and how-tos, hands-on experience and your own photos or benchmarks. For news and analysis, an angle the staff writers missed, or data. Brands can get coverage with an embargoed launch, a spec exclusive, or original research.",
+  },
+  {
+    q: "Can I link to my product or store?",
+    a: "Usually one disclosed link in the author bio, and only if the piece is genuinely useful. Editors strip promotional links from the body and reject posts that read like a spec sheet or an ad.",
+  },
+  {
+    q: "Which matters more, Domain Rating or relevance?",
+    a: "Relevance to your exact device category first, then traffic, then DR. A DR 78 Android-focused site read by buyers beats a DR 90 general tech site that buries your post in an archive.",
+  },
+  {
+    q: "The metrics do not match my tools. Why?",
+    a: "Domain Rating, Domain Authority and traffic estimates are recalculated constantly and differ between tools. Use them to sort the list, then re-check the two or three sites you plan to pitch.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 tech & gadget sites", id: "list" },
+  { text: "The pitch that works for tech editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Smartphone & Gadget Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/gadget-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Smartphone &amp; Gadget Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Tech and gadget publishing splits cleanly into three tiers, and where you can land depends entirely on which tier you are aiming at.</p>
+
+            <p>The big news sites do not take guest posts, full stop. The mid-tier phone and reviews sites do. The regional and enthusiast sites are wide open. The list of 100 is below, sorted roughly by that tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Major tech news</td><td>TechCrunch, The Verge, Wired, Ars Technica, Engadget, CNET</td><td>Not guest posts. Exclusive data, an embargoed launch, or expert commentary on a live story</td></tr>
+                  <tr><td>Mid-tier phone &amp; reviews</td><td>Android Authority, Android Police, PhoneArena, SlashGear, Pocketnow, GadgetMatch</td><td>Freelance pitches and contributor programmes; hands-on reviews, comparisons, how-tos</td></tr>
+                  <tr><td>Regional &amp; enthusiast</td><td>91mobiles, Gizmochina, MySmartPrice, MobileSyrup, iGyaan, Tech Gadgets Canada</td><td>Open to contributions; local market angles, launches, buying guides</td></tr>
+                  <tr><td>Deals, accessories &amp; niche</td><td>The Gadget Flow, Geeky Gadgets, Coolsmartphone, DeviceDaily</td><td>Product-led how-tos, accessory roundups, first-look pieces</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> tech has a lot of high-DR sites, so DR is a weak filter here. What separates a good placement from a wasted one is whether the site's readers buy the kind of device or tool you sell.</p></div>
+
+            <h2 id="list">The 100 tech &amp; gadget sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating and estimated monthly traffic. Every domain was checked live in September 2026; shut-down and redirected sites were removed. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for tech editors</h2>
+            <ol>
+              <li><strong>Lead with the hands-on or the data.</strong> "I've used this phone as my daily driver for a month" or "we benchmarked 12 chargers" earns the read.</li>
+              <li><strong>Pitch the angle the staff missed.</strong> Not "iPhone 17 review". Something like "the iPhone 17 feature nobody is talking about, and why it matters for battery life".</li>
+              <li><strong>Bring original assets.</strong> Your own photos, teardown shots, benchmark charts. Tech editors will not run stock imagery.</li>
+              <li><strong>Match the tier's format.</strong> News sites want a tight, sourced story; reviews sites want a structured hands-on; regional sites want a local buying angle.</li>
+              <li><strong>One clip</strong> in a similar style.</li>
+              <li><strong>Disclose any brand or PR relationship</strong> up front.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had no product to promote? If yes, pitch it. If it is a walkthrough of your device's features, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "top 10 smartphones" listicle. Every site has a rolling one already.</li>
+              <li>Send the same pitch to a major news site and a regional gadget blog.</li>
+              <li>Submit a review written from the spec sheet without touching the device.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best budget phone") at your store.</li>
+              <li>Use AI-generated filler with no hands-on detail. In tech it is obvious within a paragraph.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on sites whose readers actually buy your category of device will do more for your rankings and sales than a long list of high-DR general-tech links. Use this list to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier and category, write the pitches and the pieces, and
+              place them on relevant tech sites with real editorial standards. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with tech and gadget guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

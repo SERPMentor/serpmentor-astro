@@ -107,6 +107,15 @@ export const GET: APIRoute = async () => {
   });
   items.push({
     type: "guide",
+    title: "Smartphone & Gadget Posting Sites: 100 Places to Publish",
+    url: "/seo/backlinks/gadget-posting-sites",
+    desc: "100 live tech, smartphone and gadget sites for guest posts and expert contributions, with Domain Rating, Domain Authority and traffic, plus how to pitch each tier.",
+    keywords:
+      "gadget posting sites smartphone tech guest post sites technology blogs that accept guest posts android apple phone review sites gadget reviews tech news contributor link building",
+    ts: Date.parse("2026-09-01"),
+  });
+  items.push({
+    type: "guide",
     title: "Real Estate Posting Sites: 100 Places to Publish",
     url: "/seo/backlinks/real-estate-posting-sites",
     desc: "100 live real estate sites for guest posts: residential, investing, property management, commercial and proptech, with Domain Rating, Domain Authority and traffic.",
