@@ -25,43 +25,17 @@ export interface SitePage {
 }
 
 export const SITE_PAGES: SitePage[] = [
-  {
-    wpSlug: "coaching",
-    path: "coaching",
-    label: "Coaching",
-    eyebrow: "SEO mentorship",
-    heading: "SEO coaching with Saiful",
-    metaTitle: "SEO Coaching & Mentorship — Learn Organic Growth from Practice",
-    description:
-      "One-to-one SEO mentorship with Saiful — organic growth strategy, content architecture, and the shift to AI search, taught from real client work rather than theory.",
-  },
-  {
-    wpSlug: "seo-specialist-service",
-    path: "hire-seo-specialist",
-    label: "Hire an SEO specialist",
-    eyebrow: "Work with us",
-    heading: "Hire an SEO specialist",
-    metaTitle: "Hire an SEO Specialist — Senior, Hands-On, Accountable",
-    description:
-      "Bring in a senior SEO who does the work, not just the deck. Technical fixes, content strategy, link building, and AI-search visibility — owned end to end.",
-  },
-  {
-    wpSlug: "local-seo-services",
-    path: "local-seo-services",
-    label: "Local SEO",
-    eyebrow: "Work with us",
-    heading: "Local SEO services",
-    metaTitle: "Local SEO Services — Get Found in Your Market",
-    description:
-      "Local SEO that puts your business in the map pack and the local results your customers actually search — Google Business Profile, citations, reviews, and local content.",
-  },
+  // Note: /coaching, /hire-seo-specialist and /local-seo-services used to be
+  // rendered from WordPress here. They are now hand-built Astro pages
+  // (src/pages/*.astro) because the WordPress content was an unstructured
+  // wall of text. The old WP slugs still redirect in astro.config.mjs.
   {
     wpSlug: "career",
     path: "careers",
     label: "Careers",
     eyebrow: "Join the team",
     heading: "Work with SERP Mentor",
-    metaTitle: "Careers at SERP Mentor — Join a Team That Ships",
+    metaTitle: "Careers at SERP Mentor: Join a Team That Ships",
     description:
       "We hire SEO and content people who like doing the work and showing their reasoning. Here's how we work and what we look for.",
   },

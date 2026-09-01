@@ -1,0 +1,278 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Faq from "../components/Faq.astro";
+import SeoForecast from "../components/SeoForecast.astro";
+import JsonLd from "../components/JsonLd.astro";
+import HeroTrustCard from "../components/HeroTrustCard.astro";
+import PageByline from "../components/PageByline.astro";
+import { whatsappUrl } from "../lib/site";
+import { abs, webPageNode, breadcrumbNode, serviceNode, bylinePersonNodes, BYLINE_REFS } from "../lib/schema";
+
+const pgUrl = abs("/local-seo-services");
+const pgDesc =
+  "Local SEO that puts your business in Google's map pack and local results: Google Business Profile, citations, reviews, local content and links, for single and multi-location businesses.";
+const pgGraph = [
+  { ...webPageNode({ url: pgUrl, name: "Local SEO Services | SERP Mentor", description: pgDesc }), ...BYLINE_REFS },
+  ...bylinePersonNodes(),
+  breadcrumbNode(pgUrl, [{ name: "Home", item: abs("/") }, { name: "Local SEO" }]),
+  serviceNode({
+    url: pgUrl,
+    name: "Local SEO services",
+    description: pgDesc,
+    serviceType: "Local search engine optimization",
+  }),
+];
+
+const outcomes = [
+  {
+    icon: "fa-solid fa-map-location-dot",
+    title: "The map pack",
+    text: "Show up in the three-result local block for the searches your customers actually type: “near me”, city plus service, and branded queries.",
+  },
+  {
+    icon: "fa-solid fa-star",
+    title: "Reviews that convert",
+    text: "A steady flow of genuine Google reviews and a simple process for responding to them, so your profile out-earns competitors with more listings.",
+  },
+  {
+    icon: "fa-solid fa-location-dot",
+    title: "Multi-location clarity",
+    text: "Every branch with its own optimized page and profile, consistent details everywhere, and no duplicate listings splitting your ranking signals.",
+  },
+];
+
+const work = [
+  {
+    icon: "fa-solid fa-address-card",
+    title: "Google Business Profile",
+    points: [
+      "Full profile optimization and category strategy",
+      "Services, products, and Q&A build-out",
+      "Posts, photos and profile freshness",
+      "Fixing suspensions and duplicate listings",
+    ],
+  },
+  {
+    icon: "fa-solid fa-list-check",
+    title: "Citations & consistency",
+    points: [
+      "NAP audit across the web",
+      "Core directory and industry citations",
+      "Cleaning up wrong or old listings",
+      "Local schema on your website",
+    ],
+  },
+  {
+    icon: "fa-solid fa-store",
+    title: "Local content & links",
+    points: [
+      "City and service landing pages that rank",
+      "Location pages for multi-branch businesses",
+      "Local link building and PR",
+      "Review generation and reputation workflow",
+    ],
+  },
+];
+
+const steps = [
+  {
+    icon: "fa-solid fa-magnifying-glass-location",
+    title: "Local audit",
+    text: "Where you rank now by location, how your profile compares to the businesses beating you, and the citation and review gaps holding you back.",
+  },
+  {
+    icon: "fa-solid fa-screwdriver-wrench",
+    title: "Fix the foundations",
+    text: "Profile, citations, duplicates and on-site local signals. The work that unlocks ranking before anything else moves.",
+  },
+  {
+    icon: "fa-solid fa-arrow-trend-up",
+    title: "Build & compound",
+    text: "Local pages, links, and a review routine that keeps widening the gap between you and the next listing.",
+  },
+];
+
+const faqs = [
+  {
+    q: "How long until we see local results?",
+    a: "Profile and citation fixes often move rankings within four to eight weeks. Competitive city terms and multi-location work take longer, usually three to six months to settle.",
+  },
+  {
+    q: "Do you work with multi-location businesses and franchises?",
+    a: "Yes. Multi-location is where most of the value is: consistent data, a proper page per branch, and no listings competing with each other.",
+  },
+  {
+    q: "Can you recover a suspended Google Business Profile?",
+    a: "Often, yes. We handle the reinstatement request and fix the underlying issue, usually an address, category or verification problem, so it does not happen again.",
+  },
+  {
+    q: "We're a service-area business with no storefront. Does this still work?",
+    a: "It does. Service-area businesses rank in the map pack too; the profile is set up to hide the address and target the areas you actually serve.",
+  },
+  {
+    q: "How is this priced?",
+    a: "By scope. A single-location profile clean-up is a small project; ongoing local SEO for several branches is a monthly engagement. We quote after the audit.",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>Local SEO Services: Rank in the Map Pack | SERP Mentor</title>
+    <meta
+      name="description"
+      content="Local SEO that puts your business in Google's map pack and local results: Google Business Profile, citations, reviews, local content and links, for single and multi-location businesses."
+    />
+    <link rel="canonical" href="/local-seo-services" />
+    <meta property="og:title" content="Local SEO Services | SERP Mentor" />
+    <JsonLd graph={pgGraph} />
+    <meta property="og:description" content="Get found in the local results your customers actually search." />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header page-header-split" style="--topic: rgba(46,196,216,0.16); --topic-fg: #1799ad;">
+        <div class="container">
+          <div>
+            <div class="breadcrumbs">
+              <a href="/">Home</a>
+              <span>›</span>
+              <span>Local SEO</span>
+            </div>
+            <span class="card-icon pillar-icon"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></span>
+            <p class="eyebrow">Work with us</p>
+            <h1>Local SEO services</h1>
+            <p class="pillar-intro">
+              Your customers are searching right now. The question is whether they find you or a
+              competitor. We put you in the map pack and the local results that matter: Google
+              Business Profile, citations, reviews, local content. One location or fifty.
+            </p>
+            <div class="hero-actions">
+              <a href="/contact" class="button">Get a local audit</a>
+              <a href={whatsappUrl("Hi SERP Mentor, I'd like a local SEO audit for my business.")} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+              <a href="#work" class="button-ghost">What's involved</a>
+            </div>
+            <PageByline />
+          </div>
+          <HeroTrustCard />
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What local SEO gets you</h2>
+              <p>Visibility where the decision actually happens</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              outcomes.map((item) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={item.icon} aria-hidden="true" /></span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="work">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What's involved</h2>
+              <p>The three things local ranking is actually built on</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              work.map((col) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={col.icon} aria-hidden="true" /></span>
+                  <h3>{col.title}</h3>
+                  <ul class="check-list">
+                    {col.points.map((p) => <li>{p}</li>)}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>How we run it</h2>
+              <p>Foundations first, then compound</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              steps.map((step, i) => (
+                <div class="feature-panel">
+                  <span class="step-number">{String(i + 1).padStart(2, "0")}</span>
+                  <h3><i class={step.icon} aria-hidden="true" /> {step.title}</h3>
+                  <p>{step.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <SeoForecast
+        heading="What local visibility does to your phone"
+        intro="Local SEO is measured in calls, direction requests and messages, not just visits. This projects those monthly actions for a single-location service business as the Google Business Profile and local pages take hold."
+        seriesLabel="Projected calls, messages & direction requests per month"
+        unit="local actions"
+        points={[45, 70, 110, 155, 200, 240, 275, 305, 325, 340, 355, 365]}
+        convRate={0.72}
+        convLabel="Genuine enquiries"
+        timing="Profile and citation work usually moves map-pack position in 4–8 weeks; competitive city terms take three to six months."
+        assumptions={[
+          "One location, starting at ~45 profile actions per month and page-two local rankings",
+          "Google Business Profile fully optimised in month one, with a review routine",
+          "A page for each core service in each area served, built over the first quarter",
+          "About 72% of profile actions are genuine enquiries (the rest are research or wrong-fit)",
+        ]}
+      />
+
+      <Faq items={faqs} />
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="max-width:820px; margin:0 auto; text-align:center;">
+            <h2>See where you rank locally</h2>
+            <p>
+              Send your business name and the areas you serve. We'll show you where you sit in the
+              map pack today and the fastest way to move up.
+            </p>
+            <div class="hero-actions" style="justify-content:center;">
+              <a href="/contact" class="button">Get a local audit</a>
+              <a href={whatsappUrl("Hi SERP Mentor, I'd like a local SEO audit for my business.")} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

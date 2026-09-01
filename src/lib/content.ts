@@ -6,6 +6,20 @@
  * `<script>`. The site builds its own "On this page" sidebar, so that widget is
  * redundant, and its assets point at another domain. Strip all of it.
  */
+/**
+ * The site copy avoids em dashes, so WordPress content is normalised to match:
+ * an em dash (spaced or not) becomes a comma, then any comma left stranded
+ * before a period or a closing tag is tidied away. Used by both sanitisers and
+ * by the excerpt cleaner.
+ */
+export function stripEmDashes(text: string): string {
+  return text
+    .replace(/\s*—\s*/g, ", ")
+    .replace(/,\s*([.;:!?])/g, "$1")
+    .replace(/,\s*(<\/(?:p|li|h[1-6]|td|th|blockquote|figcaption|strong|em|a)>)/gi, "$1")
+    .replace(/([(“"])\s*,\s*/g, "$1");
+}
+
 export function sanitizePostContent(html: string): string {
   if (!html) return "";
 
@@ -35,6 +49,10 @@ export function sanitizePostContent(html: string): string {
       )
       // collapse the blank space the removals leave behind
       .replace(/(?:\s*\n){3,}/g, "\n\n")
+      // the site's copy has no em dashes; normalise WP content to match
+      .replace(/\s*—\s*/g, ", ")
+      .replace(/,\s*([.;:!?])/g, "$1")
+      .replace(/,\s*(<\/(?:p|li|h[1-6]|td|th|blockquote|figcaption|strong|em|a)>)/gi, "$1")
       .trim()
   );
 }
@@ -102,10 +120,12 @@ export function sanitizePageContent(html: string): string {
     "",
   );
 
-  return out
-    .replace(/<(p|h[1-6]|li)\b[^>]*>\s*<\/\1>/gi, "")
-    .replace(/(?:\s*\n){3,}/g, "\n\n")
-    .trim();
+  return stripEmDashes(
+    out
+      .replace(/<(p|h[1-6]|li)\b[^>]*>\s*<\/\1>/gi, "")
+      .replace(/(?:\s*\n){3,}/g, "\n\n")
+      .trim(),
+  );
 }
 
 /** First real content image in a chunk of HTML, if any. */

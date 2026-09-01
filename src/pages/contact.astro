@@ -3,30 +3,82 @@ import "../styles/global.css";
 import Favicons from "../components/Favicons.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import { FORMSPREE, CONTACT, whatsappUrl } from "../lib/site";
+import JsonLd from "../components/JsonLd.astro";
+import { abs, webPageNode, breadcrumbNode } from "../lib/schema";
+
+const contactUrl = abs("/contact");
+const contactGraph = [
+  webPageNode({
+    url: contactUrl,
+    name: "Contact | SERP Mentor",
+    description:
+      "Contact SERP Mentor for SEO strategy, website builds, content growth, and AI visibility support.",
+    type: "ContactPage",
+  }),
+  breadcrumbNode(contactUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "Contact" },
+  ]),
+];
+
+const methods = [
+  {
+    icon: "fa-brands fa-whatsapp",
+    label: "WhatsApp",
+    value: CONTACT.phoneDisplay,
+    href: whatsappUrl("Hi SERP Mentor, I'd like to talk about SEO for my site."),
+  },
+  {
+    icon: "fa-solid fa-phone",
+    label: "Call",
+    value: CONTACT.phoneDisplay,
+    href: `tel:${CONTACT.tel}`,
+  },
+  {
+    icon: "fa-solid fa-envelope",
+    label: "Email",
+    value: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
+  },
+  {
+    icon: "fa-brands fa-linkedin",
+    label: "LinkedIn",
+    value: "SERP Mentor",
+    href: CONTACT.linkedin,
+  },
+];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
     <title>Contact | SERP Mentor</title>
     <meta
       name="description"
       content="Contact SERP Mentor for SEO strategy, content growth, and AI visibility support."
     />
+    <JsonLd graph={contactGraph} />
   </head>
   <body>
     <SiteHeader />
 
     <main>
-      <section class="page-header">
+      <section class="page-header" style="--topic: rgba(0,188,152,0.14); --topic-fg: #00a988;">
         <div class="container narrow">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <span>Contact</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span>
           <p class="eyebrow">Get in touch</p>
-          <h1>Let’s build your next growth chapter.</h1>
-          <p>
-            Whether you need a technical SEO audit, a content roadmap, or a smarter strategy for
-            AI-discovery visibility, we can help you clarify the next steps.
+          <h1>Tell us what you're working on.</h1>
+          <p class="pillar-intro">
+            A technical audit, a content roadmap, a plan for AI search, or a new site to build.
+            Send a few lines and we'll tell you the honest next step.
           </p>
         </div>
       </section>
@@ -34,30 +86,62 @@ import SiteFooter from "../components/SiteFooter.astro";
       <section class="section">
         <div class="container contact-wrap">
           <div class="feature-panel large">
-            <h3>Book a conversation</h3>
-            <p>Tell us a little about your site, traffic, or business goals and we’ll map out the fit.</p>
-            <ul class="check-list">
-              <li>SEO strategy and audits</li>
-              <li>Content system planning</li>
-              <li>AI search readiness</li>
+            <h3>Talk to us directly</h3>
+            <p>Fastest for a quick question. Or use the form and we’ll come back to you.</p>
+            <ul class="contact-methods">
+              {
+                methods.map((m) => (
+                  <li>
+                    <a
+                      href={m.href}
+                      target={m.href.startsWith("http") ? "_blank" : undefined}
+                      rel={m.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    >
+                      <span class="contact-method-icon">
+                        <i class={m.icon} aria-hidden="true" />
+                      </span>
+                      <span class="contact-method-text">
+                        <strong>{m.label}</strong>
+                        <span>{m.value}</span>
+                      </span>
+                    </a>
+                  </li>
+                ))
+              }
             </ul>
+            <p class="contact-help-with">
+              We help with SEO strategy &amp; audits, content system planning, and AI-search
+              readiness.
+            </p>
           </div>
 
           <div class="feature-panel form-panel">
-            <form class="contact-form">
+            <form
+              class="contact-form"
+              data-contact-form
+              data-endpoint={FORMSPREE.contact}
+              method="POST"
+              action={FORMSPREE.contact}
+            >
               <label>
                 Name
-                <input type="text" placeholder="Your name" />
+                <input type="text" name="name" placeholder="Your name" required />
               </label>
               <label>
                 Email
-                <input type="email" placeholder="you@example.com" />
+                <input type="email" name="email" placeholder="you@example.com" required />
               </label>
               <label>
                 Project goals
-                <textarea rows="5" placeholder="Tell us what you need help with"></textarea>
+                <textarea
+                  name="message"
+                  rows="5"
+                  placeholder="Tell us what you need help with"
+                  required></textarea>
               </label>
+              <input type="hidden" name="_subject" value="New inquiry from serpmentor.com" />
               <button type="submit" class="button">Send inquiry</button>
+              <p class="form-note" data-form-note hidden aria-live="polite"></p>
             </form>
           </div>
         </div>
@@ -65,5 +149,66 @@ import SiteFooter from "../components/SiteFooter.astro";
     </main>
 
     <SiteFooter />
+
+    <script>
+      const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+      if (form) {
+        const note = form.querySelector<HTMLElement>("[data-form-note]");
+        const btn = form.querySelector<HTMLButtonElement>("button");
+        const endpoint = form.dataset.endpoint ?? "";
+        const live =
+          endpoint.includes("formspree.io/f/") && !endpoint.includes("REPLACE_WITH");
+
+        const say = (msg: string, kind: "" | "is-error" | "is-ok" = "") => {
+          if (!note) return;
+          note.hidden = false;
+          note.textContent = msg;
+          note.classList.remove("is-error", "is-ok");
+          if (kind) note.classList.add(kind);
+        };
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+          if (!live) {
+            say(
+              "The contact form isn’t connected yet. In the meantime, email support@serpmentor.com.",
+              "is-error",
+            );
+            return;
+          }
+          if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Sending…";
+          }
+          try {
+            const res = await fetch(endpoint, {
+              method: "POST",
+              headers: { Accept: "application/json" },
+              body: new FormData(form),
+            });
+            if (res.ok) {
+              form.reset();
+              say("Thanks. Your message is on its way, and we’ll reply within a day or two.", "is-ok");
+            } else {
+              throw new Error(String(res.status));
+            }
+          } catch {
+            say(
+              "Something went wrong sending that. Please try again, or email support@serpmentor.com.",
+              "is-error",
+            );
+          } finally {
+            if (btn) {
+              btn.disabled = false;
+              btn.textContent = "Send inquiry";
+            }
+          }
+        });
+      }
+    </script>
   </body>
 </html>

@@ -3,7 +3,52 @@ import "../styles/global.css";
 import Favicons from "../components/Favicons.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import Faq from "../components/Faq.astro";
+import SeoForecast from "../components/SeoForecast.astro";
+import JsonLd from "../components/JsonLd.astro";
+import HeroTrustCard from "../components/HeroTrustCard.astro";
+import PageByline from "../components/PageByline.astro";
 import { OFFICES } from "../lib/team";
+import { whatsappUrl, CONTACT } from "../lib/site";
+import { abs, webPageNode, breadcrumbNode, serviceNode, bylinePersonNodes, BYLINE_REFS } from "../lib/schema";
+
+const svcUrl = abs("/services");
+const svcDesc =
+  "No fixed packages. We audit your site first, then scope an SEO plan around your business, competition and goals. Three tracks: niche/content, e-commerce, and local.";
+const svcGraph = [
+  { ...webPageNode({ url: svcUrl, name: "SEO Services & Pricing | SERP Mentor", description: svcDesc }), ...BYLINE_REFS },
+  ...bylinePersonNodes(),
+  breadcrumbNode(svcUrl, [{ name: "Home", item: abs("/") }, { name: "Services" }]),
+  serviceNode({
+    url: svcUrl,
+    name: "SEO services",
+    description: svcDesc,
+    serviceType: "Search engine optimization",
+  }),
+];
+
+const faqs = [
+  {
+    q: "Why is there no price list?",
+    a: "Because the work is different for every site. We take a short call, look at your analytics, then quote a monthly or project fee based on what it actually takes. No packages you have to bend your business to fit.",
+  },
+  {
+    q: "Is there a minimum commitment?",
+    a: "Most SEO work is month to month, and we suggest giving it a three-month runway. That's roughly how long it takes to see the first movement. No long lock-in contract.",
+  },
+  {
+    q: "Do you guarantee rankings?",
+    a: "No. And you should be wary of anyone who does. What we guarantee: the work, the reasoning behind it, and honest reporting on what it produces.",
+  },
+  {
+    q: "Can you work with our existing team or agency?",
+    a: "Yes. We often act as the senior SEO lead directing your in-house content or dev team, or handle one track, like technical SEO, alongside another agency.",
+  },
+  {
+    q: "How do we start?",
+    a: "Hit any button on this page or message us on WhatsApp. We'll audit your site, talk through your goals, and tell you straight whether we're the right fit.",
+  },
+];
 
 const packages = [
   {
@@ -14,7 +59,7 @@ const packages = [
     soft: "rgba(0, 188, 152, 0.14)",
     includes: [
       "Full-niche brainstorming audit",
-      "AI SEO — GEO, AEO, LLM optimization",
+      "AI SEO: GEO, AEO, LLM optimization",
       "Technical SEO",
       "Competitor gap analysis",
       "Keyword research",
@@ -82,7 +127,7 @@ const addOns = [
   {
     icon: "fa-solid fa-code",
     title: "Website design & build",
-    text: "New sites and redesigns — fast, responsive, and built SEO-first from the first line of code.",
+    text: "New sites and redesigns. Fast, responsive, and built SEO-first from the first line of code.",
   },
   {
     icon: "fa-solid fa-gauge-high",
@@ -100,54 +145,47 @@ const addOns = [
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
-    <title>SEO Services & Pricing — Custom Plans, Real ROI | SERP Mentor</title>
+    <title>SEO Services & Pricing: Custom Plans, Real ROI | SERP Mentor</title>
     <meta
       name="description"
       content="No fixed packages. We audit your site first, then scope an SEO plan around your business, competition and goals. Three tracks: niche/content, e-commerce, and local."
     />
     <link rel="canonical" href="/services" />
     <meta property="og:title" content="SEO Services & Pricing | SERP Mentor" />
+    <JsonLd graph={svcGraph} />
   </head>
   <body>
     <SiteHeader />
 
     <main>
-      <section class="page-header" style="--topic: rgba(0,188,152,0.14); --topic-fg: #00a988;">
+      <section class="page-header page-header-split" style="--topic: rgba(0,188,152,0.14); --topic-fg: #00a988;">
         <div class="container">
-          <div class="breadcrumbs">
-            <a href="/">Home</a>
-            <span>›</span>
-            <span>Services</span>
-          </div>
-          <span class="card-icon pillar-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
-          <p class="eyebrow">Work with us</p>
-          <h1>SEO services &amp; pricing</h1>
-          <p class="pillar-intro">
-            We don't sell fixed packages, because every business is different. We audit your site
-            first, then scope a plan around your product, your competition and your goals — priced
-            to pay for itself.
-          </p>
-          <div class="hero-actions">
-            <a href="/contact" class="button">Book a free SEO session</a>
-            <a href="#packages" class="button-secondary">See the tracks</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="cta-panel" style="max-width:820px; margin:0 auto;">
-            <h3>How pricing works</h3>
-            <p>
-              There's no price list. Send a message on
-              <a href="https://wa.me/8801912055505" target="_blank" rel="noopener noreferrer">WhatsApp (+880 1912 055505)</a>
-              or email <a href="mailto:serpmentors@gmail.com">serpmentors@gmail.com</a>. We audit
-              your website, look at the real situation, and quote a scope that fits.
+          <div>
+            <div class="breadcrumbs">
+              <a href="/">Home</a>
+              <span>›</span>
+              <span>Services</span>
+            </div>
+            <span class="card-icon pillar-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
+            <p class="eyebrow">Work with us</p>
+            <h1>SEO services &amp; pricing</h1>
+            <p class="pillar-intro">
+              No fixed packages. Here's why: every site is different. So we audit yours first, then
+              build a plan around your product, your competition and your goals, priced to pay for
+              itself.
             </p>
-            <a href="/contact" class="button">Start the conversation</a>
+            <div class="hero-actions">
+              <a href="/contact" class="button">Book a free SEO session</a>
+              <a href={whatsappUrl("Hi SERP Mentor, I'd like to book a free SEO session.")} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+              <a href="#packages" class="button-ghost">See the tracks</a>
+            </div>
+            <PageByline />
           </div>
+          <HeroTrustCard />
         </div>
       </section>
 
@@ -156,7 +194,7 @@ const addOns = [
           <div class="section-heading">
             <div>
               <h2>Three tracks</h2>
-              <p>Pick the one that matches your site — the scope flexes from there</p>
+              <p>Pick the one that matches your site. The scope flexes from there.</p>
             </div>
           </div>
           <div class="package-grid">
@@ -207,6 +245,25 @@ const addOns = [
         </div>
       </section>
 
+      <SeoForecast
+        heading="What a 12-month SEO plan can look like"
+        intro="A projection for a mid-sized site starting from a modest base, mixed informational and commercial intent. The first two months are audit and fixes, so the curve is flat before it compounds."
+        seriesLabel="Projected organic sessions per month"
+        unit="sessions"
+        points={[1200, 1350, 1650, 2200, 2800, 3600, 4500, 5400, 6200, 7000, 7700, 8300]}
+        convRate={0.026}
+        convLabel="Enquiries"
+        timing="First ranking movement typically 6–10 weeks in; the compounding phase runs from month four."
+        assumptions={[
+          "Starting point ~1,200 organic sessions per month with some existing authority",
+          "3–5 new or rebuilt pages per month, plus on-page fixes across the site",
+          "Manual link building at a steady, modest pace",
+          "A 2.6% site-wide enquiry conversion rate (form + call), unchanged over the year",
+        ]}
+      />
+
+      <Faq items={faqs} />
+
       <section class="section section-alt">
         <div class="container">
           <div class="split-layout">
@@ -216,7 +273,17 @@ const addOns = [
                 Book a free consulting call. We'll look at your site together, talk through your
                 goals, and tell you honestly whether we're the right fit.
               </p>
-              <a href="/contact" class="button">Schedule a call</a>
+              <p>
+                Prefer to message? WhatsApp or call{" "}
+                <a href={`tel:${CONTACT.tel}`}>{CONTACT.phoneDisplay}</a>, or email{" "}
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
+              </p>
+              <div class="hero-actions">
+                <a href="/contact" class="button">Schedule a call</a>
+                <a href={whatsappUrl("Hi SERP Mentor, I'd like to schedule a call about SEO.")} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+                </a>
+              </div>
             </div>
             <div class="office-list">
               {

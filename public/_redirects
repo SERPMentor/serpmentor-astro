@@ -57,10 +57,12 @@
 /onpage-seo-a-detailed-guide-for-beginners/   /seo/onpage-seo-a-detailed-guide-for-beginners    301
 /blog/onpage-seo-a-detailed-guide-for-beginners    /seo/onpage-seo-a-detailed-guide-for-beginners    301
 /blog/onpage-seo-a-detailed-guide-for-beginners/   /seo/onpage-seo-a-detailed-guide-for-beginners    301
-/dofollow-backlink-sites    /seo-backlinks/dofollow-backlink-sites    301
-/dofollow-backlink-sites/   /seo-backlinks/dofollow-backlink-sites    301
-/blog/dofollow-backlink-sites    /seo-backlinks/dofollow-backlink-sites    301
-/blog/dofollow-backlink-sites/   /seo-backlinks/dofollow-backlink-sites    301
+/dofollow-backlink-sites    /seo/backlinks/dofollow-backlink-sites    301
+/dofollow-backlink-sites/   /seo/backlinks/dofollow-backlink-sites    301
+/blog/dofollow-backlink-sites    /seo/backlinks/dofollow-backlink-sites    301
+/blog/dofollow-backlink-sites/   /seo/backlinks/dofollow-backlink-sites    301
+/seo-backlinks/dofollow-backlink-sites    /seo/backlinks/dofollow-backlink-sites    301
+/seo-backlinks/dofollow-backlink-sites/   /seo/backlinks/dofollow-backlink-sites    301
 /seo-for-your-new-website    /seo/seo-for-your-new-website    301
 /seo-for-your-new-website/   /seo/seo-for-your-new-website    301
 /blog/seo-for-your-new-website    /seo/seo-for-your-new-website    301
@@ -101,6 +103,8 @@
 /technical-seo/   /seo/technical-seo    301
 /blog/technical-seo    /seo/technical-seo    301
 /blog/technical-seo/   /seo/technical-seo    301
+/seo-backlinks    /seo/backlinks    301
+/seo-backlinks/*    /seo/backlinks/:splat    301
 
 # trailing slash -> no trailing slash (known routes)
 /about/   /about   301
@@ -124,4 +128,3 @@
 /case-study/   /case-study   301
 /linkedin/   /linkedin   301
 /seo/   /seo   301
-/seo-backlinks/   /seo-backlinks   301

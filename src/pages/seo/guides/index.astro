@@ -1,0 +1,142 @@
+---
+// Hub for the trending SEO topic guides: /seo/guides
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import {
+  SEO_GUIDES,
+  guidesGrouped,
+  guidePath,
+  GUIDE_UPDATED,
+  type GuideTheme,
+} from "../../../lib/seo-guides";
+import { abs, webPageNode, breadcrumbNode, itemListNode } from "../../../lib/schema";
+
+const groups = guidesGrouped();
+
+const THEME_ACCENT: Record<GuideTheme, { fg: string; soft: string }> = {
+  ai: { fg: "#5d2aad", soft: "rgba(130, 86, 197, 0.16)" },
+  authority: { fg: "#1799ad", soft: "rgba(46, 196, 216, 0.16)" },
+  technical: { fg: "#00a988", soft: "rgba(0, 188, 152, 0.16)" },
+  rankings: { fg: "#d8412c", soft: "rgba(241, 94, 74, 0.16)" },
+};
+
+const pageUrl = abs("/seo/guides");
+const title = "Trending SEO Topics: 20 Guides for 2026";
+const description =
+  "Twenty in-depth guides on what is actually moving SEO right now: AI Overviews, GEO, entity SEO, INP, content decay, core update recovery and more.";
+
+const graph = [
+  webPageNode({ url: pageUrl, name: `${title} | SERP Mentor`, description, type: "CollectionPage" }),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "SEO Guides" },
+  ]),
+  itemListNode(
+    pageUrl,
+    SEO_GUIDES.map((g) => ({ url: abs(guidePath(g)), name: g.title })),
+    "Trending SEO topic guides",
+  ),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{title} | SERP Mentor</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href="/seo/guides" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} | SERP Mentor`} />
+    <meta property="og:description" content={description} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(0,188,152,0.16); --topic-fg: #00a988;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/seo">SEO</a>
+            <span>›</span>
+            <span>SEO Guides</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-fire" aria-hidden="true" /></span>
+          <p class="eyebrow">Updated {GUIDE_UPDATED}</p>
+          <h1>Trending SEO topics</h1>
+          <p class="pillar-intro">
+            Twenty guides on what is actually changing search right now. AI Overviews, GEO, entity
+            SEO, the new Core Web Vital, content decay, core update recovery. Each one is short,
+            practical, and built to help you rank.
+          </p>
+          <div class="hero-stats">
+            <span class="hero-stat"><strong>{SEO_GUIDES.length}</strong> guides</span>
+            <span class="hero-stat"><strong>4</strong> themes</span>
+          </div>
+        </div>
+      </section>
+
+      {
+        groups.map((group, i) => (
+          <section class={`section${i % 2 === 1 ? " section-alt" : ""}`}>
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>{group.label}</h2>
+                  <p>{group.guides.length} guides</p>
+                </div>
+              </div>
+              <div class="feature-grid">
+                {group.guides.map((g) => {
+                  const a = THEME_ACCENT[g.theme];
+                  return (
+                    <a
+                      href={guidePath(g)}
+                      class="feature-panel card-link"
+                      style={`--topic: ${a.soft}; --topic-fg: ${a.fg};`}
+                    >
+                      <span class="card-icon"><i class={g.icon} aria-hidden="true" /></span>
+                      <h3>{g.title}</h3>
+                      <p>{g.intro}</p>
+                      <span class="card-cta">Read guide →</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        ))
+      }
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want the whole picture for your site?</h2>
+            <p>
+              Book a free session. We will look at where you stand on these, and which ones would
+              move the needle first.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/contact" class="button">Book a free session</a>
+              <a href="/seo" class="button-secondary">All SEO pillars</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

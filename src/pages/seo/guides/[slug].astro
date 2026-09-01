@@ -1,0 +1,243 @@
+---
+// Trending SEO topic guides: /seo/guides/{slug}
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  SEO_GUIDES,
+  guideBySlug,
+  guidePath,
+  guidesGrouped,
+  GUIDE_UPDATED,
+  type GuideTheme,
+} from "../../../lib/seo-guides";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  itemListNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+export function getStaticPaths() {
+  return SEO_GUIDES.map((g) => ({ params: { slug: g.slug }, props: { guide: g } }));
+}
+
+const { guide } = Astro.props;
+
+const THEME_ACCENT: Record<GuideTheme, { fg: string; soft: string }> = {
+  ai: { fg: "#5d2aad", soft: "rgba(130, 86, 197, 0.16)" },
+  authority: { fg: "#1799ad", soft: "rgba(46, 196, 216, 0.16)" },
+  technical: { fg: "#00a988", soft: "rgba(0, 188, 152, 0.16)" },
+  rankings: { fg: "#d8412c", soft: "rgba(241, 94, 74, 0.16)" },
+};
+const accent = THEME_ACCENT[guide.theme];
+const themeLabel = guidesGrouped().find((g) => g.theme === guide.theme)!.label;
+
+const related = guide.related
+  .map((s) => guideBySlug(s))
+  .filter((g): g is NonNullable<typeof g> => Boolean(g));
+
+const writer = TEAM.find((m) => m.name.toLowerCase().includes("alif"));
+
+// Build the on-page table of contents from the body <h2>s.
+function slugify(text: string): string {
+  return (
+    text
+      .toLowerCase()
+      .replace(/<[^>]+>/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-") || "section"
+  );
+}
+
+const bodyToc: { text: string; id: string }[] = [];
+let h2Count = 0;
+const bodyHtml = guide.bodyHtml.replace(
+  /<h2([^>]*)>([\s\S]*?)<\/h2>/gi,
+  (_m: string, attrs: string, inner: string) => {
+    h2Count += 1;
+    const text = inner.replace(/<[^>]+>/g, "").trim();
+    const id = `${slugify(text)}-${h2Count}`;
+    bodyToc.push({ text, id });
+    return `<h2${attrs} id="${id}">${inner}</h2>`;
+  },
+);
+
+const toc = [
+  ...bodyToc,
+  { text: "FAQ", id: "faq" },
+  ...(related.length ? [{ text: "Related guides", id: "related" }] : []),
+];
+
+const pageUrl = abs(guidePath(guide));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: guide.metaTitle,
+      description: guide.metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: guide.title,
+    description: guide.metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: themeLabel,
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "SEO Guides", item: abs("/seo/guides") },
+    { name: guide.title },
+  ]),
+  itemListNode(
+    pageUrl,
+    related.map((g) => ({ url: abs(guidePath(g)), name: g.title })),
+    "Related guides",
+  ),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{guide.metaTitle} | SERP Mentor</title>
+    <meta name="description" content={guide.metaDescription} />
+    <link rel="canonical" href={guidePath(guide)} />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={`${guide.metaTitle} | SERP Mentor`} />
+    <meta property="og:description" content={guide.metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style={`--topic: ${accent.soft}; --topic-fg: ${accent.fg};`}
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/seo">SEO</a>
+            <span>›</span>
+            <a href="/seo/guides">SEO Guides</a>
+            <span>›</span>
+            <span>{guide.title}</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class={guide.icon} aria-hidden="true" /></span>
+          <p class="eyebrow">{themeLabel}</p>
+          <h1>{guide.title}</h1>
+          <p class="pillar-intro">{guide.intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body" set:html={bodyHtml} />
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={guide.faqs} />
+      </div>
+
+      {
+        related.length > 0 && (
+          <section class="section" id="related">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>Related guides</h2>
+                  <p>Keep going on the same thread</p>
+                </div>
+                <a href="/seo/guides">All trending topics →</a>
+              </div>
+              <div class="feature-grid">
+                {related.map((g) => {
+                  const a = THEME_ACCENT[g.theme];
+                  return (
+                    <a
+                      href={guidePath(g)}
+                      class="feature-panel card-link"
+                      style={`--topic: ${a.soft}; --topic-fg: ${a.fg};`}
+                    >
+                      <span class="card-icon"><i class={g.icon} aria-hidden="true" /></span>
+                      <h3>{g.title}</h3>
+                      <p>{g.intro}</p>
+                      <span class="card-cta">Read guide →</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want this handled for your site?</h2>
+            <p>
+              We turn these frameworks into an execution plan: technical fixes, a content
+              roadmap, and AI-search visibility, prioritised by business impact.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl(`Hi SERP Mentor, I read your guide on ${guide.keyword} and I'd like help.`)}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+            <p class="page-byline-updated" style="justify-content:center; margin-top:1rem;">
+              <i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Updated {GUIDE_UPDATED}
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

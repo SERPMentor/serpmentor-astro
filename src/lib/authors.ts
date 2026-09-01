@@ -52,7 +52,7 @@ const EDITORIAL: Author = {
   slug: "serpmentor",
   name: "The SERP Mentor Team",
   title: "SEO strategists, content architects and technical specialists",
-  bio: "SERP Mentor is a small team focused on one thing: helping brands build durable search visibility. Everything we publish comes from hands-on work — real audits, real tests, real client projects — not recycled marketing copy.",
+  bio: "SERP Mentor is a small team focused on one thing: helping brands build durable search visibility. Everything we publish comes from hands-on work. Real audits, real tests, real client projects, not recycled marketing copy.",
 };
 
 export const AUTHORS: Record<string, Author> = {
@@ -74,7 +74,7 @@ export const AUTHORS: Record<string, Author> = {
     slug: "jennifer",
     name: "Jennifer Clark",
     title: "Content strategy & editorial direction",
-    bio: "Jennifer builds content systems for brands from SaaS startups to large publishers — turning audience research into scalable editorial operations, topic clusters and frameworks that rank and convert.",
+    bio: "Jennifer builds content systems for brands from SaaS startups to large publishers. She turns audience research into scalable editorial operations, topic clusters and frameworks that rank and convert.",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=80",
   },
@@ -82,7 +82,7 @@ export const AUTHORS: Record<string, Author> = {
     slug: "marcus",
     name: "Marcus Reed",
     title: "Technical SEO & site performance",
-    bio: "Marcus works on site architecture, crawlability and technical audits for high-traffic properties — the unglamorous work that separates mediocre rankings from dominant ones.",
+    bio: "Marcus works on site architecture, crawlability and technical audits for high-traffic properties. It's the unglamorous work that separates mediocre rankings from dominant ones.",
     image:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=320&q=80",
   },

@@ -67,9 +67,13 @@ let postsPromise: Promise<WPPost[]> | null = null;
 
 export function getAllPosts(): Promise<WPPost[]> {
   if (!postsPromise) {
+    // WPGraphQL only returns PUBLISHED posts to unauthenticated requests, so a
+    // WordPress draft appears here (with the new design, clean URL and 301s)
+    // automatically on the next build, the moment it is published. `first: 200`
+    // is a safe ceiling well above the current count.
     postsPromise = graphql<{ posts: { nodes: WPPost[] } }>(`
       {
-        posts(first: 100) {
+        posts(first: 200) {
           nodes {
             title
             slug
@@ -100,13 +104,31 @@ export function featuredImage(post: WPPost): WPImage | null {
   return post.featuredImage?.node ?? null;
 }
 
+/**
+ * Link-building posts (the "…posting sites" / "…guest posting sites" lists and
+ * the backlink guides) live under the backlinks pillar: /seo/backlinks/{slug}.
+ * Any of these WordPress category slugs maps there.
+ */
+export const BACKLINKS_CATEGORY_SLUGS = new Set([
+  "seo-backlinks",
+  "backlinks",
+  "link-building",
+]);
+
+export function isBacklinksCategory(slug: string): boolean {
+  return BACKLINKS_CATEGORY_SLUGS.has(slug);
+}
+
 /** Canonical path for a single post, e.g. "/seo/best-ai-seo-tools". */
 export function postPath(post: WPPost): string {
-  return `/${primaryCategory(post).slug}/${post.slug}`;
+  const cat = primaryCategory(post).slug;
+  if (isBacklinksCategory(cat)) return `/seo/backlinks/${post.slug}`;
+  return `/${cat}/${post.slug}`;
 }
 
 /** Canonical path for a category archive, e.g. "/seo". */
 export function categoryPath(slug: string): string {
+  if (isBacklinksCategory(slug)) return "/seo/backlinks";
   return `/${slug}`;
 }
 
@@ -130,7 +152,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
     heading: "SEO Guides & Tutorials",
     title: "SEO Guides, Frameworks & Tutorials for 2026",
     description:
-      "Everything SERP Mentor publishes on search engine optimization — technical SEO, on-page, link building, keyword research, and AI search visibility. Tested on real projects, written without the fluff.",
+      "Every SEO guide we publish, in one place. Technical SEO, on-page, link building, keyword research, AI search visibility. Tested on real projects. Written without the fluff.",
     icon: "fa-solid fa-magnifying-glass-chart",
     color: "#00a988",
     colorSoft: "rgba(0, 188, 152, 0.16)",
@@ -140,7 +162,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
     heading: "Link Building & Backlink Guides",
     title: "Link Building & Backlink Strategy Guides",
     description:
-      "How to earn authoritative backlinks, audit your link profile, and close the gap on competitors — with tactics that still work and lists of places to actually get links.",
+      "How to earn authoritative backlinks, audit your link profile, and close the gap on competitors. Tactics that still work, plus lists of places to actually get links.",
     icon: "fa-solid fa-link",
     color: "#d8412c",
     colorSoft: "rgba(241, 94, 74, 0.16)",
@@ -150,7 +172,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
     heading: "LinkedIn Growth Guides",
     title: "LinkedIn Marketing & AI Tools Guides",
     description:
-      "Growing a LinkedIn presence that actually drives pipeline — content systems, free AI tools, and the workflows that turn posts into conversations.",
+      "Growing a LinkedIn presence that actually drives pipeline. Content systems, free AI tools, and the workflows that turn posts into conversations.",
     icon: "fa-brands fa-linkedin-in",
     color: "#0a66c2",
     colorSoft: "rgba(10, 102, 194, 0.14)",
@@ -160,7 +182,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
     heading: "SEO Case Studies",
     title: "SEO Case Studies: Real Campaigns, Documented Results",
     description:
-      "Full write-ups of real SEO campaigns — the starting point, what we changed, and what the traffic did. Numbers included, no cherry-picking.",
+      "Full write-ups of real SEO campaigns: the starting point, what we changed, and what the traffic did. Numbers included, no cherry-picking.",
     icon: "fa-solid fa-chart-line",
     color: "#8256c5",
     colorSoft: "rgba(130, 86, 197, 0.16)",
@@ -173,7 +195,7 @@ export function categoryMeta(slug: string, fallbackName: string): CategoryMeta {
     CATEGORY_META[slug] ?? {
       heading: `${fallbackName} Guides & Resources`,
       title: `${fallbackName} Guides, Tutorials & Resources`,
-      description: `Every SERP Mentor guide, framework, and case study on ${fallbackName.toLowerCase()} — practical and tested.`,
+      description: `Every SERP Mentor guide, framework, and case study on ${fallbackName.toLowerCase()}. Practical and tested.`,
       icon: "fa-solid fa-book-open",
       color: "#00a988",
       colorSoft: "rgba(0, 188, 152, 0.16)",

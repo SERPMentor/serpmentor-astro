@@ -1,7 +1,37 @@
 ---
-// Site favicon / touch-icon links. Drop <Favicons /> into every page <head>.
-// Files live in /public (favicon.ico, icon.png, apple-touch-icon.png).
+// Everything that goes in every page's <head>: favicons, font preconnects,
+// site-wide JSON-LD (Organization + WebSite), Search Console verification, and
+// Google Analytics + AdSense. Drop <Favicons /> into every page <head>.
+// Favicon files live in /public (favicon.ico, icon.png, apple-touch-icon.png).
+import { baseGraph } from "../lib/schema";
+
+const siteGraph = { "@context": "https://schema.org", "@graph": baseGraph() };
+
+// Analytics / ads only load on the deployed site, not in `astro dev` — keeps
+// local traffic out of the reports. IDs live here; change them in one place.
+const GA_ID = "G-6NPV9ZVMYM";
+const ADSENSE_CLIENT = "ca-pub-8144753898909480";
+const loadTags = import.meta.env.PROD;
+
+const gtagSrc = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+const adsenseSrc = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+const gtagInit = `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`;
 ---
+<meta name="google-site-verification" content="nmXFYEqtpL8doxiA0JIstmIAu2U-fBPZ6t9NZ8MY_hc" />
+<meta name="google-adsense-account" content="ca-pub-8144753898909480" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 <link rel="icon" href="/favicon.ico" sizes="32x32" />
 <link rel="icon" type="image/png" href="/icon.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(siteGraph)} />
+
+{loadTags && <link rel="preconnect" href="https://www.googletagmanager.com" />}
+{loadTags && <script async is:inline src={gtagSrc} />}
+{loadTags && <script is:inline set:html={gtagInit} />}
+{loadTags && <script async is:inline src={adsenseSrc} crossorigin="anonymous" />}

@@ -5,14 +5,24 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getPillars, pillarPath } from "../../lib/pillars";
+import { SEO_GUIDES, guidePath } from "../../lib/seo-guides";
 import {
   getAllPosts,
   getCategories,
   primaryCategory,
   categoryPath,
   categoryMeta,
+  postPath,
+  isBacklinksCategory,
   type WPPost,
 } from "../../lib/posts";
+import JsonLd from "../../components/JsonLd.astro";
+import {
+  abs,
+  webPageNode,
+  breadcrumbNode,
+  itemListNode,
+} from "../../lib/schema";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts();
@@ -20,6 +30,8 @@ export async function getStaticPaths() {
 
   for (const post of posts) {
     const category = primaryCategory(post);
+    // link-building posts use the /seo/backlinks pillar as their archive
+    if (isBacklinksCategory(category.slug)) continue;
     const group = groups.get(category.slug);
     if (group) {
       group.posts.push(post);
@@ -44,12 +56,31 @@ const { categoryName, posts } = Astro.props as Props;
 const allCategories = await getCategories();
 const pillars = getPillars(category);
 const meta = categoryMeta(category!, categoryName);
+
+const pageUrl = abs(categoryPath(category));
+const graph = [
+  webPageNode({
+    url: pageUrl,
+    name: `${meta.title} | SERP Mentor`,
+    description: meta.description,
+    type: "CollectionPage",
+  }),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: categoryName },
+  ]),
+  itemListNode(
+    pageUrl,
+    posts.map((p) => ({ url: abs(postPath(p)), name: p.title })),
+    `${categoryName} guides`,
+  ),
+];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
     <title>{meta.title} | SERP Mentor</title>
     <meta name="description" content={meta.description} />
@@ -57,6 +88,7 @@ const meta = categoryMeta(category!, categoryName);
     <meta property="og:type" content="website" />
     <meta property="og:title" content={`${meta.title} | SERP Mentor`} />
     <meta property="og:description" content={meta.description} />
+    <JsonLd graph={graph} />
   </head>
   <body>
     <SiteHeader />
@@ -120,6 +152,27 @@ const meta = categoryMeta(category!, categoryName);
                   </a>
                 ))}
               </div>
+            </div>
+          </section>
+        )
+      }
+
+      {
+        category === "seo" && (
+          <section class="section section-alt">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>Trending SEO topics</h2>
+                  <p>What is actually moving search right now, {SEO_GUIDES.length} short guides</p>
+                </div>
+                <a href="/seo/guides">See all →</a>
+              </div>
+              <ul class="chip-list">
+                {SEO_GUIDES.map((g) => (
+                  <li><a href={guidePath(g)}>{g.title}</a></li>
+                ))}
+              </ul>
             </div>
           </section>
         )

@@ -1,0 +1,57 @@
+---
+/**
+ * Trust strip for service and industry pages: a one-line credentials bar plus
+ * a rotating client testimonial with a star rating. Reuses TESTIMONIALS from
+ * team.ts (real client quotes).
+ */
+import { TESTIMONIALS, TEAM } from "../lib/team";
+
+const quotes = TESTIMONIALS.map((t) => ({
+  quote: (t.quote.split(/(?<=[.!?])\s/)[0] || t.quote).replace(/\s+/g, " ").trim(),
+  name: t.name,
+  title: t.title,
+}));
+---
+
+<section class="section">
+  <div class="container">
+    <div class="trust-strip">
+      <ul class="trust-strip-facts">
+        <li><strong>In SEO since 2007</strong></li>
+        <li><strong>{TEAM.length}</strong> specialists</li>
+        <li>Offices in <strong>Sweden &amp; Bangladesh</strong></li>
+        <li><strong>5.0</strong> from client reviews</li>
+      </ul>
+
+      <figure class="trust-strip-quote" data-trust-quote>
+        {
+          quotes.map((q, i) => (
+            <blockquote data-trust-slide hidden={i !== 0}>
+              <span class="trust-stars" aria-hidden="true">
+                <i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" />
+              </span>
+              <p>“{q.quote}”</p>
+              <figcaption>{q.name} · {q.title}</figcaption>
+            </blockquote>
+          ))
+        }
+      </figure>
+    </div>
+  </div>
+</section>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>("[data-trust-quote]");
+  if (wrap) {
+    const slides = Array.from(wrap.querySelectorAll<HTMLElement>("[data-trust-slide]"));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (slides.length > 1 && !reduce) {
+      let n = 0;
+      setInterval(() => {
+        slides[n].hidden = true;
+        n = (n + 1) % slides.length;
+        slides[n].hidden = false;
+      }, 5500);
+    }
+  }
+</script>

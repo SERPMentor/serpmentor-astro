@@ -1,0 +1,184 @@
+---
+/**
+ * A per-page SEO forecast: a projected month-by-month organic trajectory plus
+ * the conversions that traffic implies at a stated rate. It is a planning model
+ * built from transparent assumptions, not a promise — the copy says so.
+ *
+ * One measure is plotted (monthly sessions / actions). Conversions are a derived
+ * figure, never a second axis.
+ */
+interface Props {
+  heading: string;
+  intro: string;
+  /** what the columns represent, e.g. "Projected organic sessions per month" */
+  seriesLabel: string;
+  /** short unit for tiles/tooltips, e.g. "sessions" or "local actions" */
+  unit: string;
+  /** month 1..N values */
+  points: number[];
+  /** conversion rate applied to the final month, e.g. 0.026 */
+  convRate: number;
+  /** what a conversion is called here, e.g. "enquiries" / "calls & actions" */
+  convLabel: string;
+  /** one line on timing, e.g. "First movement in 6–8 weeks; the curve compounds from there." */
+  timing: string;
+  assumptions: string[];
+  /** render on a tinted band instead of white */
+  alt?: boolean;
+}
+
+const {
+  heading,
+  intro,
+  seriesLabel,
+  unit,
+  points,
+  convRate,
+  convLabel,
+  timing,
+  assumptions,
+  alt = false,
+} = Astro.props;
+
+const n = points.length;
+const start = points[0];
+const end = points[n - 1];
+const monthlyConv = Math.round((end * convRate) / 5) * 5;
+const pct = (convRate * 100).toFixed(convRate * 100 >= 10 ? 0 : 1);
+
+const fmt = (v: number) =>
+  v >= 1000 ? `${(v / 1000).toFixed(v >= 10000 ? 0 : 1).replace(/\.0$/, "")}k` : String(Math.round(v));
+
+// --- SVG geometry ------------------------------------------------
+const W = 720;
+const H = 260;
+const padL = 44;
+const padR = 16;
+const padT = 18;
+const padB = 30;
+const plotW = W - padL - padR;
+const plotH = H - padT - padB;
+
+const maxV = Math.max(...points);
+// round the axis top to something clean
+const niceTop = (() => {
+  const mag = Math.pow(10, Math.floor(Math.log10(maxV)));
+  const step = maxV / mag > 5 ? 2 * mag : maxV / mag > 2 ? mag : mag / 2;
+  return Math.ceil(maxV / step) * step;
+})();
+const gap = 2;
+const band = plotW / n;
+const barW = Math.min(24, band - gap * 2);
+
+const x = (i: number) => padL + i * band + (band - barW) / 2;
+const y = (v: number) => padT + plotH - (v / niceTop) * plotH;
+
+const ticks = [0, niceTop / 2, niceTop];
+const xTickIdx = [0, Math.round((n - 1) / 4), Math.round((n - 1) / 2), Math.round(((n - 1) * 3) / 4), n - 1]
+  .filter((v, i, a) => a.indexOf(v) === i);
+
+const desc = points.map((p, i) => `month ${i + 1}: ${Math.round(p)} ${unit}`).join("; ");
+---
+
+<section class:list={["section", alt && "section-alt"]}>
+  <div class="container forecast">
+    <div class="section-heading">
+      <div>
+        <h2>{heading}</h2>
+        <p>{intro}</p>
+      </div>
+    </div>
+
+    <figure class="forecast-figure">
+      <figcaption class="forecast-cap">
+        {seriesLabel}. From <strong>{fmt(start)}</strong> to <strong>{fmt(end)}</strong> {unit} over {n} months.
+      </figcaption>
+
+      <div class="forecast-chart" role="img" aria-label={`${seriesLabel}. ${desc}.`}>
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet">
+          <desc>{desc}</desc>
+
+          {
+            ticks.map((t) => (
+              <g>
+                <line x1={padL} x2={W - padR} y1={y(t)} y2={y(t)} class="forecast-grid" />
+                <text x={padL - 8} y={y(t) + 4} class="forecast-axis" text-anchor="end">
+                  {t >= 1000 ? `${(t / 1000).toFixed(t % 1000 === 0 ? 0 : 1)}k` : String(t)}
+                </text>
+              </g>
+            ))
+          }
+
+          {
+            points.map((p, i) => (
+              <g>
+                <rect
+                  x={x(i)}
+                  y={y(p)}
+                  width={barW}
+                  height={Math.max(1, padT + plotH - y(p))}
+                  rx="4"
+                  class="forecast-bar"
+                >
+                  <title>{`Month ${i + 1}: ~${Math.round(p).toLocaleString()} ${unit}`}</title>
+                </rect>
+              </g>
+            ))
+          }
+
+          {
+            xTickIdx.map((i) => (
+              <text x={x(i) + barW / 2} y={H - 10} class="forecast-axis" text-anchor="middle">
+                M{i + 1}
+              </text>
+            ))
+          }
+
+          <text x={x(0) + barW / 2} y={y(start) - 8} class="forecast-endlabel" text-anchor="middle">
+            {fmt(start)}
+          </text>
+          <text
+            x={Math.min(x(n - 1) + barW / 2, W - padR - 10)}
+            y={y(end) - 8}
+            class="forecast-endlabel"
+            text-anchor="middle"
+          >
+            {fmt(end)}
+          </text>
+        </svg>
+      </div>
+    </figure>
+
+    <div class="forecast-tiles">
+      <div class="forecast-tile">
+        <span class="forecast-tile-label">Starting point</span>
+        <span class="forecast-tile-value">{start.toLocaleString()}<small>{unit}/mo</small></span>
+      </div>
+      <div class="forecast-tile">
+        <span class="forecast-tile-label">Month {n} projection</span>
+        <span class="forecast-tile-value">{end.toLocaleString()}<small>{unit}/mo</small></span>
+      </div>
+      <div class="forecast-tile">
+        <span class="forecast-tile-label">Assumed conversion rate</span>
+        <span class="forecast-tile-value">{pct}%</span>
+      </div>
+      <div class="forecast-tile">
+        <span class="forecast-tile-label">{convLabel} by month {n}</span>
+        <span class="forecast-tile-value">~{monthlyConv.toLocaleString()}<small>/mo</small></span>
+      </div>
+    </div>
+
+    <div class="forecast-notes">
+      <p class="forecast-timing"><i class="fa-solid fa-clock" aria-hidden="true"></i> {timing}</p>
+      <p class="forecast-assumptions-head">The model assumes:</p>
+      <ul class="forecast-assumptions">
+        {assumptions.map((a) => <li>{a}</li>)}
+      </ul>
+      <p class="forecast-disclaimer">
+        This is a planning model, not a guarantee. Real results depend on your starting authority,
+        your market, and how quickly recommendations get shipped. We build a version of this from
+        your own data in the first audit.
+      </p>
+    </div>
+  </div>
+</section>

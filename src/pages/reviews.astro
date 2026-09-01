@@ -3,76 +3,227 @@ import "../styles/global.css";
 import Favicons from "../components/Favicons.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import Faq from "../components/Faq.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { reviewsByCategory, stars, TOOL_REVIEWS } from "../lib/reviews";
+import { abs, webPageNode, breadcrumbNode, ORG_ID } from "../lib/schema";
+
+const groups = reviewsByCategory();
+
+const revUrl = abs("/reviews");
+const revGraph = [
+  webPageNode({
+    url: revUrl,
+    name: "SEO Tool Reviews | SERP Mentor",
+    description:
+      "ROI-first reviews of the SEO and content tools we actually use: ratings, best-for, and what each one is bad at.",
+    type: "CollectionPage",
+  }),
+  breadcrumbNode(revUrl, [{ name: "Home", item: abs("/") }, { name: "Tool reviews" }]),
+  {
+    "@type": "ItemList",
+    "@id": `${revUrl}#reviews`,
+    numberOfItems: TOOL_REVIEWS.length,
+    itemListElement: TOOL_REVIEWS.map((t, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Review",
+        name: `${t.name} review`,
+        reviewBody: t.verdict,
+        author: { "@id": ORG_ID },
+        publisher: { "@id": ORG_ID },
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: t.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        itemReviewed: {
+          "@type": "SoftwareApplication",
+          name: t.name,
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          url: t.link,
+        },
+      },
+    })),
+  },
+];
+
+const how = [
+  {
+    icon: "fa-solid fa-flask-vial",
+    title: "We use them",
+    text: "Every tool here is one we run on real client work or have tested end to end. Not a spec sheet summary.",
+  },
+  {
+    icon: "fa-solid fa-scale-balanced",
+    title: "ROI over features",
+    text: "The question is whether it moves rankings or team speed enough to justify the cost, not how many features it lists.",
+  },
+  {
+    icon: "fa-solid fa-eye",
+    title: "Trade-offs stated",
+    text: "Every review names what the tool is bad at and who should skip it. If something's an affiliate link we say so.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Do you earn a commission from these links?",
+    a: "For some tools, yes. Where we do, the link is an affiliate link, and it never changes the rating or what we write. Plenty of tools here pay nothing and are still recommended.",
+  },
+  {
+    q: "How often are these reviews updated?",
+    a: "We revisit them when a tool ships a major change or its pricing moves, and at least twice a year. Prices shown are indicative, so check the tool's site for the current figure.",
+  },
+  {
+    q: "I need a tool that isn't listed. Can you advise?",
+    a: "Ask on the contact page. If it's something we've used we'll give you a straight answer, and if we haven't we'll say that too.",
+  },
+];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
-    <title>Reviews & Tools | SERP Mentor</title>
+    <title>SEO Tool Reviews: Honest, ROI-First Verdicts | SERP Mentor</title>
     <meta
       name="description"
-      content="Honest reviews of SEO tools, hosting, and growth platforms that matter to digital teams."
+      content="Straight reviews of the SEO and content tools we actually use: all-in-one suites, AI content tools, rank trackers, link tools and hosting. Ratings, best-for, and what each one is bad at."
     />
+    <link rel="canonical" href="/reviews" />
+    <meta property="og:title" content="SEO Tool Reviews | SERP Mentor" />
+    <JsonLd graph={revGraph} />
+    <meta property="og:description" content="ROI-first verdicts on the SEO tools we actually use." />
   </head>
   <body>
     <SiteHeader />
 
     <main>
-      <section class="page-header">
+      <section class="page-header" style="--topic: rgba(247,170,4,0.16); --topic-fg: #b97d02;">
         <div class="container">
-          <p class="eyebrow">Reviews & tools</p>
-          <h1>Recommendations you can actually trust.</h1>
-          <p>
-            The SEO and AI tool landscape changes fast. These reviews focus on
-            what helps teams rank, publish, and grow without wasting budget on
-            shiny software that adds little value.
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>›</span>
+            <span>Tool reviews</span>
+          </div>
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-star" aria-hidden="true"></i></span>
+          <p class="eyebrow">Reviews</p>
+          <h1>SEO tool reviews you can trust</h1>
+          <p class="pillar-intro">
+            We rate tools on ROI, not feature counts. Every review here is a tool we run on real
+            client work, and every one names who it's for and what it's bad at.
           </p>
+          <div class="hero-stats">
+            <span class="hero-stat"><strong>{TOOL_REVIEWS.length}</strong> tools reviewed</span>
+            <span class="hero-stat"><strong>{groups.length}</strong> categories</span>
+            <span class="hero-stat">Updated for 2026</span>
+          </div>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container review-grid">
-          <article class="review-card">
-            <span class="meta">SEO</span>
-            <h3>Semrush</h3>
-            <p>
-              Best for teams that want deep keyword research, site audits, and
-              competitive visibility across large content programs.
-            </p>
-          </article>
+      {
+        groups.map((group) => (
+          <section class="section">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>{group.category}</h2>
+                </div>
+              </div>
+              <div class="review-grid">
+                {group.tools.map((tool) => {
+                  const s = stars(tool.rating);
+                  return (
+                    <article class="review-card review-card-full">
+                      <div class="review-card-head">
+                        <h3>{tool.name}</h3>
+                        <span class="review-rating" aria-label={`Rated ${tool.rating} out of 5`}>
+                          {Array.from({ length: s.full }).map(() => (
+                            <i class="fa-solid fa-star" aria-hidden="true" />
+                          ))}
+                          {s.half && <i class="fa-solid fa-star-half-stroke" aria-hidden="true" />}
+                          {Array.from({ length: s.empty }).map(() => (
+                            <i class="fa-regular fa-star" aria-hidden="true" />
+                          ))}
+                          <b>{tool.rating.toFixed(1)}</b>
+                        </span>
+                      </div>
+                      <p class="review-verdict">{tool.verdict}</p>
+                      <dl class="review-facts">
+                        <div>
+                          <dt>Best for</dt>
+                          <dd>{tool.bestFor}</dd>
+                        </div>
+                        <div>
+                          <dt>Price</dt>
+                          <dd>{tool.price}</dd>
+                        </div>
+                      </dl>
+                      <div class="review-cols">
+                        <div>
+                          <p class="review-col-label review-col-good">Strengths</p>
+                          <ul class="check-list">
+                            {tool.strengths.map((x) => (
+                              <li>{x}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <p class="review-col-label review-col-warn">Watch-outs</p>
+                          <ul class="package-results review-warns">
+                            {tool.watchOuts.map((x) => (
+                              <li>{x}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="review-actions">
+                        <a class="button" href={tool.link} target="_blank" rel="sponsored noopener noreferrer">
+                          Visit {tool.name}
+                        </a>
+                        {tool.readMore && (
+                          <a class="button-secondary" href={tool.readMore}>
+                            Read our take
+                          </a>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        ))
+      }
 
-          <article class="review-card">
-            <span class="meta">AI writing</span>
-            <h3>Frase</h3>
-            <p>
-              A practical content platform for briefs, SERP analysis, and
-              turning topic research into stronger briefs and finished articles.
-            </p>
-          </article>
-
-          <article class="review-card">
-            <span class="meta">Hosting</span>
-            <h3>Hostinger</h3>
-            <p>
-              An attractive option for lean teams that want affordable hosting
-              without sacrificing speed or reliability for new sites.
-            </p>
-          </article>
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>How we review</h2>
+              <p>Three rules every review follows</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              how.map((item) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={item.icon} aria-hidden="true" /></span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))
+            }
+          </div>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container page-panel" style="text-align: center;">
-          <h2>Why trust our reviews?</h2>
-          <p>
-            We evaluate tools based on ROI, implementation complexity, and whether they actually
-            move the needle for rankings and team velocity. We avoid hype and focus on the
-            real trade-offs that matter when you're spending serious budget on SEO infrastructure.
-          </p>
-        </div>
-      </section>
+      <Faq items={faqs} />
     </main>
 
     <SiteFooter />

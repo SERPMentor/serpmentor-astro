@@ -1,0 +1,307 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Faq from "../components/Faq.astro";
+import SeoForecast from "../components/SeoForecast.astro";
+import JsonLd from "../components/JsonLd.astro";
+import HeroTrustCard from "../components/HeroTrustCard.astro";
+import PageByline from "../components/PageByline.astro";
+import { whatsappUrl } from "../lib/site";
+import { abs, webPageNode, breadcrumbNode, serviceNode, bylinePersonNodes, BYLINE_REFS } from "../lib/schema";
+
+const pgUrl = abs("/hire-seo-specialist");
+const pgDesc =
+  "Bring in a senior SEO who does the work, not just the strategy deck. Technical fixes, content, link building and AI-search visibility, owned end to end.";
+const pgGraph = [
+  { ...webPageNode({ url: pgUrl, name: "Hire an SEO Specialist | SERP Mentor", description: pgDesc }), ...BYLINE_REFS },
+  ...bylinePersonNodes(),
+  breadcrumbNode(pgUrl, [{ name: "Home", item: abs("/") }, { name: "Hire an SEO specialist" }]),
+  serviceNode({
+    url: pgUrl,
+    name: "Hire an SEO specialist",
+    description: pgDesc,
+    serviceType: "SEO consulting",
+  }),
+];
+
+const whatYouHire = [
+  {
+    icon: "fa-solid fa-user-tie",
+    title: "A senior operator, not a deck",
+    text: "You work directly with a strategist who has run SEO for competitive publishers and client programs. The person doing the analysis is the person you talk to.",
+  },
+  {
+    icon: "fa-solid fa-bullseye",
+    title: "Owned outcomes",
+    text: "One person is accountable for the roadmap and its results. No hand-offs to a junior team, no “that's another department”.",
+  },
+  {
+    icon: "fa-solid fa-chart-line",
+    title: "Reporting you can read",
+    text: "A monthly note in plain language: what was done, what moved, what's next. Tied to traffic, leads or revenue, not vanity charts.",
+  },
+];
+
+const coverage = [
+  {
+    icon: "fa-solid fa-gears",
+    title: "Technical SEO",
+    points: [
+      "Crawl, indexation and site-architecture fixes",
+      "Core Web Vitals, speed and mobile",
+      "Structured data and canonical strategy",
+      "Log-file and JavaScript-rendering checks",
+    ],
+  },
+  {
+    icon: "fa-solid fa-file-lines",
+    title: "Content & on-page",
+    points: [
+      "Keyword and search-intent mapping",
+      "Topic clusters and internal linking",
+      "On-page optimization and content briefs",
+      "Refreshing pages that have slipped",
+    ],
+  },
+  {
+    icon: "fa-solid fa-link",
+    title: "Off-page & AI search",
+    points: [
+      "Digital-PR and editorial link building",
+      "Authority and anchor-profile analysis",
+      "GEO and AEO: getting cited by AI answers",
+      "Competitor gap and opportunity research",
+    ],
+  },
+];
+
+const steps = [
+  {
+    icon: "fa-solid fa-magnifying-glass",
+    title: "Audit",
+    text: "A full review of technical health, content, links and AI-search readiness, with the issues ranked by impact.",
+  },
+  {
+    icon: "fa-solid fa-map",
+    title: "Roadmap",
+    text: "A prioritized plan: what to fix first, what to build next, and the traffic or revenue it's aimed at.",
+  },
+  {
+    icon: "fa-solid fa-screwdriver-wrench",
+    title: "Execution",
+    text: "The work gets done, either hands-on or alongside your team, with clear ownership on every task.",
+  },
+  {
+    icon: "fa-solid fa-arrows-rotate",
+    title: "Review",
+    text: "Monthly reporting and a working session to adjust the plan against what the data is showing.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Is this a monthly retainer or a one-off project?",
+    a: "Either. Most clients go monthly so the roadmap actually gets done, but a fixed-scope audit or migration project works too.",
+  },
+  {
+    q: "Will you work with our in-house team or replace it?",
+    a: "Whichever fits. A specialist often runs as the senior SEO lead directing your content or dev team, or drops in as an extra pair of expert hands on one problem.",
+  },
+  {
+    q: "What size of business is this for?",
+    a: "Funded startups, established SaaS and content businesses, and e-commerce brands with traffic to build on. Pre-launch with no site yet? Start with coaching instead.",
+  },
+  {
+    q: "How is pricing worked out?",
+    a: "No fixed price list. We take a short call, look at your site, then quote a monthly or project fee based on what the work actually takes.",
+  },
+  {
+    q: "How soon can you start?",
+    a: "Usually one to two weeks, depending on capacity. The audit starts the moment we have access to your analytics and Search Console.",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>Hire an SEO Specialist: Senior, Hands-On, Accountable | SERP Mentor</title>
+    <meta
+      name="description"
+      content="Bring in a senior SEO who does the work, not just the strategy deck. Technical fixes, content, link building and AI-search visibility, owned end to end and reported in plain language."
+    />
+    <link rel="canonical" href="/hire-seo-specialist" />
+    <meta property="og:title" content="Hire an SEO Specialist | SERP Mentor" />
+    <JsonLd graph={pgGraph} />
+    <meta property="og:description" content="A senior SEO who owns the roadmap and its results." />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header page-header-split" style="--topic: rgba(0,188,152,0.14); --topic-fg: #00a988;">
+        <div class="container">
+          <div>
+            <div class="breadcrumbs">
+              <a href="/">Home</a>
+              <span>›</span>
+              <span>Hire an SEO specialist</span>
+            </div>
+            <span class="card-icon pillar-icon"><i class="fa-solid fa-user-tie" aria-hidden="true"></i></span>
+            <p class="eyebrow">Work with us</p>
+            <h1>Hire an SEO specialist</h1>
+            <p class="pillar-intro">
+              Not a strategy deck. A senior SEO who does the work. Technical fixes, content, link
+              building, AI-search visibility, owned from the first audit to the monthly report.
+            </p>
+            <div class="hero-actions">
+              <a href="/contact" class="button">Book a free call</a>
+              <a href={whatsappUrl("Hi SERP Mentor, I'd like to hire an SEO specialist.")} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+              <a href="#how" class="button-ghost">See how it works</a>
+            </div>
+            <PageByline />
+          </div>
+          <HeroTrustCard />
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What you're actually hiring</h2>
+              <p>One accountable person, not a layer of account managers</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              whatYouHire.map((item) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={item.icon} aria-hidden="true" /></span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What a specialist covers</h2>
+              <p>The whole surface. Depth where it moves rankings.</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              coverage.map((col) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={col.icon} aria-hidden="true" /></span>
+                  <h3>{col.title}</h3>
+                  <ul class="check-list">
+                    {col.points.map((p) => <li>{p}</li>)}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>How engagements work</h2>
+              <p>Every engagement starts the same way</p>
+            </div>
+            <a href="/services">See services &amp; pricing →</a>
+          </div>
+          <div class="feature-grid feature-grid-4">
+            {
+              steps.map((step, i) => (
+                <div class="feature-panel">
+                  <span class="step-number">{String(i + 1).padStart(2, "0")}</span>
+                  <h3><i class={step.icon} aria-hidden="true" /> {step.title}</h3>
+                  <p>{step.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="split-layout">
+            <div class="story-copy">
+              <h2>Who it's a fit for</h2>
+              <ul class="check-list">
+                <li>You already have a site with some traffic to build on</li>
+                <li>SEO is a real channel for you, not a side experiment</li>
+                <li>You want one senior person accountable for results</li>
+                <li>You can act on recommendations, in-house or with our help</li>
+              </ul>
+            </div>
+            <div class="story-copy">
+              <h2>Probably not yet if…</h2>
+              <ul class="package-results">
+                <li>You have no website or brand yet, so start with coaching</li>
+                <li>You need results in under a month, which means paid ads</li>
+                <li>You want purely low-cost, high-volume link building</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <SeoForecast
+        heading="What a senior operator changes about the timeline"
+        intro="A projection for a site that already has real traffic and wants faster movement. With one senior person owning the roadmap, fixes ship in weeks, not quarters, so the curve steepens earlier than a typical engagement."
+        seriesLabel="Projected organic sessions per month"
+        unit="sessions"
+        points={[4000, 4600, 5600, 7000, 8600, 10400, 12300, 14000, 15500, 16700, 17700, 18600]}
+        convRate={0.031}
+        convLabel="Leads"
+        timing="Because there is a traffic base to build on, the first gains often land inside 4–6 weeks."
+        assumptions={[
+          "Starting point ~4,000 organic sessions per month with an established domain",
+          "A senior SEO directing execution full-time on the account's priorities",
+          "Technical debt cleared in the first month, then content and links in parallel",
+          "A 3.1% lead conversion rate, held flat across the year",
+        ]}
+      />
+
+      <Faq items={faqs} />
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="max-width:820px; margin:0 auto; text-align:center;">
+            <h2>Talk to a specialist</h2>
+            <p>
+              A short call, a look at your site, and an honest read on whether SEO is worth the
+              investment for you right now.
+            </p>
+            <div class="hero-actions" style="justify-content:center;">
+              <a href="/contact" class="button">Book a free call</a>
+              <a href={whatsappUrl("Hi SERP Mentor, I'd like to hire an SEO specialist.")} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

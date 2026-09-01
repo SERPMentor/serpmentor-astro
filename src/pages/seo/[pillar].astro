@@ -7,12 +7,23 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getPillars, getPillar, pillarPath } from "../../lib/pillars";
+import { guideBySlug, guidePath } from "../../lib/seo-guides";
 import {
   getAllPosts,
   getPostsInCategory,
   categoryPath,
+  postPath,
+  primaryCategory,
+  isBacklinksCategory,
   type WPPost,
 } from "../../lib/posts";
+import JsonLd from "../../components/JsonLd.astro";
+import {
+  abs,
+  webPageNode,
+  breadcrumbNode,
+  itemListNode,
+} from "../../lib/schema";
 
 export async function getStaticPaths() {
   return getPillars("seo").map((pillar) => ({
@@ -27,12 +38,24 @@ const pillar = getPillar("seo", pillarSlug!)!;
 const allPosts = await getAllPosts();
 const bySlug = new Map(allPosts.map((p) => [p.slug, p]));
 
-let guides: WPPost[] = pillar.guideSlugs
-  .map((slug) => bySlug.get(slug))
-  .filter((p): p is WPPost => Boolean(p));
+let guides: WPPost[];
 
-if (guides.length === 0) {
-  guides = (await getPostsInCategory("seo")).slice(0, 6);
+if (pillar.slug === "backlinks") {
+  // The backlinks pillar is the archive for every link-building post
+  // (/seo/backlinks/{slug}), so list them all, newest first.
+  guides = allPosts.filter((p) => isBacklinksCategory(primaryCategory(p).slug));
+  // fold in any hand-picked backlink guides that sit in the general SEO category
+  for (const s of pillar.guideSlugs) {
+    const p = bySlug.get(s);
+    if (p && !guides.some((g) => g.slug === p.slug)) guides.push(p);
+  }
+} else {
+  guides = pillar.guideSlugs
+    .map((slug) => bySlug.get(slug))
+    .filter((p): p is WPPost => Boolean(p));
+  if (guides.length === 0) {
+    guides = (await getPostsInCategory("seo")).slice(0, 6);
+  }
 }
 
 const guideSet = new Set(guides.map((p) => p.slug));
@@ -41,6 +64,33 @@ const moreFromSeo = (await getPostsInCategory("seo"))
   .slice(0, 3);
 
 const otherPillars = getPillars("seo").filter((p) => p.slug !== pillar.slug);
+
+// Trending topic guides most relevant to each pillar (from src/lib/seo-guides.ts)
+const PILLAR_GUIDES: Record<string, string[]> = {
+  tech: ["programmatic-seo", "interaction-to-next-paint", "schema-markup", "search-intent"],
+  backlinks: ["digital-pr", "reddit-seo", "topical-authority", "entity-seo"],
+  news: [
+    "google-core-update-recovery",
+    "zero-click-search",
+    "content-decay",
+    "e-e-a-t",
+    "ai-content-and-seo",
+  ],
+  tools: ["get-cited-by-chatgpt", "generative-engine-optimization", "rank-in-google-ai-overviews"],
+  "ai-optimization": [
+    "rank-in-google-ai-overviews",
+    "answer-engine-optimization",
+    "generative-engine-optimization",
+    "get-cited-by-chatgpt",
+    "llms-txt",
+    "ai-content-and-seo",
+    "entity-seo",
+    "semantic-seo",
+  ],
+};
+const pillarGuides = (PILLAR_GUIDES[pillar.slug] ?? [])
+  .map((s) => guideBySlug(s))
+  .filter((g): g is NonNullable<typeof g> => Boolean(g));
 
 // Build the in-page table of contents from the body <h2>s and inject
 // matching ids so the anchor links land in the right place.
@@ -71,19 +121,41 @@ const bodyHtml = pillar.bodyHtml.replace(
 const toc = [
   ...bodyToc,
   { text: pillar.guidesHeading, id: "guides" },
+  ...(pillarGuides.length ? [{ text: "Trending topics", id: "trending" }] : []),
   ...(pillar.tools ? [{ text: pillar.toolsHeading!, id: "tools" }] : []),
   ...(moreFromSeo.length ? [{ text: "More SEO guides", id: "more" }] : []),
+];
+
+const pageUrl = abs(pillarPath(pillar));
+const graph = [
+  webPageNode({
+    url: pageUrl,
+    name: `${pillar.title} | SERP Mentor`,
+    description: pillar.intro,
+    type: "CollectionPage",
+  }),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs(categoryPath("seo")) },
+    { name: pillar.name },
+  ]),
+  itemListNode(
+    pageUrl,
+    guides.map((p) => ({ url: abs(postPath(p)), name: p.title })),
+    pillar.guidesHeading,
+  ),
 ];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
     <title>{pillar.title} | SERP Mentor</title>
     <meta name="description" content={pillar.intro} />
     <link rel="canonical" href={pillarPath(pillar)} />
+    <JsonLd graph={graph} />
   </head>
   <body>
     <SiteHeader />
@@ -139,6 +211,37 @@ const toc = [
           </div>
         </div>
       </section>
+
+      {
+        pillarGuides.length > 0 && (
+          <section class="section" id="trending">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>Trending {pillar.name} topics</h2>
+                  <p>Short, practical guides on what is changing right now</p>
+                </div>
+                <a href="/seo/guides">All trending topics →</a>
+              </div>
+
+              <div class="feature-grid">
+                {pillarGuides.map((g) => (
+                  <a
+                    href={guidePath(g)}
+                    class="feature-panel card-link"
+                    style={`--topic: ${pillar.colorSoft}; --topic-fg: ${pillar.color};`}
+                  >
+                    <span class="card-icon"><i class={g.icon} aria-hidden="true" /></span>
+                    <h3>{g.title}</h3>
+                    <p>{g.intro}</p>
+                    <span class="card-cta">Read guide →</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
 
       {
         pillar.tools && (
@@ -230,7 +333,7 @@ const toc = [
           <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
             <h2>Want this done for your site?</h2>
             <p>
-              We turn these frameworks into an execution plan — technical fixes, content
+              We turn these frameworks into an execution plan: technical fixes, content
               roadmap, and AI-search visibility, prioritized by business impact.
             </p>
             <div class="hero-actions" style="justify-content: center; margin-top: 0;">

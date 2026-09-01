@@ -1,0 +1,52 @@
+---
+/**
+ * "Written / fact-checked / editorial lead" line for landing and industry
+ * pages. Short names, each linking to the person's LinkedIn, plus a build-time
+ * "Updated {month year}" for freshness. An E-E-A-T signal.
+ */
+import { TEAM } from "../lib/team";
+import { localImage } from "../lib/images";
+
+const pick = (needle: string) =>
+  TEAM.find((m) => m.name.toLowerCase().includes(needle));
+
+const contributors = [
+  { role: "Written by", short: "Alif", member: pick("alif") },
+  { role: "Fact-checked by", short: "Towhid", member: pick("towhid") },
+  { role: "Editorial lead", short: "Saiful", member: pick("saiful") },
+].filter((c) => c.member);
+
+const updated = new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+---
+
+<div class="page-byline">
+  <span class="page-byline-people">
+    {
+      contributors.map((c) => (
+        <span class="page-byline-person">
+          <img
+            class="page-byline-mini"
+            src={localImage(c.member!.image)}
+            alt=""
+            width="26"
+            height="26"
+            loading="eager"
+          />
+          <span class="page-byline-role-text">
+            {c.role}{" "}
+            {c.member!.linkedin ? (
+              <a href={c.member!.linkedin} target="_blank" rel="noopener noreferrer nofollow">
+                {c.short}
+              </a>
+            ) : (
+              <strong>{c.short}</strong>
+            )}
+          </span>
+        </span>
+      ))
+    }
+  </span>
+  <span class="page-byline-updated">
+    <i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Updated {updated}
+  </span>
+</div>

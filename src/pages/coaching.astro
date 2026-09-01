@@ -1,0 +1,255 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Faq from "../components/Faq.astro";
+import SeoForecast from "../components/SeoForecast.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { localImage } from "../lib/images";
+import { whatsappUrl } from "../lib/site";
+import { abs, webPageNode, breadcrumbNode, serviceNode } from "../lib/schema";
+
+const waCoaching = whatsappUrl("Hi Saiful, I'd like to book an SEO coaching intro call.");
+
+const saiful = localImage(
+  "https://cms.serpmentor.com/wp-content/uploads/2026/04/SAIFUL-AI-SEO-EXPERT.webp",
+);
+
+const pgUrl = abs("/coaching");
+const pgDesc =
+  "One-to-one SEO mentorship with Saiful. Organic growth strategy, content architecture and the shift to AI search, taught from 17+ years of real client work.";
+const pgGraph = [
+  webPageNode({ url: pgUrl, name: "SEO Coaching with Saiful | SERP Mentor", description: pgDesc, image: abs(saiful) }),
+  breadcrumbNode(pgUrl, [{ name: "Home", item: abs("/") }, { name: "Coaching" }]),
+  serviceNode({
+    url: pgUrl,
+    name: "SEO coaching & mentorship",
+    description: pgDesc,
+    serviceType: "SEO coaching",
+  }),
+];
+
+const gains = [
+  {
+    icon: "fa-solid fa-compass",
+    title: "A strategy for your situation",
+    text: "Not a generic checklist. A plan built around your niche, your competition, your resources and where the ranking opportunity actually is.",
+  },
+  {
+    icon: "fa-solid fa-diagram-project",
+    title: "Content architecture that compounds",
+    text: "How to structure topics, internal links and pages so each new article makes the others stronger instead of competing with them.",
+  },
+  {
+    icon: "fa-solid fa-robot",
+    title: "The shift to AI search",
+    text: "What GEO, AEO and LLM optimization mean in practice, and how to get your pages cited by AI answers. Taught from live testing, not speculation.",
+  },
+  {
+    icon: "fa-solid fa-gauge-high",
+    title: "Faster, better decisions",
+    text: "A second set of expert eyes on your calls each session, so you stop guessing and stop wasting months on the wrong work.",
+  },
+];
+
+const format = [
+  { label: "Format", value: "Live 1:1 video calls, screen-share on your real site" },
+  { label: "Cadence", value: "Weekly or fortnightly, your choice" },
+  { label: "Between calls", value: "Async questions and a shared action list" },
+  { label: "Best for", value: "Founders, bloggers, in-house marketers, freelance SEOs" },
+];
+
+const forWho = [
+  "You're doing the SEO yourself and want to be sure it's the right work",
+  "You have a site and some content but growth has stalled",
+  "You're a freelancer or marketer levelling up to senior SEO work",
+  "You want to understand AI search before your competitors do",
+];
+
+const faqs = [
+  {
+    q: "How is coaching different from hiring a specialist?",
+    a: "With coaching, you keep doing the work and I make sure it's the right work: strategy, review and direction. Hiring a specialist means the work is done for you. Coaching is the better fit when you have time but not certainty.",
+  },
+  {
+    q: "Do I need an existing website?",
+    a: "It helps a lot, but no. If you're at the idea stage we can spend the first sessions on niche selection and site structure so you start on solid ground.",
+  },
+  {
+    q: "What experience level is this for?",
+    a: "Beginner to intermediate mostly, plus freelance SEOs who want to work at a more senior level. Sessions are pitched to where you actually are.",
+  },
+  {
+    q: "How long do people usually stay?",
+    a: "Most take a focused block of one to three months to fix strategy and build momentum, then check in less often. There's no lock-in.",
+  },
+  {
+    q: "What does it cost?",
+    a: "It's priced per session or as a monthly block, and depends on cadence. Book an intro call and I'll quote based on what you're trying to achieve.",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>SEO Coaching &amp; Mentorship with Saiful: Learn from Real Work | SERP Mentor</title>
+    <meta
+      name="description"
+      content="One-to-one SEO mentorship with Saiful: organic growth strategy, content architecture and the shift to AI search, taught from 17+ years of real client work, not theory."
+    />
+    <link rel="canonical" href="/coaching" />
+    <meta property="og:title" content="SEO Coaching with Saiful | SERP Mentor" />
+    <JsonLd graph={pgGraph} />
+    <meta property="og:description" content="1:1 SEO mentorship taught from real client work." />
+    <meta property="og:image" content={saiful} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="article-hero" style="--topic: rgba(0,188,152,0.16); --topic-fg: #00a988;">
+        <div class="container article-hero-grid">
+          <div>
+            <nav class="breadcrumbs breadcrumbs-invert" aria-label="Breadcrumb">
+              <a href="/">Home</a>
+              <span>›</span>
+              <span>Coaching</span>
+            </nav>
+            <a href="/about" class="article-hero-tag">SEO mentorship</a>
+            <h1>SEO coaching with Saiful</h1>
+            <p class="pillar-intro" style="color: rgba(255,255,255,0.85);">
+              No course script. No recordings to sit through. Just one-to-one sessions on your
+              real site. Organic growth strategy, content architecture and AI search, taught
+              from 17+ years of doing the work for clients and competitive publishers.
+            </p>
+            <div class="hero-actions">
+              <a href="/contact" class="button">Book an intro call</a>
+              <a href={waCoaching} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+          <div class="article-hero-media article-hero-media-portrait">
+            <img
+              src={saiful}
+              alt="Saiful, SEO mentor and founder of SERP Mentor"
+              width="1024"
+              height="1024"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What you'll walk away with</h2>
+              <p>Direction you can act on, session by session</p>
+            </div>
+          </div>
+          <div class="feature-grid feature-grid-4">
+            {
+              gains.map((item) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={item.icon} aria-hidden="true" /></span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="split-layout">
+            <div class="story-copy">
+              <h2>How it works</h2>
+              <p>
+                No recordings to sit through. Every session is live, on your real site, working
+                through the decision in front of you, then a short action list to run before we
+                talk again.
+              </p>
+              <div class="hero-actions">
+                <a href="/contact" class="button">Book an intro call</a>
+                <a href={waCoaching} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+                </a>
+              </div>
+            </div>
+            <div class="office-list">
+              {
+                format.map((row) => (
+                  <div class="office-card">
+                    <i class="fa-solid fa-circle-check" aria-hidden="true" />
+                    <div>
+                      <strong>{row.label}</strong>
+                      <span>{row.value}</span>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="cta-panel" style="max-width:820px; margin:0 auto;">
+            <h2>Who it's for</h2>
+            <ul class="check-list">
+              {forWho.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <SeoForecast
+        heading="What people typically build in six months of coaching"
+        intro="Coaching is you doing the work with a second set of expert eyes each week. This projects the trajectory for a solo operator or in-house marketer publishing consistently and acting on the direction from each session. It moves slower than a done-for-you engagement, and the skills stay with you."
+        seriesLabel="Projected organic sessions per month (your site)"
+        unit="sessions"
+        points={[400, 520, 700, 980, 1400, 1950, 2600, 3300, 4000, 4600, 5100, 5400]}
+        convRate={0.018}
+        convLabel="Email signups"
+        timing="Strategy usually clicks in the first two or three sessions; the traffic follows the content you ship after that."
+        assumptions={[
+          "A small existing site starting at ~400 organic sessions per month",
+          "Weekly or fortnightly 1:1 sessions, with you doing the execution between them",
+          "Roughly four well-researched pages published per month",
+          "A 1.8% email-signup conversion rate on that traffic",
+        ]}
+      />
+
+      <Faq items={faqs} />
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="max-width:820px; margin:0 auto; text-align:center;">
+            <h2>Start with an intro call</h2>
+            <p>
+              Tell me where your site is and what you're stuck on. If coaching isn't the right
+              fit, I'll say so and point you somewhere better.
+            </p>
+            <div class="hero-actions" style="justify-content:center;">
+              <a href="/contact" class="button">Book an intro call</a>
+              <a href={waCoaching} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

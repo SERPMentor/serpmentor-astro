@@ -1,0 +1,89 @@
+---
+/**
+ * Newsletter signup. Posts to Formspree (see src/lib/site.ts).
+ * Falls back to a friendly message until an endpoint is configured.
+ */
+import { FORMSPREE } from "../lib/site";
+
+interface Props {
+  /** stacked layout for narrow sidebars */
+  compact?: boolean;
+  cta?: string;
+  placeholder?: string;
+}
+
+const { compact = false, cta = "Subscribe free", placeholder = "you@example.com" } =
+  Astro.props;
+---
+
+<form
+  class:list={["newsletter-form", { "newsletter-form-compact": compact }]}
+  data-newsletter-form
+  data-endpoint={FORMSPREE.newsletter}
+  method="POST"
+  action={FORMSPREE.newsletter}
+>
+  <input
+    type="email"
+    name="email"
+    placeholder={placeholder}
+    aria-label="Email address"
+    required
+  />
+  <button type="submit" class="button">{cta}</button>
+  <p class="form-note" data-form-note hidden aria-live="polite"></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-newsletter-form]").forEach((form) => {
+    if (form.dataset.bound) return;
+    form.dataset.bound = "1";
+
+    const note = form.querySelector<HTMLElement>("[data-form-note]");
+    const btn = form.querySelector<HTMLButtonElement>("button");
+    const label = btn?.textContent ?? "Subscribe";
+    const endpoint = form.dataset.endpoint ?? "";
+    const live = endpoint.includes("formspree.io/f/") && !endpoint.includes("REPLACE_WITH");
+
+    const say = (msg: string) => {
+      if (!note) return;
+      note.hidden = false;
+      note.textContent = msg;
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[type="email"]');
+      const email = input?.value.trim();
+      if (!email) return;
+
+      if (!live) {
+        say("Newsletter signup isn’t connected yet. Check back soon.");
+        return;
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+      }
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: new FormData(form),
+        });
+        if (res.ok) {
+          window.location.href = "/newsletter-success";
+          return;
+        }
+        throw new Error(String(res.status));
+      } catch {
+        say("Something went wrong. Please try again, or email support@serpmentor.com.");
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = label;
+        }
+      }
+    });
+  });
+</script>

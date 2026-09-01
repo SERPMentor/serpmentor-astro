@@ -1,0 +1,15 @@
+---
+/**
+ * Emits one <script type="application/ld+json"> for a page's schema graph.
+ * Pass an array of schema.org nodes (see src/lib/schema.ts). They're wrapped in
+ * a @graph so Google reads them as one connected block.
+ */
+interface Props {
+  graph: unknown[];
+}
+
+const { graph } = Astro.props;
+const data = { "@context": "https://schema.org", "@graph": graph };
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />

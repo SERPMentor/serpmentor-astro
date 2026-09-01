@@ -1,6 +1,7 @@
 ---
 // Shared site footer. Edit the columns here once and every page updates.
 import SocialLinks from "./SocialLinks.astro";
+import { CONTACT, whatsappUrl } from "../lib/site";
 
 const year = new Date().getFullYear();
 
@@ -14,7 +15,7 @@ const socials = {
 <footer class="site-footer">
   <div class="container">
     <div class="footer-intro">
-      <a href="/" class="brand" aria-label="SERP Mentor — home">
+      <a href="/" class="brand" aria-label="SERP Mentor home">
         <img src="/logo.png" alt="SERP Mentor" width="873" height="140" />
       </a>
       <p>
@@ -39,6 +40,7 @@ const socials = {
         <h4>Services</h4>
         <ul>
           <li><a href="/services">SEO services &amp; pricing</a></li>
+          <li><a href="/website-design">Website design &amp; development</a></li>
           <li><a href="/hire-seo-specialist">Hire an SEO specialist</a></li>
           <li><a href="/local-seo-services">Local SEO</a></li>
           <li><a href="/coaching">SEO coaching</a></li>
@@ -58,7 +60,13 @@ const socials = {
       <div>
         <h4>Connect</h4>
         <ul>
-          <li><a href="/contact">Get in touch</a></li>
+          <li>
+            <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer">
+              WhatsApp {CONTACT.phoneDisplay}
+            </a>
+          </li>
+          <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
+          <li><a href="/contact">Contact form</a></li>
           <li><a href="/about">Meet the team</a></li>
         </ul>
         <SocialLinks socials={socials} label="Follow" />

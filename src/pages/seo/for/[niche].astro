@@ -1,0 +1,375 @@
+---
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import HeroTrustCard from "../../../components/HeroTrustCard.astro";
+import PageByline from "../../../components/PageByline.astro";
+import SeoForecast from "../../../components/SeoForecast.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { NICHES, type NicheKind } from "../../../lib/niches";
+import { nicheForecast, nichePlan } from "../../../lib/niche-forecast";
+import {
+  abs,
+  webPageNode,
+  breadcrumbNode,
+  serviceNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+export function getStaticPaths() {
+  return NICHES.map((n) => ({ params: { niche: n.slug }, props: { niche: n } }));
+}
+
+const { niche } = Astro.props;
+const L = niche.label.toLowerCase();
+
+const KIND_LABEL: Record<NicheKind, string> = {
+  local: "local service business",
+  pro: "practice",
+  content: "content site",
+  business: "business",
+};
+
+const intro: Record<NicheKind, string> = {
+  local: `Your best customers search when they need you now, and they rarely scroll past the first few results. We build and optimise websites for ${L} to own the map pack, the "near me" searches, and the phone call that follows.`,
+  pro: `Clients choose a ${KIND_LABEL[niche.kind]} they trust, and they decide before the first call. We build and optimise websites for ${L} that rank for the services you offer and turn the visit into a booked consultation.`,
+  content: `Traffic is the whole business model in ${L}. We build the content architecture, technical foundation and authority signals that rank you in Google and get you cited in AI answers.`,
+  business: `Organic search should be a predictable channel, not a lottery. We give ${L} the technical foundation, page structure and content engine to compound traffic and revenue quarter over quarter.`,
+};
+
+const whyHeading: Record<NicheKind, string> = {
+  local: `Why ${L} live and die by local search`,
+  pro: `Why search decides which ${L} get the call`,
+  content: `Why ${L} rise and fall on SEO`,
+  business: `Why organic search is the channel that scales`,
+};
+
+const doItems: Record<NicheKind, { icon: string; title: string; text: string }[]> = {
+  local: [
+    { icon: "fa-solid fa-map-location-dot", title: "Local pack & Google Business Profile", text: "Full profile optimisation, categories, services, photos and a review workflow so you show up in the three-result block." },
+    { icon: "fa-solid fa-location-dot", title: "City & service pages", text: "A page for every service in every area you cover, written to rank, not spun. This is where most of the traffic comes from." },
+    { icon: "fa-solid fa-list-check", title: "Citations & consistency", text: "Name, address and phone consistent everywhere, core directories built, wrong and duplicate listings cleaned up." },
+    { icon: "fa-solid fa-gauge-high", title: "Fast, mobile, quote-first", text: "A site that loads instantly on a phone, with click-to-call and a quote form above the fold on every page." },
+  ],
+  pro: [
+    { icon: "fa-solid fa-folder-tree", title: "Service & condition pages", text: "A dedicated page for each service or condition you handle, matching how clients actually search." },
+    { icon: "fa-solid fa-id-card", title: "Credibility signals", text: "Real bios, credentials, accreditations, case results and reviews, structured so search engines and clients both read them." },
+    { icon: "fa-solid fa-calendar-check", title: "Booking without friction", text: "A booking or enquiry flow that takes two clicks, on desktop and mobile." },
+    { icon: "fa-solid fa-shield-halved", title: "E-E-A-T & local trust", text: "The experience, expertise and trust signals Google's raters look for, plus Google Business Profile for local intent." },
+  ],
+  content: [
+    { icon: "fa-solid fa-sitemap", title: "Content architecture", text: "Pillar and cluster structure with internal linking that tells Google you own the topic." },
+    { icon: "fa-solid fa-bolt", title: "Technical & Core Web Vitals", text: "Fast, clean templates that stay quick as the archive grows to thousands of URLs." },
+    { icon: "fa-solid fa-user-pen", title: "Author & entity authority", text: "Named authors with real credentials, an about page, and the entity signals that build topical trust." },
+    { icon: "fa-solid fa-robot", title: "AI citation optimisation", text: "Answer-first formatting, clear headings and structured data so your pages get lifted into AI answers." },
+  ],
+  business: [
+    { icon: "fa-solid fa-gears", title: "Technical foundation", text: "Crawl, index and rendering health, schema, and a clean URL and internal-link structure built to scale." },
+    { icon: "fa-solid fa-table-cells", title: "Money pages that rank", text: "Category, product, comparison and alternative pages structured to win bottom-of-funnel search." },
+    { icon: "fa-solid fa-layer-group", title: "Programmatic pages", text: "Templated pages for locations, integrations, use cases or categories, each carrying real, unique value." },
+    { icon: "fa-solid fa-chart-line", title: "Content engine & tracking", text: "A repeatable publishing process wired to analytics so you can see which content actually drives revenue." },
+  ],
+};
+
+const steps = [
+  { icon: "fa-solid fa-magnifying-glass", title: "Audit & keyword map", text: `We map every search ${L} customers run, see where you rank now, and find the gaps your competitors are winning.` },
+  { icon: "fa-solid fa-map", title: "Plan", text: "A prioritised roadmap: the pages to build, the fixes to make first, and the traffic each one is aimed at." },
+  { icon: "fa-solid fa-screwdriver-wrench", title: "Build & optimise", text: "We build the pages, fix the technical issues, and set up the tracking, either on your site or a new one." },
+  { icon: "fa-solid fa-arrow-trend-up", title: "Grow & report", text: "Ongoing content and links, with a monthly report in plain language tied to leads or revenue." },
+];
+
+const faqs = [
+  {
+    q: "How long until we see results?",
+    a: "New or low-competition pages often move within four to eight weeks. Competitive terms and a full build take three to six months to compound. We give you a realistic timeline after the audit.",
+  },
+  {
+    q: "Do you build the website or just do the SEO?",
+    a: "Either. We can optimise your current site, rebuild it SEO-first, or run ongoing SEO on a site you already have. The audit tells us which makes sense.",
+  },
+  {
+    q: "How is this priced?",
+    a: "There is no fixed price list. After a short call and a look at your site we quote a fixed project fee or a monthly retainer, based on what the work actually takes.",
+  },
+  {
+    q: niche.kind === "local"
+      ? "Can you help us rank in more than one town or city?"
+      : "Do you work with our existing team?",
+    a: niche.kind === "local"
+      ? "Yes. Multi-location and wide service areas are common. Each area gets its own optimised page and, where it helps, its own Google Business Profile."
+      : "Yes. We often act as the senior SEO lead directing your in-house content or dev team, or handle one track alongside another agency.",
+  },
+  {
+    q: `Do you have experience with ${L}?`,
+    a: `Yes. We have run SEO and built sites across home services, professional practices, publishers and online stores. The searches on this page come from real keyword research for ${L}, and the audit is tailored to your specific market.`,
+  },
+];
+
+const related = NICHES.filter((n) => n.kind === niche.kind && n.slug !== niche.slug).slice(0, 8);
+
+const forecast = nicheForecast(niche);
+const plan = nichePlan(niche);
+
+const pageUrl = abs(`/seo/for/${niche.slug}`);
+const isSite = niche.kind === "content" || niche.kind === "business";
+const title = `SEO for ${niche.label}: Rank Your ${isSite ? "Site" : "Business"} in ${new Date().getFullYear()} | SERP Mentor`;
+const kw = `${niche.keyword[0].toUpperCase()}${niche.keyword.slice(1)}`;
+const metaDescription = `${kw} from a team that does the work. We build and optimise websites for ${L} to rank in Google and AI search. ${niche.edge}`.slice(0, 300);
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: title,
+      description: metaDescription,
+      dateModified: new Date().toISOString(),
+    }),
+    ...BYLINE_REFS,
+  },
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "By industry", item: abs("/seo/for") },
+    { name: niche.label },
+  ]),
+  serviceNode({
+    url: pageUrl,
+    name: `SEO for ${niche.label}`,
+    description: metaDescription,
+    serviceType: "Search engine optimization",
+  }),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{title}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={`/seo/for/${niche.slug}`} />
+    <meta property="og:title" content={`SEO for ${niche.label} | SERP Mentor`} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header page-header-split" style="--topic: rgba(0,188,152,0.14); --topic-fg: #00a988;">
+        <div class="container">
+          <div>
+            <div class="breadcrumbs">
+              <a href="/">Home</a>
+              <span>›</span>
+              <a href="/seo">SEO</a>
+              <span>›</span>
+              <a href="/seo/for">By industry</a>
+              <span>›</span>
+              <span>{niche.label}</span>
+            </div>
+            <span class="card-icon pillar-icon"><i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i></span>
+            <p class="eyebrow">SEO by industry</p>
+            <h1>SEO for {niche.label}</h1>
+            <p class="pillar-intro">{intro[niche.kind]}</p>
+            <div class="hero-actions">
+              <a href="/contact" class="button">Get a free audit</a>
+              <a href={whatsappUrl(`Hi SERP Mentor, I'd like help with SEO for my ${L} website.`)} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+            <PageByline />
+          </div>
+          <HeroTrustCard />
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>{whyHeading[niche.kind]}</h2>
+            </div>
+          </div>
+          <div class="split-layout">
+            <div class="story-copy">
+              <p>{niche.edge}</p>
+              <p>
+                Get this right and organic search becomes your cheapest, most consistent source of
+                {niche.kind === "content" ? " traffic" : " new customers"}. Get it wrong and you pay
+                for every visit through ads instead.
+              </p>
+              <p>
+                The searches on the right are the demand. The three things below are what actually
+                get you in front of them.
+              </p>
+            </div>
+            <div class="story-copy">
+              <p class="package-label">What moves rankings for {L}</p>
+              <ul class="check-list">
+                {niche.moves.map((m) => <li>{m}</li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What your customers are searching</h2>
+              <p>Real query clusters for {L}, from keyword research. Every one is a page you can rank for.</p>
+            </div>
+          </div>
+          <div class="cluster-grid">
+            {
+              niche.clusters.map((c) => (
+                <div class="cluster-card">
+                  <h3>{c.name}</h3>
+                  <ul>
+                    {c.terms.map((t) => <li>{t}</li>)}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+          <p class="build-groups-note">
+            <code>[brackets]</code> stand in for the specific product, city or competitor a real searcher would type.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>What we do for {L}</h2>
+              <p>The work that actually moves rankings in this industry</p>
+            </div>
+          </div>
+          <div class="feature-grid feature-grid-4">
+            {
+              doItems[niche.kind].map((item) => (
+                <div class="feature-panel">
+                  <span class="card-icon"><i class={item.icon} aria-hidden="true" /></span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>How it works</h2>
+              <p>Four stages, one clear plan</p>
+            </div>
+            <a href="/website-design">See website & SEO services →</a>
+          </div>
+          <div class="feature-grid feature-grid-4">
+            {
+              steps.map((step, i) => (
+                <div class="feature-panel">
+                  <span class="step-number">{String(i + 1).padStart(2, "0")}</span>
+                  <h3><i class={step.icon} aria-hidden="true" /> {step.title}</h3>
+                  <p>{step.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Your first 12 months with {L}, mapped</h2>
+              <p>The plan we would run, and roughly when each part starts to pay off.</p>
+            </div>
+          </div>
+          <div class="feature-grid">
+            {
+              plan.map((phase) => (
+                <div class="feature-panel">
+                  <p class="eyebrow">{phase.when}</p>
+                  <h3>{phase.title}</h3>
+                  <p>{phase.summary}</p>
+                  <ul class="check-list">
+                    {phase.items.map((it) => <li>{it}</li>)}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <SeoForecast
+        heading={forecast.heading}
+        intro={forecast.intro}
+        seriesLabel={forecast.seriesLabel}
+        unit={forecast.unit}
+        points={forecast.points}
+        convRate={forecast.convRate}
+        convLabel={forecast.convLabel}
+        timing={forecast.timing}
+        assumptions={forecast.assumptions}
+        alt
+      />
+
+      <Faq items={faqs} />
+
+      {
+        related.length > 0 && (
+          <section class="section">
+            <div class="container">
+              <div class="section-heading">
+                <div>
+                  <h2>SEO for other industries</h2>
+                </div>
+                <a href="/seo/for">See all industries →</a>
+              </div>
+              <ul class="chip-list">
+                {related.map((r) => (
+                  <li><a href={`/seo/for/${r.slug}`}>{r.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )
+      }
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="max-width:820px; margin:0 auto; text-align:center;">
+            <h2>See where your site stands</h2>
+            <p>
+              Send your website and the areas or topics you want to rank for. We'll come back with
+              the gaps, the opportunities, and the fastest route to more traffic. No obligation.
+            </p>
+            <div class="hero-actions" style="justify-content:center;">
+              <a href="/contact" class="button">Get a free audit</a>
+              <a href={whatsappUrl(`Hi SERP Mentor, I'd like an SEO audit for my ${L} website.`)} class="button-secondary" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

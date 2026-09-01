@@ -65,18 +65,31 @@ async function fromWordPress() {
   const cats = json?.data?.categories?.nodes ?? [];
   if (!posts.length) throw new Error("no posts returned");
 
-  const catSlugs = cats.filter((c) => c.count).map((c) => `/${c.slug}`);
+  const BACKLINKS_CATS = new Set(["seo-backlinks", "backlinks", "link-building"]);
+
+  const catSlugs = cats
+    .filter((c) => c.count && !BACKLINKS_CATS.has(c.slug)) // backlinks -> /seo/backlinks
+    .map((c) => `/${c.slug}`);
 
   const postLines = ["\n# old flat post URLs -> category-nested"];
   for (const n of posts) {
     if (HIDE.has(n.slug)) continue;
     const cat = n.categories?.nodes?.[0]?.slug ?? "articles";
-    const to = `/${cat}/${n.slug}`;
+    // link-building posts nest under the backlinks pillar
+    const to = BACKLINKS_CATS.has(cat) ? `/seo/backlinks/${n.slug}` : `/${cat}/${n.slug}`;
     postLines.push(`/${n.slug}    ${to}    301`);
     postLines.push(`/${n.slug}/   ${to}    301`);
     postLines.push(`/blog/${n.slug}    ${to}    301`);
     postLines.push(`/blog/${n.slug}/   ${to}    301`);
+    if (BACKLINKS_CATS.has(cat)) {
+      // and the interim /seo-backlinks/{slug} URLs
+      postLines.push(`/seo-backlinks/${n.slug}    ${to}    301`);
+      postLines.push(`/seo-backlinks/${n.slug}/   ${to}    301`);
+    }
   }
+  // catch-all for the old /seo-backlinks archive and anything under it
+  postLines.push("/seo-backlinks    /seo/backlinks    301");
+  postLines.push("/seo-backlinks/*    /seo/backlinks/:splat    301");
 
   return { postBlock: postLines.join("\n") + "\n", catSlugs };
 }

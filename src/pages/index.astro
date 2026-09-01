@@ -4,25 +4,65 @@ import Favicons from "../components/Favicons.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import PostCard from "../components/PostCard.astro";
-import { getAllPosts, getCategories, categoryPath } from "../lib/posts";
+import NewsletterForm from "../components/NewsletterForm.astro";
+import TeamSpotlight from "../components/TeamSpotlight.astro";
+import { getAllPosts, getCategories, categoryPath, postPath } from "../lib/posts";
 import { getPillars, pillarPath } from "../lib/pillars";
+import { guidesGrouped, guidePath } from "../lib/seo-guides";
+import { TEAM, TESTIMONIALS } from "../lib/team";
+import { localImage } from "../lib/images";
+import JsonLd from "../components/JsonLd.astro";
+import { abs, webPageNode, itemListNode, SITE_ID } from "../lib/schema";
 
 const allPosts = await getAllPosts();
 const posts = allPosts.slice(0, 6);
 const categories = (await getCategories()).slice(0, 6);
 const pillars = getPillars("seo");
+const guideGroups = guidesGrouped();
+const guideTotal = guideGroups.reduce((n, g) => n + g.guides.length, 0);
+
+const guideCount = Math.floor(allPosts.length / 5) * 5; // e.g. 20 -> "20+"
+const trustAvatars = TEAM.slice(0, 5);
+
+// first sentence of each client testimonial, for the rotating hero quote
+const heroQuotes = TESTIMONIALS.map((t) => ({
+  quote: (t.quote.split(/(?<=[.!?])\s/)[0] || t.quote).replace(/\s+/g, " ").trim(),
+  name: t.name,
+  title: t.title,
+}));
+
+const homeUrl = abs("/");
+const homeGraph = [
+  {
+    ...webPageNode({
+      url: homeUrl,
+      name: "SERP Mentor | SEO, AI Search & Growth",
+      description:
+        "SERP Mentor helps brands grow with smarter SEO, AI search visibility, content systems that convert, and websites built to rank.",
+      hasBreadcrumb: false,
+    }),
+    about: { "@id": `${homeUrl}#organization` },
+    isPartOf: { "@id": SITE_ID },
+  },
+  itemListNode(
+    homeUrl,
+    posts.slice(0, 6).map((p) => ({ url: abs(postPath(p)), name: p.title })),
+    "Featured guides",
+  ),
+];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
     <title>SERP Mentor | SEO, AI Search & Growth</title>
     <meta
       name="description"
       content="SERP Mentor helps brands grow with smarter SEO, AI search visibility, and content systems that convert."
     />
+    <JsonLd graph={homeGraph} />
   </head>
   <body>
     <SiteHeader />
@@ -31,27 +71,58 @@ const pillars = getPillars("seo");
       <!-- Hero -->
       <section class="hero">
         <div class="container hero-grid">
-          <div>
-            <span class="eyebrow">SEO • AI • Growth Systems</span>
+          <div class="hero-copy">
             <h1>Learn how to win in the future of AI search</h1>
             <p>
-              Master SEO, AI visibility, and growth strategies through our comprehensive guides, tools, and frameworks.
-              From technical foundations to AI-first tactics.
+              Get the exact SEO strategies we use to grow sites in competitive niches. In-depth
+              guides. Free tools. Written from real client work, not recycled advice.
             </p>
             <div class="hero-actions">
-              <a href="/blog" class="button">Start with the guides</a>
+              <a href="/seo" class="button">Read the guides</a>
               <a href="/resources" class="button-secondary">Try the free tools</a>
+            </div>
+
+            <div class="hero-trust">
+              <div class="hero-rating">
+                <span class="hero-stars" aria-hidden="true">
+                  <i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" />
+                </span>
+                <span><strong>5.0</strong> from client reviews</span>
+              </div>
+              <div class="hero-trust-row">
+                <div class="hero-trust-avatars">
+                  {
+                    trustAvatars.map((m) => (
+                      <img src={localImage(m.image)} alt={m.name} width="40" height="40" loading="eager" />
+                    ))
+                  }
+                </div>
+                <p>
+                  <strong>{guideCount}+ in-depth guides</strong> · {TEAM.length} SEO specialists ·
+                  in SEO since 2007
+                </p>
+              </div>
             </div>
           </div>
 
-          {
-            posts[0] && (
-              <div class="hero-feature">
-                <span class="hero-feature-label">Latest guide</span>
-                <PostCard post={posts[0]} cta="Read the guide →" />
-              </div>
-            )
-          }
+          <div class="hero-side">
+            <TeamSpotlight />
+            <figure class="hero-quote" data-hero-quote>
+              {
+                heroQuotes.map((q, i) => (
+                  <blockquote data-hero-quote-slide hidden={i !== 0}>
+                    <span class="hero-quote-stars" aria-hidden="true">
+                      <i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" />
+                    </span>
+                    <p>“{q.quote}”</p>
+                    <figcaption>
+                      {q.name} · {q.title}
+                    </figcaption>
+                  </blockquote>
+                ))
+              }
+            </figure>
+          </div>
         </div>
       </section>
 
@@ -61,7 +132,7 @@ const pillars = getPillars("seo");
           <div class="section-heading">
             <div>
               <h2>Editor's Picks</h2>
-              <p>Our best articles, hand-picked</p>
+              <p>The guides our readers keep coming back to</p>
             </div>
             <a href="/blog">See all articles →</a>
           </div>
@@ -78,7 +149,7 @@ const pillars = getPillars("seo");
           <div class="section-heading">
             <div>
               <h2>Free SEO &amp; AI Tools</h2>
-              <p>Audit, check, and research for free</p>
+              <p>No signup. No credit card. Just run them.</p>
             </div>
             <a href="/resources" class="button-secondary">View all tools</a>
           </div>
@@ -124,7 +195,7 @@ const pillars = getPillars("seo");
           <div class="section-heading">
             <div>
               <h2>Latest How-To Guides</h2>
-              <p>Step-by-step SEO and AI search strategies</p>
+              <p>New step-by-step strategies, published every week</p>
             </div>
             <a href="/blog" class="button-secondary">View blog</a>
           </div>
@@ -141,7 +212,7 @@ const pillars = getPillars("seo");
           <div class="section-heading">
             <div>
               <h2>SEO pillars</h2>
-              <p>Complete learning paths, one topic at a time</p>
+              <p>Pick a topic. Follow the path. Start ranking.</p>
             </div>
             <a href="/seo">SEO overview →</a>
           </div>
@@ -173,13 +244,42 @@ const pillars = getPillars("seo");
         </div>
       </section>
 
+      <!-- Trending SEO topics -->
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <h2>Trending SEO topics</h2>
+              <p>{guideTotal} short guides on what is actually changing search right now</p>
+            </div>
+            <a href="/seo/guides">See all trending topics →</a>
+          </div>
+
+          <div class="trending-groups">
+            {
+              guideGroups.map((group) => (
+                <div class="trending-group">
+                  <h3>{group.label}</h3>
+                  <ul class="chip-list">
+                    {group.guides.map((g) => (
+                      <li><a href={guidePath(g)}>{g.title}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
       <!-- Services CTA -->
       <section class="section">
         <div class="container">
           <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
-            <h2>Ready to win search visibility?</h2>
+            <h2>Want us to do this for your site?</h2>
             <p>
-              Get a personalized SEO and AI visibility strategy. Our team analyzes your competitive landscape and builds a roadmap to sustainable growth.
+              We'll audit your site, size up your competition, and hand you a prioritized plan.
+              The exact work that will move your rankings first. Book a free call to see if we're a fit.
             </p>
             <div class="hero-actions" style="justify-content: center; margin-top: 0;">
               <a href="/services" class="button">View services</a>
@@ -194,42 +294,34 @@ const pillars = getPillars("seo");
         <div class="container">
           <div class="newsletter">
             <div>
-              <p class="eyebrow">Weekly research &amp; insights</p>
-              <h2>Get the SERP Mentor weekly brief.</h2>
-              <p>Algorithm changes, AI trends, ranking patterns, and practical SEO tactics. Delivered each Friday.</p>
+              <p class="eyebrow">The SERP Mentor brief</p>
+              <h2>One email. Every Friday. Zero fluff.</h2>
+              <p>What changed in search this week, what it means for your rankings, and the one thing to do about it.</p>
             </div>
-            <form class="newsletter-form" data-newsletter-form>
-              <input type="email" placeholder="you@example.com" aria-label="Email address" required />
-              <button type="submit" class="button">Subscribe free</button>
-            </form>
+            <NewsletterForm cta="Subscribe free" />
           </div>
         </div>
       </section>
     </main>
 
-    <script>
-      const forms = document.querySelectorAll('[data-newsletter-form]');
-      forms.forEach((form) => {
-        form.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const emailInput = form.querySelector('input[type="email"]');
-          const email = emailInput?.value?.trim();
-
-          if (!email) {
-            return;
-          }
-
-          const existing = JSON.parse(localStorage.getItem('serpmentor-subscribers') || '[]');
-          if (!existing.includes(email)) {
-            existing.push(email);
-            localStorage.setItem('serpmentor-subscribers', JSON.stringify(existing));
-          }
-
-          window.location.href = '/newsletter-success';
-        });
-      });
-    </script>
-
     <SiteFooter />
+
+    <script>
+      const wrap = document.querySelector<HTMLElement>("[data-hero-quote]");
+      if (wrap) {
+        const slides = Array.from(
+          wrap.querySelectorAll<HTMLElement>("[data-hero-quote-slide]"),
+        );
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (slides.length > 1 && !reduce) {
+          let n = 0;
+          setInterval(() => {
+            slides[n].hidden = true;
+            n = (n + 1) % slides.length;
+            slides[n].hidden = false;
+          }, 5000);
+        }
+      }
+    </script>
   </body>
 </html>

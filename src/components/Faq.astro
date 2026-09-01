@@ -1,0 +1,53 @@
+---
+/**
+ * FAQ block: accessible <details> accordion + FAQPage structured data so the
+ * questions can show as rich results in Google.
+ *
+ * <Faq title="Common questions" items={[{ q: "…", a: "…" }, …]} />
+ * Answers are plain text (kept simple so the JSON-LD stays valid).
+ */
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  title?: string;
+  /** set false to skip the JSON-LD (e.g. if the page already emits FAQ schema) */
+  schema?: boolean;
+}
+
+const { items, title = "Frequently asked questions", schema = true } = Astro.props;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+---
+
+<section class="section">
+  <div class="container faq-wrap">
+    <h2>{title}</h2>
+    <div class="faq-list">
+      {
+        items.map((item, i) => (
+          <details class="faq-item" name="faq" open={i === 0}>
+            <summary>
+              <span>{item.q}</span>
+              <i class="fa-solid fa-chevron-down" aria-hidden="true" />
+            </summary>
+            <p>{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+{schema && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

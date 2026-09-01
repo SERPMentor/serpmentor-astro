@@ -1,0 +1,339 @@
+---
+/**
+ * Command-palette search. Mounted once in the header, hidden until opened by:
+ *   - the header search button ([data-sp-open])
+ *   - Cmd/Ctrl + K
+ *   - "/" (when not typing in a field)
+ * Fetches /search-index.json on first open, then ranks and groups in the browser.
+ */
+---
+
+<div class="search-palette" data-search-palette hidden>
+  <div class="search-palette-backdrop" data-sp-backdrop></div>
+
+  <div class="search-palette-panel" role="dialog" aria-modal="true" aria-label="Search SERP Mentor">
+    <div class="search-palette-bar">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input
+        type="search"
+        class="search-palette-input"
+        data-sp-input
+        placeholder="SEO for website"
+        aria-label="Search pages, guides and tools"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button type="button" class="search-palette-close" data-sp-close aria-label="Close search">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="search-palette-filters" data-sp-filters>
+      <button type="button" class="is-active" data-sp-filter="all">All</button>
+      <button type="button" data-sp-filter="guide"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Guides</button>
+      <button type="button" data-sp-filter="pillar"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> SEO pillars</button>
+      <button type="button" data-sp-filter="industry"><i class="fa-solid fa-store" aria-hidden="true"></i> By industry</button>
+      <button type="button" data-sp-filter="service"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Services</button>
+      <button type="button" data-sp-filter="tool"><i class="fa-solid fa-toolbox" aria-hidden="true"></i> Tools</button>
+      <button type="button" data-sp-filter="category"><i class="fa-solid fa-folder" aria-hidden="true"></i> Archives</button>
+      <button type="button" data-sp-filter="page"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Pages</button>
+    </div>
+
+    <div class="search-palette-results" data-sp-results></div>
+
+    <div class="search-palette-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span class="search-palette-foot-sep">·</span>
+      <span><kbd>↵</kbd> open</span>
+      <span class="search-palette-foot-sep">·</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  type Item = {
+    type: "guide" | "pillar" | "category" | "industry" | "service" | "tool" | "page";
+    title: string;
+    url: string;
+    desc: string;
+    keywords: string;
+    date?: string;
+    ts?: number;
+  };
+
+  const GROUP_META: Record<Item["type"], { label: string; icon: string; weight: number }> = {
+    pillar: { label: "SEO pillars", icon: "fa-solid fa-layer-group", weight: 9 },
+    industry: { label: "SEO by industry", icon: "fa-solid fa-store", weight: 7 },
+    service: { label: "Services", icon: "fa-solid fa-briefcase", weight: 7 },
+    guide: { label: "Guides", icon: "fa-solid fa-book-open", weight: 5 },
+    category: { label: "Archives", icon: "fa-solid fa-folder", weight: 3 },
+    tool: { label: "Tools", icon: "fa-solid fa-toolbox", weight: 4 },
+    page: { label: "Pages", icon: "fa-solid fa-file-lines", weight: 1 },
+  };
+  const GROUP_ORDER: Item["type"][] = ["pillar", "guide", "industry", "service", "category", "tool", "page"];
+
+  // show the right modifier key in the header hint
+  if (!/Mac|iPhone|iPad/.test(navigator.platform)) {
+    document.querySelectorAll("[data-sp-mod]").forEach((el) => {
+      (el as HTMLElement).textContent = "Ctrl ";
+    });
+  }
+
+  const root = document.querySelector<HTMLElement>("[data-search-palette]");
+  if (root) {
+    const panel = root.querySelector<HTMLElement>(".search-palette-panel")!;
+    const input = root.querySelector<HTMLInputElement>("[data-sp-input]")!;
+    const resultsEl = root.querySelector<HTMLElement>("[data-sp-results]")!;
+    const filterEls = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-sp-filter]"));
+
+    let items: Item[] = [];
+    let loaded = false;
+    let loading = false;
+    let filter = "all";
+    let flat: HTMLAnchorElement[] = [];
+    let active = -1;
+
+    const esc = (s: string) =>
+      s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+    const reEsc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const subseq = (needle: string, hay: string) => {
+      let i = 0;
+      for (const ch of hay) if (ch === needle[i]) i++;
+      return i === needle.length;
+    };
+
+    function score(it: Item, terms: string[], raw: string): number {
+      const title = it.title.toLowerCase();
+      const hay = `${it.title} ${it.desc} ${it.keywords}`.toLowerCase();
+      let s = 0;
+
+      if (title === raw) s += 1000;
+      else if (title.startsWith(raw)) s += 420;
+      else if (title.includes(raw)) s += 200;
+      else if (hay.includes(raw)) s += 60;
+
+      let allTitle = true;
+      let allHay = true;
+      for (const t of terms) {
+        if (title.includes(t)) {
+          s += 44;
+          if (new RegExp(`\\b${reEsc(t)}`).test(title)) s += 14;
+        } else {
+          allTitle = false;
+        }
+        if (hay.includes(t)) {
+          s += 12;
+          if (new RegExp(`\\b${reEsc(t)}`).test(hay)) s += 5;
+        } else {
+          allHay = false;
+        }
+      }
+      if (allTitle && terms.length > 1) s += 70;
+
+      if (!allHay) {
+        if (subseq(raw.replace(/\s+/g, ""), title.replace(/\s+/g, ""))) s += 16;
+        else return 0;
+      }
+
+      s += GROUP_META[it.type].weight;
+      if (it.ts) {
+        const days = (Date.now() - it.ts) / 86400000;
+        s += Math.max(0, 8 - days / 45);
+      }
+      return s;
+    }
+
+    function search(q: string): { it: Item; s: number }[] {
+      const raw = q.trim().toLowerCase();
+      if (!raw) {
+        // default: a useful browse set
+        const picks = items.filter((i) => ["pillar", "service"].includes(i.type));
+        picks.push(...items.filter((i) => i.url === "/blog" || i.url === "/seo/for" || i.url === "/resources"));
+        return picks.map((it) => ({ it, s: GROUP_META[it.type].weight }));
+      }
+      const terms = raw.split(/\s+/).filter(Boolean);
+      return items
+        .map((it) => ({ it, s: score(it, terms, raw) }))
+        .filter((r) => r.s > 0)
+        .sort((a, b) => b.s - a.s);
+    }
+
+    function highlight(text: string, raw: string): string {
+      if (!raw) return esc(text);
+      const terms = raw.trim().split(/\s+/).filter(Boolean).map(reEsc);
+      if (!terms.length) return esc(text);
+      return esc(text).replace(new RegExp(`(${terms.join("|")})`, "gi"), "<mark>$1</mark>");
+    }
+
+    function render() {
+      const raw = input.value;
+      const ranked = search(raw);
+
+      const groups = new Map<Item["type"], { it: Item; s: number }[]>();
+      for (const r of ranked) {
+        if (filter !== "all" && r.it.type !== filter) continue;
+        if (!groups.has(r.it.type)) groups.set(r.it.type, []);
+        groups.get(r.it.type)!.push(r);
+      }
+
+      if (groups.size === 0) {
+        resultsEl.innerHTML = `<p class="search-palette-empty">No matches for “${esc(raw.trim())}”. Try a broader term.</p>`;
+        flat = [];
+        active = -1;
+        return;
+      }
+
+      const total = ranked.filter((r) => filter === "all" || r.it.type === filter).length;
+      let html = "";
+      // order groups by their best hit, so the most relevant group leads;
+      // GROUP_ORDER breaks ties (and orders the empty-query browse view)
+      const order =
+        filter !== "all"
+          ? [filter as Item["type"]]
+          : [...groups.keys()].sort((a, b) => {
+              const best = (t: Item["type"]) => groups.get(t)![0]?.s ?? 0;
+              return best(b) - best(a) || GROUP_ORDER.indexOf(a) - GROUP_ORDER.indexOf(b);
+            });
+      for (const type of order) {
+        const rows = groups.get(type);
+        if (!rows || !rows.length) continue;
+        const meta = GROUP_META[type];
+        const shown = filter === "all" ? rows.slice(0, 6) : rows.slice(0, 40);
+        html += `<div class="search-palette-group">
+          <p class="search-palette-group-head"><i class="${meta.icon}" aria-hidden="true"></i> ${meta.label}<span>${rows.length}</span></p>`;
+        for (const { it } of shown) {
+          html += `<a class="search-palette-hit" href="${it.url}">
+            <span class="search-palette-hit-icon"><i class="${meta.icon}" aria-hidden="true"></i></span>
+            <span class="search-palette-hit-text">
+              <span class="search-palette-hit-title">${highlight(it.title, raw)}</span>
+              <span class="search-palette-hit-sub">${it.url}</span>
+            </span>
+            <i class="fa-solid fa-arrow-right search-palette-hit-go" aria-hidden="true"></i>
+          </a>`;
+        }
+        if (filter === "all" && rows.length > shown.length) {
+          html += `<button type="button" class="search-palette-more" data-sp-more="${type}">Show ${rows.length - shown.length} more ${meta.label.toLowerCase()}</button>`;
+        }
+        html += `</div>`;
+      }
+      resultsEl.innerHTML = html;
+
+      resultsEl.querySelectorAll<HTMLButtonElement>("[data-sp-more]").forEach((b) => {
+        b.addEventListener("click", () => {
+          filter = b.dataset.spMore!;
+          syncFilters();
+          render();
+        });
+      });
+
+      flat = Array.from(resultsEl.querySelectorAll<HTMLAnchorElement>(".search-palette-hit"));
+      active = flat.length ? 0 : -1;
+      setActive(active);
+      void total;
+    }
+
+    function setActive(i: number) {
+      flat.forEach((el, n) => el.classList.toggle("is-active", n === i));
+      if (i >= 0 && flat[i]) flat[i].scrollIntoView({ block: "nearest" });
+      active = i;
+    }
+
+    function syncFilters() {
+      filterEls.forEach((el) => el.classList.toggle("is-active", el.dataset.spFilter === filter));
+    }
+
+    async function load() {
+      if (loaded || loading) return;
+      loading = true;
+      try {
+        items = await (await fetch("/search-index.json")).json();
+        loaded = true;
+      } catch {
+        resultsEl.innerHTML = `<p class="search-palette-empty">Couldn’t load search. Please refresh.</p>`;
+      }
+      loading = false;
+    }
+
+    async function open(prefill?: string) {
+      root.hidden = false;
+      document.documentElement.style.overflow = "hidden";
+      requestAnimationFrame(() => root.classList.add("is-open"));
+      await load();
+      if (prefill) input.value = prefill;
+      input.focus();
+      input.select();
+      render();
+    }
+
+    function close() {
+      root.classList.remove("is-open");
+      document.documentElement.style.overflow = "";
+      window.setTimeout(() => {
+        root.hidden = true;
+      }, 160);
+    }
+
+    input.addEventListener("input", render);
+
+    filterEls.forEach((el) => {
+      el.addEventListener("click", () => {
+        filter = el.dataset.spFilter!;
+        syncFilters();
+        render();
+        input.focus();
+      });
+    });
+
+    root.querySelector("[data-sp-close]")?.addEventListener("click", close);
+    root.querySelector("[data-sp-backdrop]")?.addEventListener("click", close);
+
+    panel.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActive(Math.min(active + 1, flat.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActive(Math.max(active - 1, 0));
+      } else if (e.key === "Enter") {
+        if (active >= 0 && flat[active]) {
+          e.preventDefault();
+          window.location.href = flat[active].href;
+        }
+      } else if (e.key === "Home") {
+        setActive(0);
+      } else if (e.key === "End") {
+        setActive(flat.length - 1);
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      const openKey = (e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey);
+      const target = e.target as HTMLElement;
+      const typing = /^(input|textarea|select)$/i.test(target.tagName) || target.isContentEditable;
+      if (openKey) {
+        e.preventDefault();
+        root.hidden ? open() : close();
+      } else if (e.key === "/" && !typing && root.hidden) {
+        e.preventDefault();
+        open();
+      } else if (e.key === "Escape" && !root.hidden) {
+        close();
+      }
+    });
+
+    document.querySelectorAll("[data-sp-open]").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        const q = new URLSearchParams(location.search).get("q");
+        open(location.pathname === "/search" && q ? q : "");
+      });
+    });
+
+    // /search page: open automatically (with any ?q=)
+    if (location.pathname === "/search") {
+      const q = new URLSearchParams(location.search).get("q") ?? "";
+      open(q);
+    }
+  }
+</script>

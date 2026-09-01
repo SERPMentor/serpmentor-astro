@@ -1,0 +1,38 @@
+---
+/**
+ * Compact trust card for the right side of service / industry page heroes.
+ * Star rating + a real client quote + the team, so a buyer scanning the hero
+ * has a reason to trust us before they read the pitch.
+ */
+import { TEAM, TESTIMONIALS } from "../lib/team";
+import { localImage } from "../lib/images";
+
+const avatars = TEAM.slice(0, 4);
+const more = TEAM.length - avatars.length;
+const t = TESTIMONIALS[0];
+const quote = (t.quote.split(/(?<=[.!?])\s/)[0] || t.quote).replace(/\s+/g, " ").trim();
+---
+
+<aside class="hero-trust-card" aria-label="Why clients trust SERP Mentor">
+  <div class="hero-trust-card-rating">
+    <span class="hero-stars" aria-hidden="true">
+      <i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" /><i class="fa-solid fa-star" />
+    </span>
+    <span><strong>5.0</strong> from client reviews</span>
+  </div>
+
+  <blockquote class="hero-trust-card-quote">
+    <p>“{quote}”</p>
+    <footer>{t.name}, {t.title}</footer>
+  </blockquote>
+
+  <div class="hero-trust-card-team">
+    <div class="hero-trust-card-avatars">
+      {avatars.map((m) => <img src={localImage(m.image)} alt={m.name} width="34" height="34" loading="eager" />)}
+      {more > 0 && <span class="hero-trust-card-more">+{more}</span>}
+    </div>
+    <p>{TEAM.length} SEO specialists · in the field since 2007</p>
+  </div>
+
+  <a href="/about" class="hero-trust-card-link">Meet the team <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+</aside>

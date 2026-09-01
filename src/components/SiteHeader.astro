@@ -1,43 +1,238 @@
 ---
-// Shared site header. Edit the nav here once and every page updates.
+// Shared site header with a desktop mega menu + mobile accordion drawer.
+// The menu content lives in src/lib/nav.ts — edit it there.
+import { NAV, navItemActive, isMega } from "../lib/nav";
+import SearchPalette from "./SearchPalette.astro";
+
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
-
-const links = [
-  { label: "Blog", href: "/blog" },
-  { label: "SEO", href: "/seo" },
-  { label: "Technical SEO", href: "/seo/tech" },
-  { label: "Link Building", href: "/seo/backlinks" },
-  { label: "AI Search", href: "/seo/ai-optimization" },
-  { label: "Tools", href: "/seo/tools" },
-  { label: "About", href: "/about" },
-];
-
-// Only the most specific matching link is marked current.
-const norm = (href: string) => href.replace(/\/+$/, "") || "/";
-const matches = links
-  .map((l) => norm(l.href))
-  .filter((h) => h !== "/" && (path === h || path.startsWith(h + "/")));
-const activeHref = matches.sort((a, b) => b.length - a.length)[0];
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-header>
   <div class="container">
-    <a href="/" class="brand" aria-label="SERP Mentor — home">
+    <a href="/" class="brand" aria-label="SERP Mentor home">
       <img src="/logo.png" alt="SERP Mentor" width="873" height="140" />
     </a>
 
-    <nav class="site-nav" aria-label="Main navigation">
-      {
-        links.map((link) => (
-          <a
-            href={link.href}
-            aria-current={norm(link.href) === activeHref ? "page" : undefined}
-          >
-            {link.label}
-          </a>
-        ))
-      }
-      <a href="/services" class="button nav-cta">Work with us</a>
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-nav-toggle
+    >
+      <span class="nav-toggle-box">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation" data-site-nav>
+      <ul class="nav-list">
+        {
+          NAV.map((item, i) => {
+            const active = navItemActive(item, path);
+            if (!isMega(item)) {
+              return (
+                <li class="nav-item">
+                  <a
+                    href={item.href}
+                    class="nav-link"
+                    aria-current={active ? "page" : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            }
+            const panelId = `mega-${i}`;
+            return (
+              <li class="nav-item has-mega" data-mega>
+                <button
+                  type="button"
+                  class="nav-link nav-trigger"
+                  aria-expanded="false"
+                  aria-controls={panelId}
+                  aria-haspopup="true"
+                  data-mega-trigger
+                  data-href={item.href}
+                  data-active={active ? "true" : undefined}
+                >
+                  {item.label}
+                  <i class="fa-solid fa-chevron-down nav-caret" aria-hidden="true" />
+                </button>
+
+                <div class="mega-panel" id={panelId} data-mega-panel>
+                  <div class="mega-inner">
+                    <div class="mega-cols">
+                      {item.columns!.map((col) => (
+                        <div class="mega-col">
+                          <p class="mega-col-heading">{col.heading}</p>
+                          <ul>
+                            {col.links.map((link) => (
+                              <li>
+                                <a href={link.href} class="mega-link">
+                                  {link.icon && (
+                                    <span class="mega-link-icon">
+                                      <i class={link.icon} aria-hidden="true" />
+                                    </span>
+                                  )}
+                                  <span class="mega-link-text">
+                                    <span class="mega-link-label">{link.label}</span>
+                                    {link.desc && (
+                                      <span class="mega-link-desc">{link.desc}</span>
+                                    )}
+                                  </span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+
+                    {item.promo && (
+                      <a class="mega-promo" href={item.promo.href}>
+                        <span class="mega-promo-eyebrow">{item.promo.eyebrow}</span>
+                        <span class="mega-promo-title">{item.promo.title}</span>
+                        <span class="mega-promo-cta">
+                          {item.promo.cta} <i class="fa-solid fa-arrow-right" aria-hidden="true" />
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/search" class="nav-search" data-sp-open aria-label="Search the site">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <span class="nav-search-label">Search</span>
+          <kbd class="nav-search-kbd" data-sp-kbd><span data-sp-mod>⌘</span>K</kbd>
+        </a>
+        <a href="/contact" class="button nav-cta">Work with us</a>
+      </div>
     </nav>
   </div>
+
+  <span class="nav-backdrop" data-nav-backdrop hidden></span>
 </header>
+
+<SearchPalette />
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const backdrop = document.querySelector<HTMLElement>("[data-nav-backdrop]");
+  const nav = document.querySelector<HTMLElement>("[data-site-nav]");
+  const megaItems = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-mega]"),
+  );
+  const desktop = window.matchMedia("(min-width: 921px)");
+
+  /* ---- mobile drawer ---- */
+  function setDrawer(open: boolean) {
+    if (!header || !toggle) return;
+    header.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    if (backdrop) backdrop.hidden = !open;
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    if (!open) closeAllMega();
+  }
+
+  /* ---- mega panels ---- */
+  let hoverTimer: number | undefined;
+
+  function closeMega(item: HTMLElement) {
+    item.classList.remove("is-open");
+    item.querySelector("[data-mega-trigger]")?.setAttribute("aria-expanded", "false");
+  }
+  function closeAllMega() {
+    megaItems.forEach(closeMega);
+  }
+  function openMega(item: HTMLElement) {
+    megaItems.forEach((other) => {
+      if (other !== item) closeMega(other);
+    });
+    item.classList.add("is-open");
+    item.querySelector("[data-mega-trigger]")?.setAttribute("aria-expanded", "true");
+  }
+
+  megaItems.forEach((item) => {
+    const trigger = item.querySelector<HTMLButtonElement>("[data-mega-trigger]");
+    trigger?.addEventListener("click", () => {
+      if (desktop.matches) {
+        // desktop: hover manages the panel; a click goes to the section page
+        const href = trigger.dataset.href;
+        if (href) window.location.href = href;
+        return;
+      }
+      // mobile: the click toggles the accordion
+      if (item.classList.contains("is-open")) closeMega(item);
+      else openMega(item);
+    });
+
+    // desktop: open on hover, close shortly after leaving
+    item.addEventListener("mouseenter", () => {
+      if (!desktop.matches) return;
+      window.clearTimeout(hoverTimer);
+      openMega(item);
+    });
+    item.addEventListener("mouseleave", () => {
+      if (!desktop.matches) return;
+      hoverTimer = window.setTimeout(() => closeMega(item), 140);
+    });
+    // keyboard: open on focus-in, and let ArrowDown move into the panel
+    trigger?.addEventListener("keydown", (e) => {
+      if (!desktop.matches) return;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        openMega(item);
+        item.querySelector<HTMLAnchorElement>(".mega-link")?.focus();
+      }
+    });
+    item.addEventListener("focusout", (e) => {
+      if (!desktop.matches) return;
+      if (!item.contains(e.relatedTarget as Node)) closeMega(item);
+    });
+  });
+
+  toggle?.addEventListener("click", () =>
+    setDrawer(!header?.classList.contains("nav-open")),
+  );
+  backdrop?.addEventListener("click", () => setDrawer(false));
+
+  // close the drawer / panels when a real link is followed
+  nav?.addEventListener("click", (e) => {
+    const link = (e.target as HTMLElement).closest("a");
+    if (link) {
+      setDrawer(false);
+      closeAllMega();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeAllMega();
+      setDrawer(false);
+    }
+  });
+
+  // click outside a panel closes it (desktop)
+  document.addEventListener("click", (e) => {
+    if (!desktop.matches) return;
+    const inside = (e.target as HTMLElement).closest("[data-mega]");
+    if (!inside) closeAllMega();
+  });
+
+  desktop.addEventListener("change", () => {
+    closeAllMega();
+    setDrawer(false);
+  });
+</script>

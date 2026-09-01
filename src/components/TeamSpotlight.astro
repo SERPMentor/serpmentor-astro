@@ -1,0 +1,119 @@
+---
+/**
+ * Rotating "the team behind every guide" card for the homepage hero.
+ * Cycles through TEAM (Saiful first), auto-advancing with a fade. Prev/next
+ * buttons + dots; pauses on hover/focus and respects reduced-motion.
+ */
+import { TEAM } from "../lib/team";
+import { localImage } from "../lib/images";
+import SocialLinks from "./SocialLinks.astro";
+
+const members = TEAM;
+---
+
+<aside class="team-spotlight" data-team-spotlight aria-label="The SERP Mentor team">
+  <p class="team-spotlight-label">The team behind every guide</p>
+
+  <div class="team-spotlight-stage">
+    {
+      members.map((m, i) => (
+        <figure class="team-slide" data-slide data-i={i} hidden={i !== 0}>
+          <img
+            src={localImage(m.image)}
+            alt={m.name}
+            width="160"
+            height="160"
+            loading={i === 0 ? "eager" : "lazy"}
+          />
+          <figcaption>
+            <strong>{m.name}</strong>
+            <span class="team-slide-role">{m.role}</span>
+            {m.focus && <span class="team-slide-focus">{m.focus}</span>}
+            {m.linkedin && (
+              <SocialLinks socials={{ linkedin: m.linkedin }} />
+            )}
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+
+  <div class="team-spotlight-nav">
+    <button type="button" class="team-spotlight-arrow" data-prev aria-label="Previous team member">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="team-spotlight-dots" role="tablist">
+      {
+        members.map((m, i) => (
+          <button
+            type="button"
+            class="team-spotlight-dot"
+            data-dot
+            data-i={i}
+            aria-label={`Show ${m.name}`}
+            aria-selected={i === 0 ? "true" : "false"}
+          />
+        ))
+      }
+    </div>
+    <button type="button" class="team-spotlight-arrow" data-next aria-label="Next team member">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+  </div>
+</aside>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-team-spotlight]");
+  if (root) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-slide]"));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-dot]"));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let i = 0;
+    let timer: number | undefined;
+
+    function show(next: number) {
+      i = (next + slides.length) % slides.length;
+      slides.forEach((s, n) => (s.hidden = n !== i));
+      dots.forEach((d, n) => d.setAttribute("aria-selected", String(n === i)));
+    }
+    function advance() {
+      show(i + 1);
+    }
+    let started = false;
+    function play() {
+      if (reduce) return;
+      stop();
+      // let the first member (Saiful) sit a little longer on load
+      const first = !started;
+      started = true;
+      timer = window.setTimeout(function tick() {
+        advance();
+        timer = window.setTimeout(tick, 4200);
+      }, first ? 6500 : 4200);
+    }
+    function stop() {
+      if (timer) window.clearTimeout(timer);
+    }
+
+    root.querySelector("[data-prev]")?.addEventListener("click", () => {
+      show(i - 1);
+      play();
+    });
+    root.querySelector("[data-next]")?.addEventListener("click", () => {
+      show(i + 1);
+      play();
+    });
+    dots.forEach((d) =>
+      d.addEventListener("click", () => {
+        show(Number(d.dataset.i));
+        play();
+      }),
+    );
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", play);
+    root.addEventListener("focusin", stop);
+    root.addEventListener("focusout", play);
+
+    play();
+  }
+</script>

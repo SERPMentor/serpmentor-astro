@@ -4,25 +4,56 @@ import Favicons from "../../components/Favicons.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import PostCard from "../../components/PostCard.astro";
-import { getAllPosts, getCategories, categoryPath } from "../../lib/posts";
+import NewsletterForm from "../../components/NewsletterForm.astro";
+import { getAllPosts, getCategories, categoryPath, postPath } from "../../lib/posts";
+import JsonLd from "../../components/JsonLd.astro";
+import { abs, webPageNode, breadcrumbNode, itemListNode, ORG_ID } from "../../lib/schema";
 
 const posts = await getAllPosts();
 const categories = await getCategories();
 
 const featured = posts[0] ?? null;
 const archive = posts.slice(1);
+
+const pageUrl = abs("/blog");
+const blogDescription =
+  "Learn practical SEO, content strategy, AI search visibility, and growth systems from SERP Mentor.";
+const graph = [
+  webPageNode({
+    url: pageUrl,
+    name: "SEO Blog | SERP Mentor",
+    description: blogDescription,
+    type: "CollectionPage",
+  }),
+  {
+    "@type": "Blog",
+    "@id": `${pageUrl}#blog`,
+    name: "SERP Mentor Blog",
+    description: blogDescription,
+    url: pageUrl,
+    isPartOf: { "@id": `${pageUrl}#webpage` },
+    publisher: { "@id": ORG_ID },
+  },
+  breadcrumbNode(pageUrl, [{ name: "Home", item: abs("/") }, { name: "Blog" }]),
+  itemListNode(
+    pageUrl,
+    posts.slice(0, 20).map((p) => ({ url: abs(postPath(p)), name: p.title })),
+    "Latest articles",
+  ),
+];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
     <title>SEO Blog | SERP Mentor</title>
     <meta
       name="description"
       content="Learn practical SEO, content strategy, AI search visibility, and growth systems from SERP Mentor."
     />
+    <JsonLd graph={graph} />
   </head>
   <body>
     <SiteHeader />
@@ -79,10 +110,7 @@ const archive = posts.slice(1);
             <div class="sidebar-panel">
               <h4>Newsletter</h4>
               <p>Get practical SEO ideas every week.</p>
-              <form class="newsletter-form" data-newsletter-form style="display: grid; gap: 0.75rem;">
-                <input type="email" placeholder="Email address" aria-label="Email address" required />
-                <button type="submit" class="button">Join now</button>
-              </form>
+              <NewsletterForm cta="Join now" placeholder="Email address" />
             </div>
           </aside>
         </div>
@@ -90,28 +118,5 @@ const archive = posts.slice(1);
     </main>
 
     <SiteFooter />
-
-    <script>
-      const forms = document.querySelectorAll('[data-newsletter-form]');
-      forms.forEach((form) => {
-        form.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const emailInput = form.querySelector('input[type="email"]');
-          const email = emailInput?.value?.trim();
-
-          if (!email) {
-            return;
-          }
-
-          const existing = JSON.parse(localStorage.getItem('serpmentor-subscribers') || '[]');
-          if (!existing.includes(email)) {
-            existing.push(email);
-            localStorage.setItem('serpmentor-subscribers', JSON.stringify(existing));
-          }
-
-          window.location.href = '/newsletter-success';
-        });
-      });
-    </script>
   </body>
 </html>

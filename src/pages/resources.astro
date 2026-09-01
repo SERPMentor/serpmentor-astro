@@ -3,6 +3,21 @@ import "../styles/global.css";
 import Favicons from "../components/Favicons.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import NewsletterForm from "../components/NewsletterForm.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { abs, webPageNode, breadcrumbNode } from "../lib/schema";
+
+const resUrl = abs("/resources");
+const resGraph = [
+  webPageNode({
+    url: resUrl,
+    name: "Free SEO Tools, Checkers & Frameworks | SERP Mentor",
+    description:
+      "Free SEO and AI-visibility checkers, plus the checklists and planning frameworks SERP Mentor uses on real client work.",
+    type: "CollectionPage",
+  }),
+  breadcrumbNode(resUrl, [{ name: "Home", item: abs("/") }, { name: "Free tools" }]),
+];
 
 const checkers = [
   {
@@ -10,7 +25,7 @@ const checkers = [
     color: "#00a988",
     soft: "rgba(0, 188, 152, 0.14)",
     title: "SEO Audit Checker",
-    text: "Scan any URL for the on-page and technical signals that decide whether it can rank — titles, headings, canonicals, indexability, Core Web Vitals.",
+    text: "Scan any URL for the on-page and technical signals that decide whether it can rank: titles, headings, canonicals, indexability, Core Web Vitals.",
   },
   {
     icon: "fa-solid fa-robot",
@@ -38,14 +53,14 @@ const checkers = [
     color: "#b97d02",
     soft: "rgba(247, 170, 4, 0.16)",
     title: "Authority Score Checker",
-    text: "A quick read on a domain's strength and link quality — useful before you pitch a guest post or evaluate a prospect.",
+    text: "A quick read on a domain's strength and link quality. Useful before you pitch a guest post or evaluate a prospect.",
   },
   {
     icon: "fa-solid fa-arrow-trend-up",
     color: "#009a7c",
     soft: "rgba(0, 187, 113, 0.14)",
     title: "Rank Tracker",
-    text: "Watch a set of keywords move over time in classic results — and increasingly in AI answers.",
+    text: "Watch a set of keywords move over time in classic results, and increasingly in AI answers.",
   },
 ];
 
@@ -53,7 +68,7 @@ const frameworks = [
   {
     icon: "fa-solid fa-list-check",
     title: "SEO starter checklist",
-    text: "The technical and content foundations to fix before you scale — one pass, an afternoon of work.",
+    text: "The technical and content foundations to fix before you scale. One pass, an afternoon of work.",
   },
   {
     icon: "fa-solid fa-diagram-project",
@@ -68,7 +83,7 @@ const frameworks = [
   {
     icon: "fa-solid fa-scale-balanced",
     title: "Tool comparison matrix",
-    text: "Score SEO platforms on real workflow value — keyword research, crawling, content, tracking — not feature counts.",
+    text: "Score SEO platforms on real workflow value (keyword research, crawling, content, tracking), not feature counts.",
   },
 ];
 ---
@@ -76,7 +91,7 @@ const frameworks = [
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
     <title>Free SEO Tools, Checkers & Frameworks | SERP Mentor</title>
     <meta
@@ -89,6 +104,7 @@ const frameworks = [
       property="og:description"
       content="Free SEO and AI-visibility checkers, plus the checklists and planning frameworks we use on real client work."
     />
+    <JsonLd graph={resGraph} />
   </head>
   <body>
     <SiteHeader />
@@ -105,8 +121,8 @@ const frameworks = [
           <p class="eyebrow">Free resources</p>
           <h1>Free SEO tools & frameworks</h1>
           <p class="pillar-intro">
-            The checkers, checklists and planning frameworks we actually use on client work —
-            free, no signup, no drip campaign.
+            The exact checkers, checklists and planning frameworks we use on client work. Free.
+            No signup. No drip campaign.
           </p>
           <div class="hero-stats">
             <span class="hero-stat"><strong>{checkers.length}</strong> free checkers</span>
@@ -174,34 +190,13 @@ const frameworks = [
             <div>
               <p class="eyebrow">Weekly research &amp; insights</p>
               <h2>Get new tools and frameworks first.</h2>
-              <p>One email each Friday — what changed in search, and what to do about it.</p>
+              <p>One email each Friday: what changed in search, and what to do about it.</p>
             </div>
-            <form class="newsletter-form" data-newsletter-form>
-              <input type="email" placeholder="you@example.com" aria-label="Email address" required />
-              <button type="submit" class="button">Subscribe free</button>
-            </form>
+            <NewsletterForm cta="Subscribe free" />
           </div>
         </div>
       </section>
     </main>
-
-    <script>
-      document.querySelectorAll('[data-newsletter-form]').forEach((form) => {
-        form.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const input = form.querySelector('input[type="email"]');
-          const email = input && 'value' in input ? String(input.value).trim() : '';
-          if (!email) return;
-          try {
-            const key = 'serpmentor-subscribers';
-            const list = JSON.parse(localStorage.getItem(key) || '[]');
-            if (!list.includes(email)) list.push(email);
-            localStorage.setItem(key, JSON.stringify(list));
-          } catch {}
-          window.location.href = '/newsletter-success';
-        });
-      });
-    </script>
 
     <SiteFooter />
   </body>

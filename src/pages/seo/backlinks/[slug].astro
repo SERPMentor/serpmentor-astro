@@ -1,0 +1,17 @@
+---
+// Link-building posts nested under the backlinks pillar: /seo/backlinks/{slug}.
+// (The pillar hub itself is /seo/backlinks, from src/pages/seo/[pillar].astro.)
+import PostArticle from "../../../components/PostArticle.astro";
+import { getAllPosts, primaryCategory, isBacklinksCategory } from "../../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts
+    .filter((post) => isBacklinksCategory(primaryCategory(post).slug))
+    .map((post) => ({ params: { slug: post.slug }, props: { listPost: post } }));
+}
+
+const { listPost } = Astro.props;
+---
+
+<PostArticle listPost={listPost} />

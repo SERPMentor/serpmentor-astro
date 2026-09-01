@@ -10,6 +10,8 @@ import { getSitePages, pagePath, type SitePage } from "../lib/pages";
 import { WP_URL } from "../lib/posts";
 import { sanitizePageContent, firstImage } from "../lib/content";
 import { localImage, localiseImages } from "../lib/images";
+import JsonLd from "../components/JsonLd.astro";
+import { abs, webPageNode, breadcrumbNode } from "../lib/schema";
 
 export async function getStaticPaths() {
   const pages = getSitePages();
@@ -68,12 +70,28 @@ const updated = modified
       day: "numeric",
     })
   : null;
+
+const pageUrl = abs(pagePath(page));
+const graph = [
+  webPageNode({
+    url: pageUrl,
+    name: `${page.metaTitle} | SERP Mentor`,
+    description: page.description,
+    type: "WebPage",
+    image: hero ? abs(hero.src) : undefined,
+    dateModified: modified ? new Date(modified).toISOString() : undefined,
+  }),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: page.label },
+  ]),
+];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Favicons />
     <title>{page.metaTitle} | SERP Mentor</title>
     <meta name="description" content={page.description} />
@@ -82,6 +100,7 @@ const updated = modified
     <meta property="og:title" content={`${page.metaTitle} | SERP Mentor`} />
     <meta property="og:description" content={page.description} />
     {hero && <meta property="og:image" content={hero.src} />}
+    <JsonLd graph={graph} />
   </head>
   <body>
     <SiteHeader />

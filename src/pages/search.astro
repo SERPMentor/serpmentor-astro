@@ -1,0 +1,53 @@
+---
+import "../styles/global.css";
+import Favicons from "../components/Favicons.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { PILLARS, pillarPath } from "../lib/pillars";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>Search | SERP Mentor</title>
+    <meta name="description" content="Search every SERP Mentor guide, pillar, industry page and tool." />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="/search" />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section class="page-header">
+        <div class="container">
+          <p class="eyebrow">Search</p>
+          <h1>Find what you need</h1>
+          <p class="pillar-intro">
+            The search box is open. Start typing, or press <kbd>Ctrl</kbd> / <kbd>⌘</kbd> +
+            <kbd>K</kbd> anywhere on the site to bring it up again.
+          </p>
+          <div class="hero-actions">
+            <button type="button" class="button" data-sp-open>Open search</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <div><h2>Or start from a pillar</h2></div>
+          </div>
+          <div class="category-pills">
+            <a href="/blog">All guides</a>
+            <a href="/seo/for">SEO by industry</a>
+            {PILLARS.map((p) => <a href={pillarPath(p)}>{p.name}</a>)}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

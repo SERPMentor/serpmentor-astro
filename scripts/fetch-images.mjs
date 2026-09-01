@@ -27,11 +27,12 @@ const isImageUrl = (u) =>
 async function collectUrls() {
   const urls = new Set();
 
-  // 1. hard-coded refs in the data files
+  // 1. hard-coded refs in the data files + hand-built pages that embed an image
   for (const file of [
     "src/lib/team.ts",
     "src/lib/authors.ts",
     "src/pages/about.astro",
+    "src/pages/coaching.astro",
   ]) {
     try {
       const text = await readFile(path.join(ROOT, file), "utf8");
