@@ -134,6 +134,15 @@ export const GET: APIRoute = async () => {
   });
   items.push({
     type: "guide",
+    title: "Pet Posting Sites: 100 Places to Publish",
+    url: "/seo/backlinks/pet-posting-sites",
+    desc: "100 live pet, dog, cat and animal-care sites for guest posts and expert contributions, with Domain Rating, Domain Authority, traffic and Spam Score.",
+    keywords:
+      "pet posting sites dog blog guest post sites cat sites that accept guest posts write for us pet animal care vet reviewed pet media chewy petmd dogster link building",
+    ts: Date.parse("2026-09-01"),
+  });
+  items.push({
+    type: "guide",
     title: "iGaming Posting Sites: 100 Places to Publish",
     url: "/seo/backlinks/igaming-posting-sites",
     desc: "100 live iGaming, casino, poker and betting sites for guest posts, contributed analysis and industry news, with Domain Rating, Domain Authority and traffic.",

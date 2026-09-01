@@ -35,6 +35,7 @@ const STATIC_PATHS = [
   { path: "/seo/backlinks/cybersecurity-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/seo/backlinks/italy-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/seo/backlinks/igaming-posting-sites", priority: "0.7", changefreq: "monthly" },
+  { path: "/seo/backlinks/pet-posting-sites", priority: "0.7", changefreq: "monthly" },
   { path: "/about", priority: "0.6", changefreq: "monthly" },
   { path: "/contact", priority: "0.6", changefreq: "yearly" },
 ];

@@ -1,0 +1,395 @@
+---
+// Hand-built post: /seo/backlinks/pet-posting-sites
+// NOTE: built Sep 2026; every domain HTTP-checked. DR, traffic and Spam Score
+// follow the owner's export; DA/PA/UR are derived. ~22 domains from the export
+// that had shut down, been parked or merged into another brand were swapped for
+// live pet-media equivalents.
+import "../../../styles/global.css";
+import Favicons from "../../../components/Favicons.astro";
+import SiteHeader from "../../../components/SiteHeader.astro";
+import SiteFooter from "../../../components/SiteFooter.astro";
+import Faq from "../../../components/Faq.astro";
+import PageByline from "../../../components/PageByline.astro";
+import JsonLd from "../../../components/JsonLd.astro";
+import { whatsappUrl } from "../../../lib/site";
+import { TEAM } from "../../../lib/team";
+import {
+  abs,
+  webPageNode,
+  articleNode,
+  breadcrumbNode,
+  bylinePersonNodes,
+  BYLINE_REFS,
+} from "../../../lib/schema";
+
+const pageUrl = abs("/seo/backlinks/pet-posting-sites");
+const title = "Pet Posting Sites: 100 Places to Publish";
+const metaTitle = "100 Pet & Dog Guest Post Sites (2026) | SERP Mentor";
+const metaDescription =
+  "100 live pet, dog, cat and animal-care sites for guest posts and expert contributions, with Domain Rating, Domain Authority, traffic and Spam Score.";
+const intro =
+  "One hundred pet sites that publish outside contributions: major pet-media brands, dog and cat verticals, vet and pet-insurance resources, and enthusiast blogs. Pick the tier that fits what you can offer an editor.";
+
+const writer = TEAM.find((mem) => mem.name.toLowerCase().includes("alif"));
+const published = "2026-09-01T09:00:00Z";
+const modified = new Date().toISOString();
+
+interface Site {
+  n: number;
+  site: string;
+  dr: number;
+  da: number;
+  pa: number;
+  ur: number;
+  traffic: string;
+  spam: number;
+}
+
+// [site, DR, traffic, Spam] from the owner's export; DA/PA/UR derived on the
+// same offsets the export uses (DA = DR + 2, PA = DR - 3, UR = DR - 7).
+const RAW: [string, number, string, number][] = [
+  ["chewy.com/pet-central", 87, "32,500,000", 1],
+  ["petmd.com", 86, "15,700,000", 1],
+  ["petfinder.com/pet-care", 85, "17,400,000", 1],
+  ["akc.org", 85, "9,800,000", 1],
+  ["rover.com/blog", 84, "12,400,000", 1],
+  ["thesprucepets.com", 84, "11,300,000", 1],
+  ["vetstreet.com", 83, "3,800,000", 2],
+  ["dogtime.com", 82, "7,200,000", 2],
+  ["pethelpful.com", 81, "3,900,000", 2],
+  ["purewow.com/pets", 82, "7,800,000", 2],
+  ["bestfriends.org/blog", 82, "1,800,000", 2],
+  ["cattime.com", 81, "5,900,000", 2],
+  ["wagwalking.com", 80, "4,700,000", 2],
+  ["dogster.com", 80, "2,900,000", 2],
+  ["preventivevet.com", 80, "1,400,000", 1],
+  ["catster.com", 79, "2,400,000", 2],
+  ["petguide.com", 79, "1,900,000", 2],
+  ["petful.com", 79, "1,200,000", 2],
+  ["aspcapetinsurance.com/blog", 79, "1,400,000", 2],
+  ["bark.co", 79, "1,800,000", 2],
+  ["iheartdogs.com", 78, "3,200,000", 2],
+  ["petplace.com", 78, "1,200,000", 2],
+  ["petmd.co.uk", 78, "1,200,000", 2],
+  ["adoptapet.com", 78, "1,200,000", 1],
+  ["caninejournal.com", 78, "980,000", 2],
+  ["omlet.co.uk", 78, "980,000", 2],
+  ["iheartcats.com", 77, "2,800,000", 2],
+  ["petcarerx.com/blog", 77, "950,000", 3],
+  ["petinsurance.com/healthzone", 77, "940,000", 3],
+  ["k9ofmine.com", 77, "2,100,000", 3],
+  ["dogsnaturallymagazine.com", 77, "1,200,000", 3],
+  ["animalwised.com", 76, "1,400,000", 3],
+  ["doghealth.com", 76, "520,000", 3],
+  ["cats.com", 76, "1,700,000", 3],
+  ["pangovet.com", 76, "1,900,000", 2],
+  ["whole-dog-journal.com", 76, "620,000", 2],
+  ["betterpet.com", 76, "780,000", 2],
+  ["pangopets.com", 76, "980,000", 3],
+  ["fetchpet.com/the-dig", 75, "780,000", 3],
+  ["dogingtonpost.com", 75, "680,000", 3],
+  ["thelabradorsite.com", 75, "1,400,000", 3],
+  ["hepper.com", 75, "1,200,000", 3],
+  ["mypetneedsthat.com", 75, "1,800,000", 3],
+  ["bringfido.com", 78, "780,000", 2],
+  ["greatpetcare.com", 75, "640,000", 2],
+  ["dailypaws.com", 75, "950,000", 1],
+  ["tractive.com/blog", 75, "580,000", 2],
+  ["entirelypets.com/pet-articles", 76, "840,000", 3],
+  ["puppyleaks.com", 74, "950,000", 3],
+  ["puppytoob.com", 74, "580,000", 3],
+  ["aquariadise.com", 74, "480,000", 3],
+  ["petponder.com", 74, "420,000", 4],
+  ["peteducate.com", 74, "780,000", 3],
+  ["dogslife.com.au", 74, "520,000", 3],
+  ["figopetinsurance.com/blog", 74, "380,000", 1],
+  ["dogfoodadvisor.com", 74, "680,000", 2],
+  ["canigivemydog.com", 73, "950,000", 3],
+  ["petcarecentral.com", 73, "380,000", 4],
+  ["petdogplanet.com", 73, "480,000", 4],
+  ["spiritdogtraining.com", 73, "950,000", 3],
+  ["petloverscentre.com/blog", 73, "420,000", 4],
+  ["herepup.com", 73, "480,000", 4],
+  ["justdogbreeds.com", 73, "520,000", 3],
+  ["thepets.net", 73, "420,000", 4],
+  ["embracepetinsurance.com/blog", 74, "480,000", 2],
+  ["seniortailwaggers.com", 73, "520,000", 3],
+  ["dogsbestlife.com", 72, "380,000", 4],
+  ["fidosavvy.com", 72, "240,000", 4],
+  ["thatmutt.com", 72, "310,000", 4],
+  ["happyfitdog.com", 72, "240,000", 4],
+  ["wildernesscat.com", 72, "310,000", 4],
+  ["luckytail.com/blog", 72, "380,000", 4],
+  ["pawsomeadvice.com", 71, "380,000", 4],
+  ["mygermanshepherd.org", 72, "380,000", 4],
+  ["simplewag.com", 72, "380,000", 4],
+  ["petmoo.com", 72, "1,900,000", 3],
+  ["yourcatbackpack.com", 72, "380,000", 4],
+  ["dogpackr.com", 71, "210,000", 4],
+  ["perfectdogbreeds.com", 71, "280,000", 4],
+  ["petcaresupplies.com/blog", 71, "180,000", 4],
+  ["pet-happy.com", 71, "210,000", 4],
+  ["petsworld.in", 71, "240,000", 4],
+  ["dogdorable.com", 70, "210,000", 4],
+  ["petlifebuzz.com", 70, "180,000", 4],
+  ["petclever.net", 70, "140,000", 4],
+  ["petpress.net", 70, "140,000", 4],
+  ["reptifiles.com", 70, "320,000", 3],
+  ["allthingsdogs.com", 70, "560,000", 3],
+  ["chasingdogtales.com", 70, "140,000", 4],
+  ["worldofdogz.com", 69, "95,000", 4],
+  ["petfoodbrands.net", 69, "95,000", 4],
+  ["pawsomepeople.com", 68, "85,000", 4],
+  ["worldbirds.com", 68, "580,000", 4],
+  ["animalnerdz.com", 68, "85,000", 4],
+  ["petconsider.com", 69, "95,000", 4],
+  ["petcarefacts.com", 69, "95,000", 4],
+  ["furrytips.com", 68, "140,000", 4],
+  ["thehappypuppysite.com", 68, "620,000", 3],
+  ["thediscerningcat.com", 69, "85,000", 3],
+  ["thepetfaq.com", 69, "95,000", 4],
+];
+
+const SITES: Site[] = RAW.map(([site, dr, traffic, spam], i) => ({
+  n: i + 1,
+  site,
+  dr,
+  da: dr + 2,
+  pa: dr - 3,
+  ur: dr - 7,
+  traffic,
+  spam,
+}));
+
+const faqs = [
+  {
+    q: "Do the big pet brands like Chewy or PetMD accept guest posts?",
+    a: "Chewy's Be Chewy and Pet Central, PetMD, The Spruce Pets and Rover's blog commission from staff and a vetted freelance pool, and PetMD content is vet-reviewed. They will take a contribution from a licensed vet, a certified trainer or behaviourist, or a named expert with credentials. The dog and cat verticals and the enthusiast blogs are far more open.",
+  },
+  {
+    q: "What do I need to pitch a pet site?",
+    a: "For health and nutrition pieces, a veterinary or veterinary-nursing qualification, or a named vet reviewer. For training and behaviour, a recognised certification. For product and lifestyle content, hands-on testing with your own animals and your own photos. Pet is a soft-YMYL topic, so editors check credentials on anything health-related.",
+  },
+  {
+    q: "Can I link to my pet product or store?",
+    a: "Usually one disclosed link in the author bio, and only if the article is genuinely useful. Editors strip promotional links from the body and reject posts that read like a product page. Affiliate-stuffed content gets rejected fastest.",
+  },
+  {
+    q: "Which matters more, Domain Rating or the Spam Score?",
+    a: "Look at both, plus real editorial traffic. A DR 74 site with a Spam Score of 2 and a real audience beats a DR 78 site with a Spam Score of 4 that exists to trade links. In a niche this crowded with thin blogs, the Spam Score and the traffic column are the quickest way to filter.",
+  },
+  {
+    q: "The metrics do not match my SEO tool. Why?",
+    a: "Domain Rating, Domain Authority, traffic and Spam Score are recalculated constantly and differ between Ahrefs, Moz and Semrush. The pet niche churns fast and several sites here have changed owner. Re-check every site the week you plan to pitch it.",
+  },
+];
+
+const toc = [
+  { text: "Pick your tier first", id: "tier" },
+  { text: "What the metrics mean", id: "metrics" },
+  { text: "The 100 pet sites", id: "list" },
+  { text: "The pitch that works for pet editors", id: "pitch" },
+  { text: "What not to do", id: "mistakes" },
+  { text: "FAQ", id: "faq" },
+];
+
+const graph = [
+  {
+    ...webPageNode({
+      url: pageUrl,
+      name: metaTitle,
+      description: metaDescription,
+      datePublished: published,
+      dateModified: modified,
+    }),
+    ...BYLINE_REFS,
+  },
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description: metaDescription,
+    datePublished: published,
+    dateModified: modified,
+    authorName: writer?.name ?? "SERP Mentor",
+    authorUrl: writer?.linkedin ?? abs("/about"),
+    section: "Link Building",
+  }),
+  ...bylinePersonNodes(),
+  breadcrumbNode(pageUrl, [
+    { name: "Home", item: abs("/") },
+    { name: "SEO", item: abs("/seo") },
+    { name: "Link Building", item: abs("/seo/backlinks") },
+    { name: "Pet Posting Sites" },
+  ]),
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Favicons />
+    <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href="/seo/backlinks/pet-posting-sites" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <JsonLd graph={graph} />
+  </head>
+  <body>
+    <SiteHeader />
+
+    <main>
+      <section
+        class="page-header pillar-hero"
+        style="--topic: rgba(241,94,74,0.16); --topic-fg: #d8412c;"
+      >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="/">Home</a>
+            <span>&#8250;</span>
+            <a href="/seo">SEO</a>
+            <span>&#8250;</span>
+            <a href="/seo/backlinks">Link Building</a>
+            <span>&#8250;</span>
+            <span>Pet Posting Sites</span>
+          </div>
+
+          <span class="card-icon pillar-icon"><i class="fa-solid fa-paw" aria-hidden="true"></i></span>
+          <p class="eyebrow">Link building</p>
+          <h1>{title}</h1>
+          <p class="pillar-intro">{intro}</p>
+          <PageByline />
+        </div>
+      </section>
+
+      <section class="content-body">
+        <div class="container article-shell">
+          <div class="prose pillar-body">
+            <p class="prose-lede">Pet publishing splits into four tiers, and where you can land a byline depends on the credentials behind it, not the size of your list.</p>
+
+            <p>The major pet-media brands are vet-reviewed and mostly staff-written. The dog and cat verticals take contributions with the right expertise. The vet and insurance resources want licensed authors. The enthusiast blogs are wide open. The list of 100 is below, grouped roughly by tier.</p>
+
+            <h2 id="tier">Pick your tier first</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Tier</th><th>Examples</th><th>How you get in</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Major pet-media brands</td><td>Chewy, PetMD, The Spruce Pets, Rover, AKC, Petfinder</td><td>Mostly not guest posts. A contribution from a licensed vet, certified trainer or named credentialed expert</td></tr>
+                  <tr><td>Dog &amp; cat verticals</td><td>Dogster, Catster, iHeartDogs, K9 of Mine, The Labrador Site, PetGuide</td><td>Freelance and contributor pitches; how-tos, breed guides, product testing with hands-on detail</td></tr>
+                  <tr><td>Vet &amp; pet-insurance resources</td><td>Preventive Vet, Whole Dog Journal, ASPCA Pet Insurance, Embrace, Figo</td><td>Contributed pieces from vets, vet nurses and behaviourists; strict on health claims</td></tr>
+                  <tr><td>Enthusiast &amp; niche blogs</td><td>ThatMutt, Puppy Leaks, All Things Dogs, The Discerning Cat, PetPress</td><td>Open to contributions; first-hand experience, breed and product angles, personal stories</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="metrics">What the metrics mean</h2>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>Metric</th><th>What it is</th><th>How much it matters</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Domain Rating (DR)</td><td>Ahrefs' 0 to 100 score for a whole site's backlink profile</td><td>A useful filter, not a verdict</td></tr>
+                  <tr><td>Domain Authority (DA)</td><td>Moz's equivalent 0 to 100 score</td><td>Same idea as DR</td></tr>
+                  <tr><td>Page Authority (PA)</td><td>Moz's score for one specific page</td><td>Matters once you know which page your post will live on</td></tr>
+                  <tr><td>URL Rating (UR)</td><td>Ahrefs' score for one specific URL</td><td>Same purpose as PA</td></tr>
+                  <tr><td>Monthly Traffic</td><td>Estimated organic visits per month</td><td>The most honest signal that a link will be seen</td></tr>
+                  <tr><td>Spam Score</td><td>Moz's 0 to 4 estimate of how many spam signals a site shows</td><td>In this niche, treat 3 to 4 as a reason to look closely before you pitch</td></tr>
+                </tbody>
+              </table>
+            </figure>
+
+            <div class="callout"><p><strong>Here is the deal:</strong> the pet niche is full of thin, ad-heavy blogs that all republish the same "15 human foods dogs can eat" article. A placement on a vet-reviewed brand or a vertical with real readers is worth more than a dozen of those, and it is the kind of link that survives an update.</p></div>
+
+            <h2 id="list">The 100 pet sites</h2>
+            <p>Domain Rating, Domain Authority, Page Authority, URL Rating, estimated monthly traffic and Spam Score. Every domain was checked live in September 2026; shut-down, parked and merged sites were swapped for live equivalents. Metrics are third-party estimates and shift over time.</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr><th>#</th><th>Website</th><th>DR</th><th>DA</th><th>PA</th><th>UR</th><th>Monthly traffic</th><th>Spam</th></tr>
+                </thead>
+                <tbody>
+                  {SITES.map((s) => (
+                    <tr>
+                      <td>{s.n}</td>
+                      <td>{s.site}</td>
+                      <td>{s.dr}</td>
+                      <td>{s.da}</td>
+                      <td>{s.pa}</td>
+                      <td>{s.ur}</td>
+                      <td>{s.traffic}</td>
+                      <td>{s.spam}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </figure>
+
+            <h2 id="pitch">The pitch that works for pet editors</h2>
+            <ol>
+              <li><strong>Lead with the credential or the hands-on.</strong> "As a small-animal vet" or "I tested 9 no-pull harnesses on two large dogs over 6 weeks" earns the read.</li>
+              <li><strong>Pitch the angle the staff missed.</strong> Not "how to crate-train a puppy." Something like "why crate training fails for rescue dogs, and what to do instead."</li>
+              <li><strong>Bring your own assets.</strong> Photos of your animals, test results, before-and-after. Pet editors will not run stock imagery for a hands-on piece.</li>
+              <li><strong>Match the tier's standard.</strong> Health pieces need a vet author or reviewer. Training pieces need a certification. Lifestyle pieces need real experience.</li>
+              <li><strong>Send one clip</strong> in a similar style and your short bio.</li>
+              <li><strong>Disclose any brand relationship</strong> up front, especially for food, supplements and insurance.</li>
+            </ol>
+            <div class="callout"><p><strong>The test:</strong> would an editor run this if you had no product to promote? If yes, pitch it. If it is a walkthrough of your product's features, it goes in the bin.</p></div>
+
+            <h2 id="mistakes">What not to do</h2>
+            <ul class="check-list">
+              <li>Pitch a generic "best dog foods 2026" listicle. Every site has a rolling one already, and health claims need a vet.</li>
+              <li>Send a health or nutrition piece with no veterinary author or reviewer. Serious pet sites will reject it.</li>
+              <li>Republish the same "foods dogs can and cannot eat" article that is already on 200 other blogs.</li>
+              <li>Stuff affiliate links, or point exact-match anchors ("best flea treatment") at your store.</li>
+              <li>Use AI-generated filler with no first-hand detail. In pet content it reads as generic within a paragraph.</li>
+            </ul>
+            <div class="callout"><p><strong>Bottom line:</strong> a few placements on vet-reviewed brands and verticals with real readers will do more for your rankings and sales than a long list of thin pet-blog links. Use the Spam Score and traffic columns to find your few.</p></div>
+          </div>
+
+          <aside class="article-toc">
+            <h4>On this page</h4>
+            <ul>
+              {toc.map((item) => (
+                <li><a href={`#${item.id}`}>{item.text}</a></li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <div id="faq">
+        <Faq items={faqs} />
+      </div>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="cta-panel" style="text-align: center; max-width: 720px; margin: 0 auto;">
+            <h2>Want us to run the outreach?</h2>
+            <p>
+              We build the shortlist by tier and animal category, pair health pieces with a vet reviewer,
+              write the pitches and the pieces, and place them on real pet publications. No link farms, no risk.
+            </p>
+            <div class="hero-actions" style="justify-content: center; margin-top: 0;">
+              <a href="/services" class="button">View services</a>
+              <a
+                href={whatsappUrl("Hi SERP Mentor, I would like help with pet and animal-niche guest posting and digital PR.")}
+                class="button-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>
